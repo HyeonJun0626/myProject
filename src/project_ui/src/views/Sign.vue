@@ -13,12 +13,9 @@
                 <a href="#" class="float-right">비밀번호 찾기</a>
             </div>
                 <!-- <button type="button" class="btn btn-primary" v-on:click="moveMain">넘어가기</button> -->
-            <!-- <div v-if="isLogin">
-                <h1>엑세스가 허용되었습니다.</h1>
-            </div>
-            <div class="error-massage" v-else-if="isLoginError">
+            <div class="error-massage" v-if="isLoginError">
                 <p class="m-0">아이디와 비밀번호를 확인하세요</p>
-            </div> -->
+            </div>
         <!-- </form> -->
     </div>
 </template>
@@ -40,28 +37,6 @@ export default {
     },
     methods: {
         ...mapActions(["login"]),
-        // login(loginObj) {
-
-        // },
-
-        // login() {
-        //     let obj = this;
-        //     obj.$axios.post('http://localhost:9000/login', {
-        //         userId: this.userId,
-        //         userPw: this.userPw
-        //     })
-        //     .then(function(res) {
-        //         obj.loginSuccess = true
-        //         console.log('전송 성공');
-        //         // obj.$router.push({name:'Main'});
-        //         obj.token = res.data;
-        //     })
-        //     .catch(function(err) {
-        //         obj.loginError = true
-        //         console.log('전송 실패');
-        //         throw new Error(err);
-        //     })
-        // }
     }
 }
 </script>

@@ -58,28 +58,29 @@ public class UserServiceImpl implements UserService {
     		 LOG.info("User ID None");
     	 }
     	 // 암호화 한 패스워드와 비교
+
     	 boolean pwCheck = passwordEncoder.matches(userDto.getUserPw(), signUser.getUserPw());
     	 // 로그인 성공
+    	 String Token = null;
+    	 String result = null;
     	 if (pwCheck) {
     		 LOG.info("Login Success !");
+    		 result = "true";
+    		 Token = jwtTokenProvider.createToken(signUser.getUserSeq());
+    		 response.setHeader("Authorization", Token);
+    	 }
+    	 else {
+    		 result = "false";
     	 }
     	 
-    	 String Token = jwtTokenProvider.createToken(signUser.getUserSeq());
-//    	 response.setHeader("jwt-auth-token", Token);
-    	 response.setHeader("Authorization", Token);
+    	 return result; 
     	 
-    	 return Token; 
+    	 
      }
      
      public UserInfo getUserInfo(int userSeq) throws Exception {
     	 return userMapper.getUserInfo(userSeq);
      }
 
-
-//	@Override
-//	public UserDto getUserInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
-//		userMapper.getUserinfo(request.getHeaders("access-token"));
-//		return null;
-//	}
 
 }

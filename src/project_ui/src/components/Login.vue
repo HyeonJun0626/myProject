@@ -8,10 +8,10 @@
                 <div class="login-content">
                     <div class="login-menu">
                         <div class="menu">
-                            <router-link to="/" class="menu-btn" v-bind:class="{ 'active-color' : isSignin }">L o g i n</router-link>
+                            <div class="menu-btn" v-bind:class="{ 'active-color' : isSignin }" v-on:click="loginPage">L o g i n</div>
                         </div>
                         <div class="menu">
-                            <router-link to="/Signup" class="menu-btn" v-bind:class="{ 'active-color' : isSignup }">Sign Up</router-link>
+                            <div to="/Signup" class="menu-btn" v-bind:class="{ 'active-color' : isSignup }" v-on:click="signUpPage">Sign Up</div>
                         </div>
                     </div>
                 <router-view></router-view>
@@ -22,6 +22,8 @@
 </template>
 
 <script>
+import {mapState} from "vuex"
+
 export default {
     data() {
         return {
@@ -29,14 +31,26 @@ export default {
             isSignup: false
         }
     },
+    computed: {
+        ...mapState(["isLogin", "isLoginError"])
+    },
     updated() {
         if (this.$route.name == 'Sign') {
             this.isSignin = true;
             this.isSignup = false;
+            // this.loginPage()
         }
         else if (this.$route.name == 'Signup'){
             this.isSignin = false;
             this.isSignup = true;
+        }
+    },
+    methods: {
+        loginPage() {
+            this.$router.push({name:"Sign"}).catch(()=>{})
+        },
+        signUpPage() {
+            this.$router.push({name:"Signup"}).catch(()=>{})
         }
     }
 }

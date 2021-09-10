@@ -7,43 +7,44 @@ import Main from '../components/Main'
 import Insert from '../components/Insert'
 import Sign from '../views/Sign'
 import Signup from '../views/Signup'
-import store from "../store"
+// import store from "../store"
 Vue.use(VueRouter)
 
-const rejectAuthUser = (to, from, next) => {
-  if (store.state.isLogin === true) {
-    alert('이미 로그인했습니다.')
-    next("/Main")
-  }
-  else {
-    next()
-  }
-}
-const onlyAuthUser = (to, from, next) => {
-  if (store.state.isLogin === false) {
-    alert('로그인이 필요합니다.')
-    next("/")
-  }
-  else {
-    next()
-  }
-}
+// const rejectAuthUser = (to, from, next) => {
+//   if (store.state.isLogin === true) {
+//     alert('이미 로그인했습니다.')
+//     next("/main")
+//   }
+//   else {
+//     next()
+//   }
+// }
+// const onlyAuthUser = (to, from, next) => {
+//   if (store.state.isLogin === false) {
+//     next("/")
+//   }
+//   else {
+//     next()
+//   }
+// }
 const routes = [
   
   {
     path: '/',
     name: 'Login',
-    beforeEnter: rejectAuthUser,
+    // beforeEnter: rejectAuthUser,
     component : Login,
     children: [
       {
-        path: '/',
+        path: '',
         name: 'Sign',
+        // beforeEnter: rejectAuthUser,
         component: Sign
       },
       {
         path: '/signup',
         name: 'Signup',
+        // beforeEnter: rejectAuthUser,
         component: Signup
       }
     ]
@@ -51,8 +52,8 @@ const routes = [
   {
     path: '/main',
     name: 'Main',
-    beforeEnter: onlyAuthUser,
     component: Main,
+    // beforeEnter: onlyAuthUser,
     // meta: {
     //   requireAuth: true // requireAuth: true 인증이 필요하다고 표시함
     // }

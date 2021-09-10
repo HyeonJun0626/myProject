@@ -35,13 +35,13 @@ export default new Vuex.Store({
       )
       .then(function(res) {
           commit("loginSuccess")
-          console.log('전송 성공')
-          localStorage.setItem("access-token", res.data)
+          console.log(res)
+          
+          localStorage.setItem("access-token", res.headers.authorization)
           dispatch("getUserInfo")
-          router.push({name:'Main'})
       })
       .catch(function() {
-          console.log('전송 실패')
+          console.log('로그인 실패')
           commit("loginError")
       })
     },
@@ -52,6 +52,7 @@ export default new Vuex.Store({
           Authorization : token
         }
       }
+      if(token != null)
       axios.post("http://localhost:9000/user/getUserInfo", {}, config)
         .then(function (response) {
           console.log("유저 정보 요청 성공")
@@ -62,16 +63,18 @@ export default new Vuex.Store({
             roles: response.data.roles
           }
           commit("loginSuccess", userInfo)
+          router.push({name:'Main'}).catch(()=>{})
         })
         .catch(function (error) {
           console.log(error)
+          router.push("/").catch(()=>{})
         })
     },
     logout({commit}) {
       commit("isLogout")
       localStorage.removeItem("access-token")
       console.log('로그아웃')
-      router.push({name: "Login"})
+      router.push("/")
     }
   },
   modules: {

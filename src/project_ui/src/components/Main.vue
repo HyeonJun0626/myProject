@@ -114,10 +114,10 @@
                 </div>
                 <div class="profile-info-box">
                     <div class="nick-name">
-                        <p>{{$store.state.userInfo.userNick}}</p>
+                        <p>{{userInfo.userNick}}</p>
                     </div>
                     <div class="user-id">
-                        <p>tester@tester.com</p>
+                        <p>{{userInfo.userId}}</p>
                     </div>
                 </div>
                 <div class="write-btn" type="button" v-on:click="moveInsert">
@@ -214,7 +214,7 @@
             }
         },
         computed: {
-            ...mapState(["isLogin", "isLoginError"])
+            ...mapState(["userInfo"])
         },
         methods: {
             ...mapActions(["logout"]),
