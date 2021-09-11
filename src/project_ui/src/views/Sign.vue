@@ -8,14 +8,14 @@
             <div class="form-group">
                 <input type="password"  placeholder="비밀번호를 입력해주세요" v-model="userPw">
             </div>
+            <div class="error-massage" v-if="isLoginError">
+                <p class="m-0">아이디와 비밀번호를 확인하세요</p>
+            </div>
                 <button type="button" class="btn btn-primary btn-block" v-on:click="login({userId, userPw})">로그인</button>
             <div class="btn-box">
                 <a href="#" class="float-right">비밀번호 찾기</a>
             </div>
                 <!-- <button type="button" class="btn btn-primary" v-on:click="moveMain">넘어가기</button> -->
-            <div class="error-massage" v-if="isLoginError">
-                <p class="m-0">아이디와 비밀번호를 확인하세요</p>
-            </div>
         <!-- </form> -->
     </div>
 </template>
@@ -45,7 +45,7 @@ export default {
     input {
         width: 100%;
         height: 40px;
-        margin-bottom: 40px;
+        margin-bottom: 10px;
         outline: none;
         border-style: none;
         border-bottom: 1px solid black;
@@ -67,5 +67,6 @@ export default {
         font-size: 15px !important;
         color: red;
         text-align: center;
+        margin-bottom: 30px;
     }
 </style>
