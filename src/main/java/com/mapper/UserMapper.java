@@ -12,6 +12,8 @@ public interface UserMapper {
 //	int addUser(UserDto userDto);
 
 	int signUp (UserDto userDto) throws Exception;
+	
+	int idCheck (String userId) throws Exception;
 
 	 
 	UserDto userLogin(@Param("userId") String userId) throws Exception;
@@ -21,5 +23,6 @@ public interface UserMapper {
 	UserDetails loadUserByUsername(@Param(value = "userSeq") String userSeq) throws Exception;
 	
 	UserInfo getUserInfo(int userSeq) throws Exception;
+	UserInfo getProfileImg(int userSeq) throws Exception;
 
 }

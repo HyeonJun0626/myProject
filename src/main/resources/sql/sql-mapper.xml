@@ -7,11 +7,23 @@
 	<insert id="signUp" parameterType="com.dto.UserDto">
 		<![CDATA[
 			INSERT INTO 
-				user_info (user_id, user_nick, user_pw)
+				user_info (user_id, user_nick, user_pw, user_name, user_phone)
 			VALUES 
-				(#{userId}, #{userNick}, #{userPw})
+				(#{userId}, #{userNick}, #{userPw}, #{userName}, #{userPhone})
 		]]>
 	</insert>
+	
+	<select id="idCheck" parameterType="String" resultType="int">
+		<![CDATA[
+			SELECT 
+				COUNT(user_id) 
+			FROM 
+				user_info 
+			WHERE 
+				user_id = #{userId};
+			
+		]]>
+	</select>
 	
 	
 	<select id="userLogin" parameterType="String" resultType="com.dto.UserDto">
@@ -25,28 +37,43 @@
 		]]>
 	</select>
 	
-	  <select id="loadUserByUsername" resultType="com.dto.UserDto">
+	<select id="loadUserByUsername" resultType="com.dto.UserDto">
        	<![CDATA[ 
        		SELECT 
-       			user_seq, user_Id, user_pw, user_nick,  roles
+       			user_seq, user_Id, user_pw, user_nick, roles
         		FROM 
         			user_info
         		WHERE 
         			user_seq = #{userSeq}
        	]]> 
-		</select>
+	</select>
 		
 		      	
-      <select id="getUserInfo" resultType="com.dto.UserInfo">
+    <select id="getUserInfo" parameterType="int" resultType="com.dto.UserInfo">
        	<![CDATA[ 
        		SELECT 
        			user_seq, user_id, user_nick, roles
-        FROM 
-        			user_info
-        WHERE 
-        			user_seq = #{userSeq}
+        	FROM 
+        		user_info
+        	WHERE 
+        		user_seq = #{userSeq}
        	]]>
-       
+    </select>
+    
+    <select id="getProfileImg" parameterType="int" resultType="com.dto.UserInfo">
+    	<![CDATA[ 
+	    	SELECT 
+	    		img_seq, stored_img_path
+			FROM 
+				profile_img
+			WHERE 
+				user_seq = #{userSeq}
+			ORDER BY 
+				img_seq DESC 
+			LIMIT 1;
+    	
+    	]]>
+    	
     </select>
 
 </mapper>

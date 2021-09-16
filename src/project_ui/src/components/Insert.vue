@@ -2,16 +2,13 @@
     <div class="row">
         <div class="col-md-6 mx-auto text-left">
             <div class="form-group">
-                <label for="file">이미지 : </label>
-                <input type="file" class="form-control" id="file" name="file" placeholder="이미지를 등록하세요" accept=".gif, .jpg, .png">
+                <label for="img">이미지 : </label>
+                <!-- <input type="file" class="form-control" id="file" multiple name="file" placeholder="이미지를 등록하세요" accept=".gif, .jpg, .png"> -->
+                <input type="file" name="img" id="img" class="form-control" accept="image/*" multiple v-on:change="imgIn" placeholder="이미지를 등록하세요">
             </div>
             <div class="form-group">
-                <label for="creatorId">사용자ID : </label>
-                <input type="text" class="form-control" id="creatorId" name="creatorId" placeholder="ID를 입력하세요" v-model="creatorId">
-            </div>
-            <div class="form-group">
-                <label for="contents">글 내용 : </label>
-                <textarea name="contents" id="contents" cols="30" rows="10" class="form-control" v-model="contents"></textarea>
+                <label for="content">글 내용 : </label>
+                <textarea name="content" id="content" cols="30" rows="10" class="form-control" v-model="content"></textarea>
             </div>
             <div class="row">
                 <div class="col-md-6">
@@ -26,40 +23,62 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
 export default {
     data() {
         return {
-            file: '',
-            creatorId: '',
-            contents: ''
+            content: '',
+            image : null,
         }
     },
+    computed: {
+        ...mapState(["userInfo"])
+    },
     methods: {
-        // axios를 사용하여 서버랑 통신
         boardInsert() {
-            let obj = this;
-            obj.$axios.post('http://localhost:9000/vue/axiosBoardInsert', {
-                title: this.title,
-                contents: this.contents,
-                creatorId: this.creatorId
+            let formData = new FormData();
+
+            // console.log("test : " + this.image);
+            // console.log("test : " + this.image.length);
+            if (this.image != null && this.content != null) {
+                for (let i = 0; i < this.image.length; i++) {
+                    formData.append("image", this.image[i]);
+                }
+            }
+            let obj = this
+            obj.$axios.post('http://localhost:9000/board/insert', formData, {
+                params: {
+                    userSeq: this.$store.state.userInfo.userSeq,
+                    userNick: this.$store.state.userInfo.userNick,
+                    content: this.content
+                },  
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                }
             })
             .then(function() {
-                console.log('비동기 통신 성공');
-                obj.$router.push({ name: 'Main' });
+                console.log('등록 성공');
+                obj.moveMain()
             })
             .catch(function(err) {
-                console.log("비동기 통신 실패");
+                console.log("통신 실패");
                 console.log(err);
             });
         },
-        // 리스트 화면으로 이동
+        imgIn(image) {
+            // this.image = image.target.files[0]
+            // console.log(image.target.files)
+            this.image = image.target.files;
+            console.log(image.target.files)
+        },
         moveMain() {
-            this.$router.push({ name: 'Main' });
+            this.$router.push({ path: '/mypage' });
         }
     },
 }
 </script>
 
-<style>
+<style scoped>
+
 
 </style>

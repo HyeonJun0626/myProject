@@ -5,9 +5,9 @@ import axios from "axios";
 
 
 // Full config:  https://github.com/axios/axios#request-config
-// axios.defaults.baseURL = process.env.baseURL || process.env.apiUrl || '';
-// axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
-// axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+axios.defaults.baseURL = process.env.baseURL || process.env.apiUrl || '';
+axios.defaults.headers.common['Authorization'] = localStorage.getItem("access-token");
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 let config = {
   // baseURL: process.env.baseURL || process.env.apiUrl || ""
@@ -16,7 +16,7 @@ let config = {
 };
 
 const _axios = axios.create(config);
-
+// axios.defaults.headers.common['Athorization'] = localStorage.getItem("access-token");
 _axios.interceptors.request.use(
   function(config) {
     // Do something before request is sent

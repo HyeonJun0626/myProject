@@ -25,11 +25,12 @@ public class UserController {
 	final private static Logger LOG = Logger.getGlobal();
 	
 	@PostMapping("/signup")
-	public void signUp(@RequestBody UserDto userDto) throws Exception {
+	public String signUp(@RequestBody UserDto userDto) throws Exception {
 		LOG.info("SignUp Request Success !");
-		userService.signUp(userDto);
+		return userService.signUp(userDto);
 	}
-	@CrossOrigin(exposedHeaders = "authorization")
+	
+	@CrossOrigin(exposedHeaders = "authorization") // 리스폰스 관련 설정인듯
 	@PostMapping("/login")
 	public Object login(@RequestBody UserDto userDto, HttpServletResponse response) throws Exception{
 //		LOG.info("Login Request Success !");
@@ -41,9 +42,9 @@ public class UserController {
 	public UserInfo getUserInfo(Authentication authentication) throws Exception {
 		
 		int userSeq = (int) ((UserDto) authentication.getPrincipal()).getUserSeq();
-		UserInfo userInfo = userService.getUserInfo(userSeq);
-		System.out.println(userInfo);
-		return userInfo;
+		System.out.println(userService.getUserInfo(userSeq));
+		return userService.getUserInfo(userSeq);
+
 	}
 
 }

@@ -39,39 +39,52 @@ public class UserServiceImpl implements UserService {
 //	시스템에 맞게 테스트하면서 속도를 조정해줘야 함
 //	BCryptPasswordEncoder의 속도는 강도(strength)를 조정해서 조절할 수 있음 4~31 default: 10
 	@Override
-	public void signUp(UserDto userDto) throws Exception {
-		 BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-         String encodedPassword = passwordEncoder.encode(userDto.getUserPw());
-         userDto.setUserPw(encodedPassword);
-//         userDto.setToken(jwtTokenProvider.createToken(userDto));
-         userMapper.signUp(userDto);
-         LOG.info("SignUp Request Success !");
+	public String signUp(UserDto userDto) throws Exception {
+		String ErrorInfo = null;
+		int result = userMapper.idCheck(userDto.getUserId());
+		if (result == 0) {
+			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+			String encodedPassword = passwordEncoder.encode(userDto.getUserPw());
+			userDto.setUserPw(encodedPassword);
+			userMapper.signUp(userDto);
+			LOG.info("SignUp Request Success !");
+			ErrorInfo = "true";
+		}
+		else {
+			ErrorInfo = "이미 가입된 계정입니다.";
+		}
+		return ErrorInfo;
+		 
      };
      
      
      @Override
      public String userLogin(UserDto userDto, HttpServletResponse response) throws Exception {
+    	 String Token = null;
+    	 String result = null;
     	 // 회원 아이디 체크
     	 UserDto signUser = userMapper.userLogin(userDto.getUserId());
     	 // 아이디 틀렷을 때
     	 if (signUser == null) {
     		 LOG.info("User ID None");
+    		 result = "가입되지 않은 계정입니다.";
+    	 }
+    	 else {
+    		 result = "IdCheckOk";
+    		 boolean pwCheck = passwordEncoder.matches(userDto.getUserPw(), signUser.getUserPw());
+    		 // 로그인 성공
+    		 if (pwCheck) {
+    			 LOG.info("Login Success !");
+    			 result = "true";
+    			 Token = jwtTokenProvider.createToken(signUser.getUserSeq());
+    			 response.setHeader("Authorization", Token);
+    		 }
+    		 else {
+    			 result = "비밀번호를 확인하세요";
+    		 }
     	 }
     	 // 암호화 한 패스워드와 비교
 
-    	 boolean pwCheck = passwordEncoder.matches(userDto.getUserPw(), signUser.getUserPw());
-    	 // 로그인 성공
-    	 String Token = null;
-    	 String result = null;
-    	 if (pwCheck) {
-    		 LOG.info("Login Success !");
-    		 result = "true";
-    		 Token = jwtTokenProvider.createToken(signUser.getUserSeq());
-    		 response.setHeader("Authorization", Token);
-    	 }
-    	 else {
-    		 result = "false";
-    	 }
     	 
     	 return result; 
     	 
@@ -79,7 +92,16 @@ public class UserServiceImpl implements UserService {
      }
      
      public UserInfo getUserInfo(int userSeq) throws Exception {
-    	 return userMapper.getUserInfo(userSeq);
+    	 UserInfo userInfo = userMapper.getUserInfo(userSeq); 
+    	 UserInfo imgInfo = userMapper.getProfileImg(userSeq);
+    	 if (imgInfo != null) {
+    		 userInfo.setImgSeq(imgInfo.getImgSeq());
+    		 userInfo.setStoredImgPath(imgInfo.getStoredImgPath());    		 
+    	 }
+    	 else {
+    		 userInfo.setStoredImgPath(null);
+    	 }
+    	 return userInfo;
      }
 
 

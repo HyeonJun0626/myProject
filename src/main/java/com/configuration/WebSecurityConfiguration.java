@@ -55,12 +55,14 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter{
 //										심플하며 쿠키, 세션, loginPage도 필요없음 보안에 취약, log out 메서드 제공하지 않음
 			.formLogin().disable() // 기본 로그인 페이지 없애기. SpringSequrity에서 제공하는 기본 로그인 페이지를 말하는것 같다.
 			.csrf().disable() // csrf(위조 사이트 요청) 보호기능 httpBaic으로 테스트를 위해 잠시 disable
-			.cors().disable()
+			.cors()
+			.and()
 //			.and()
 			.authorizeRequests() // 요청에 대한 사용권한 체크
 			.antMatchers("/authenticate").permitAll()
 			.antMatchers("/").permitAll()
 			.antMatchers("/user/**").permitAll() // antMatchers 경로를 지정, permitAll 누구나 접근 가능
+			.antMatchers("/board/**").authenticated()
 //			.antMatchers("/api/signup").permitAll()
 //			.antMatchers("/user/getUserInfo").authenticated()
 //			.antMatchers("/api/main").authenticated() //authenticated 인증된 사용자만 접근 가능
@@ -78,18 +80,36 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter{
 	}
 	
 	// Cors 에러를 처리 하기위한 부분 
+//	@Bean
+//    public CorsConfigurationSource corsConfigurationSource() {
+//        CorsConfiguration configuration = new CorsConfiguration();
+//
+//        configuration.setAllowCredentials(true);
+//        configuration.addAllowedOrigin("*");
+//        configuration.addAllowedHeader("*");
+//        configuration.addAllowedMethod("*");
+//        configuration.setAllowedHeaders(Arrays.asList("X-Requested-With","Origin","Content-Type","Accept","Authorization"));
+//        
+//        configuration.setExposedHeaders(Arrays.asList("Access-Control-Allow-Headers", "Authorization, x-xsrf-token, Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, " +
+//                "Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers"));
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", configuration);
+//        return source;
+//    }
+	
 	@Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowCredentials(true);
-        configuration.addAllowedOrigin("*");
+        configuration.addAllowedOrigin("http://localhost:8080");
         configuration.addAllowedHeader("*");
         configuration.addAllowedMethod("*");
+        configuration.setAllowCredentials(true);
         configuration.setAllowedHeaders(Arrays.asList("X-Requested-With","Origin","Content-Type","Accept","Authorization"));
-        
+//      
         configuration.setExposedHeaders(Arrays.asList("Access-Control-Allow-Headers", "Authorization, x-xsrf-token, Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, " +
-                "Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers"));
+              "Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers"));
+
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;

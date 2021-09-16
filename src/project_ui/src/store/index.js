@@ -10,6 +10,9 @@ export default new Vuex.Store({
     isLogin: false,
     isLoginError: false,
     userInfo: null,
+    ErrorInfo: null,
+
+    modalOpen: false
   },
   // state의 상태를 변화시키는 부분 actions에서 실행 시켜서 commit으로 적용 시킴
   mutations: {
@@ -17,35 +20,50 @@ export default new Vuex.Store({
       state.isLogin = true
       state.isLoginError = false
       state.userInfo = payload
+      state.ErrorInfo = null
     },
-    loginError(state) {
+    loginError(state, payload) {
       state.isLogin = false
       state.isLoginError = true
+      state.ErrorInfo = payload
     },
     isLogout(state) {
       state.isLogin = false
       state.isLoginError = false
       state.userInfo = null
+    },
+    isModal(state, payload) {
+      state.modalOpen = payload
     }
   },
-
   actions: {
-    login({dispatch, commit}, loginObj) {
+    login({dispatch, commit, state}, loginObj) {
+      if (loginObj.userId === null || loginObj.userPw === null || loginObj.userId === "" || loginObj.userPw === "") {
+        state.ErrorInfo = "사용자 정보를 입력하세요"
+      }
+      else {
       axios.post('http://localhost:9000/user/login', loginObj 
       )
       .then(function(res) {
-          commit("loginSuccess")
-          console.log(res)
-          
+          // commit("loginSuccess")
           localStorage.setItem("access-token", res.headers.authorization)
-          dispatch("getUserInfo")
+          if (res.headers.authorization != null) {
+            dispatch("getUserInfo")
+            commit("loginSuccess")
+            router.push({path:'/main/'})
+          }
+          else {
+            console.log(res.data)
+            commit("loginError", res.data)
+          }
       })
       .catch(function() {
           console.log('로그인 실패')
-          commit("loginError")
+          // commit("loginError")
       })
+    }
     },
-    getUserInfo({commit}) {
+    getUserInfo({commit, state}) {
       let token = localStorage.getItem("access-token")
       let config = {
         headers: {
@@ -60,14 +78,18 @@ export default new Vuex.Store({
             userSeq: response.data.userSeq,
             userId: response.data.userId,
             userNick: response.data.userNick,
-            roles: response.data.roles
+            roles: response.data.roles,
+            profileImgSeq: response.data.imgSeq,
+            profileImg: "http://localhost:9000/"+response.data.storedImgPath
           }
           commit("loginSuccess", userInfo)
-          router.push({name:'Main'}).catch(()=>{})
+          if (response.data.storedImgPath == null) {
+            state.userInfo.profileImg = "http://localhost:9000/images/default_img.jpeg"
+          }
         })
         .catch(function (error) {
           console.log(error)
-          router.push("/").catch(()=>{})
+          router.push("/")
         })
     },
     logout({commit}) {
@@ -75,9 +97,18 @@ export default new Vuex.Store({
       localStorage.removeItem("access-token")
       console.log('로그아웃')
       router.push("/")
+    },
+    clickModal({commit}, payload) {
+      commit("isModal", payload)
     }
+
   },
-  modules: {
-    
+  getters: {
+    myUserInfo({state}) {
+      return state.userInfo
+    },
+    modal({state}) {
+      return state.modalOpen
+    }
   }
 })

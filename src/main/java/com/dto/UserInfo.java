@@ -8,5 +8,7 @@ public class UserInfo {
 	private String userId;
 	private String userNick;
 	private int roles;
+	private int imgSeq; 
+	private String storedImgPath;
 	
 }

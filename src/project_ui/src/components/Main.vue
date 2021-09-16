@@ -1,459 +1,434 @@
 <template>
-    <div class="protected">
-        <div class="modal-page" v-if="modalShow == true">
-            <div v-on:click="modalShow = false" class="close-icon" type="button"><i class="fa fa-times"
-                    aria-hidden="true"></i></div>
-            <div class="modal-body">
-                <div class="modal-img">
-                    <img src="../assets/profile1.jpg" alt="상세이미지">
-                </div>
-                <div class="modal-content">
-                    <div class="modal-title">
-                        <div type="button" class="header-profile-box">
-                            <img src="../assets/profile1.jpg" alt="헤더프로필">
-                        </div>
-                        <div class="user-nick">
-                            <p>roo113</p>
-                        </div>
-                    </div>
-                    <div class="modal-text">
-                        <span>여기는 본문이 올 위치여기는 본문이 올 위치여기는 본문이 올 위치여기는 본문이 올 위치여기는 본문이 올 위치여기는 본문이 올 위치여기는 본문이 올 위치여기는
-                            본문이 올 위치여기는 본문이 올 위치여기는 본문이 올 위치여기는 본문이 올 위치여기는 본문이 올 위치여기는 본문이 올 위치여기는 본문이 올 위치여기는 본문이 올
-                            위치여기는 본문이 올 위치여기는 본문이 올 위치여기는 본문이 올 위치여기는 본문이 올 위치여기는 본문이 올 위치여기는 본문이 올 위치여기는 본문이 올 위치여기는
-                            본문이 올 위치여기는 본문이 올 위치여기는 본문이 올 위치여기는 본문이 올 위치여기는 본문이 올 위치여기는 본문이 올 위치여기는 본문이 올 위치여기는 본문이 올
-                            위치여기는 본문이 올 위치여기는 본문이 올 위치여기는 본문이 올 위치여기는 본문이 올 위치여기는 본문이 올 위치여기는 본문이 올 위치여기는 본문이 올 위치여기는
-                            본문이 올 위치</span>
-                    </div>
-
-                    <div class="modal-reply-menu">
-                        <div class="like">
-                            <i class="fa fa-heart-o hidden-icon" aria-hidden="true"><span class="count">2</span></i>
-                        </div>
-                        <div class="comment">
-                            <i class="fa fa-comment-o" aria-hidden="true"><span class="count">1</span></i>
-                        </div>
-                    </div>
-
-                    <div class="modal-reply">
-                        <table style="border-collapse: separate; border-spacing: 0 .2rem;">
-                            <tr class="reply">
-                                <td>
-                                    <div type="button" class="reply-profile-box">
-                                        <img src="../assets/profile1.jpg" alt="헤더프로필">
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="reply-user-nick">
-                                        <p>roo113</p>
-                                    </div>
-                                </td>
-                                <td>
-                                    사진이 너무이쁩니다 댓글을 남겨봤어요 이글은 줄바꿈이 어디까지 될까요 ?
-                                </td>
-                            </tr>
-                            <tr class="reply">
-                                <td>
-                                    <div type="button" class="reply-profile-box">
-                                        <img src="../assets/profile1.jpg" alt="헤더프로필">
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="reply-user-nick">
-                                        <p>roo113</p>
-                                    </div>
-                                </td>
-                                <td>
-                                    사진이 너무이쁩니다 댓글을 남겨봤어요 이글은 줄바꿈이 어디까지 될까요 ?
-                                </td>
-                            </tr>
-                            <tr class="reply">
-                                <td>
-                                    <div type="button" class="reply-profile-box">
-                                        <img src="../assets/profile1.jpg" alt="헤더프로필">
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="reply-user-nick">
-                                <td>roo113</td>
-                    </div>
-                    </td>
-                    <td>사진이 너무이쁩니다 댓글을 남겨봤어요 이글은 줄바꿈이 어디까지 될까요 ?</td>
-                    </tr>
-                    </table>
-                </div>
-                <div class="modal-reply-input">
-                    <input type="text" name="reple" id="reple">
-                    <button type="button" name="reply-submit" id="reply-submit"><i class="fa fa-paper-plane"
-                            aria-hidden="true"></i></button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="header">
-        <div class="navi">
-            <div class="logo">
-                <a href="#" class="brand-name">Gonyang</a>
-            </div>
-            <div class="user-info">
-                <div type="button" class="header-profile-box">
-                    <img src="../assets/profile1.jpg" alt="헤더프로필">
-                </div>
-                <div class="logout" type="button" v-on:click="logout">
-                    <i class="fa fa-sign-out" aria-hidden="true"></i>
-                </div>
-            </div>
-        </div>
-    </div>
-    <main>
+    <div class="main-container">
+        <header-ui></header-ui>
+        
         <div class="content-container">
-            <div class="profile-header">
-                <div class="profile-box">
-                    <div class="profile-imgbox">
-                        <img src="../assets/profile1.jpg" alt="프로필">
+            <div class="follower-section">
+                <div class="follower-info">
+                    <div class="follower-img">
+                        <img src="@/assets/profile1.jpg" alt="팔로워 이미지">
+                    </div>
+                    <div class="follower-name">
+                        <p class="m-0">슝슝슈슝ㅇㅇㅇㅇㅇㅇㅇ</p>
                     </div>
                 </div>
-                <div class="profile-info-box">
-                    <div class="nick-name">
-                        <p>{{userInfo.userNick}}</p>
+                <div class="follower-info">
+                    <div class="follower-img">
+                        <img src="@/assets/profile1.jpg" alt="팔로워 이미지">
                     </div>
-                    <div class="user-id">
-                        <p>{{userInfo.userId}}</p>
+                    <div class="follower-name">
+                        <p class="m-0">슝슝슈슝ㅇㅇㅇㅇㅇㅇㅇ</p>
                     </div>
                 </div>
-                <div class="write-btn" type="button" v-on:click="moveInsert">
-                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                <div class="follower-info">
+                    <div class="follower-img">
+                        <img src="@/assets/profile1.jpg" alt="팔로워 이미지">
+                    </div>
+                    <div class="follower-name">
+                        <p class="m-0">슝슝슈슝ㅇㅇㅇㅇㅇㅇㅇ</p>
+                    </div>
+                </div>
+                <div class="follower-info">
+                    <div class="follower-img">
+                        <img src="@/assets/profile1.jpg" alt="팔로워 이미지">
+                    </div>
+                    <div class="follower-name">
+                        <p class="m-0">슝슝슈슝ㅇㅇㅇㅇㅇㅇㅇ</p>
+                    </div>
+                </div>
+                <div class="follower-info">
+                    <div class="follower-img">
+                        <img src="@/assets/profile1.jpg" alt="팔로워 이미지">
+                    </div>
+                    <div class="follower-name">
+                        <p class="m-0">슝슝슈슝ㅇㅇㅇㅇㅇㅇㅇ</p>
+                    </div>
+                </div>
+                <div class="follower-info">
+                    <div class="follower-img">
+                        <img src="@/assets/profile1.jpg" alt="팔로워 이미지">
+                    </div>
+                    <div class="follower-name">
+                        <p class="m-0">슝슝슈슝ㅇㅇㅇㅇㅇㅇㅇ</p>
+                    </div>
+                </div>
+                <div class="follower-info">
+                    <div class="follower-img">
+                        <img src="@/assets/profile1.jpg" alt="팔로워 이미지">
+                    </div>
+                    <div class="follower-name">
+                        <p class="m-0">슝슝슈슝ㅇㅇㅇㅇㅇㅇㅇ</p>
+                    </div>
+                </div>
+                <div class="follower-info">
+                    <div class="follower-img">
+                        <img src="@/assets/profile1.jpg" alt="팔로워 이미지">
+                    </div>
+                    <div class="follower-name">
+                        <p class="m-0">슝슝슈슝ㅇㅇㅇㅇㅇㅇㅇ</p>
+                    </div>
+                </div>
+                <div class="follower-info">
+                    <div class="follower-img">
+                        <img src="@/assets/profile1.jpg" alt="팔로워 이미지">
+                    </div>
+                    <div class="follower-name">
+                        <p class="m-0">슝슝슈슝ㅇㅇㅇㅇㅇㅇㅇ</p>
+                    </div>
                 </div>
             </div>
-
-
-            <div class="content-box">
-                <div v-on:click="modalShow = true" class="content-card">
-                    <div class="hidden-box">
-                        <div type="button" class="delete-icon">
-                            <i class="fa fa-times" aria-hidden="true"></i>
+            
+                <div class="content-section">
+                    <div class="content-body">
+                        <div class="content-title">
+                            <div class="user-info">
+                                <div class="user-icon">
+                                    <div class="user-img">
+                                        <img src="@/assets/profile1.jpg" alt="유저이미지">
+                                    </div>
+                                </div>
+                                <div class="user_id">
+                                    슝슝슈슝
+                                </div>
+                            </div>
+                            <div type="button" class="more-btn">
+                                ...
+                            </div>
                         </div>
-                        <div class="center-icon">
-                            <div class="like">
-                                <i class="fa fa-heart-o hidden-icon" aria-hidden="true"><span class="count">2</span></i>
+                        <div class="content-img">
+                            <img src="@/assets/content1.jpg" alt="">
+                        </div>
+                        <div class="btn-section">
+                            <div class="like-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-heart mr-3" viewBox="0 0 16 16">
+    <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
+    </svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-heart-fill mr-3 heart-on" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+    </svg>
                             </div>
-                            <div class="comment">
-                                <i class="fa fa-comment-o" aria-hidden="true"><span class="count">1</span></i>
+                            <div class="comment-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chat mr-3" viewBox="0 0 16 16">
+    <path d="M2.678 11.894a1 1 0 0 1 .287.801 10.97 10.97 0 0 1-.398 2c1.395-.323 2.247-.697 2.634-.893a1 1 0 0 1 .71-.074A8.06 8.06 0 0 0 8 14c3.996 0 7-2.807 7-6 0-3.192-3.004-6-7-6S1 4.808 1 8c0 1.468.617 2.83 1.678 3.894zm-.493 3.905a21.682 21.682 0 0 1-.713.129c-.2.032-.352-.176-.273-.362a9.68 9.68 0 0 0 .244-.637l.003-.01c.248-.72.45-1.548.524-2.319C.743 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.52.263-1.639.742-3.468 1.105z"/>
+    </svg>
                             </div>
                         </div>
-                    </div>
-                    <div class="content-img">
-                        <div class="hidden-box">
-                            <div type="button" class="delete-icon">
-                                <i class="fa fa-times" aria-hidden="true"></i>
+                        <div class="like-count">
+                            <p class="m-0 mr-2">좋아요</p>
+                            <span class="">15</span>
+                            <span>개</span>
+                        </div>
+                        <div class="content">
+                            <div class="user_id mr-2">
+                                슝슝슈슝
                             </div>
-                            <div class="center-icon">
-                                <div class="like">
-                                    <i class="fa fa-heart-o hidden-icon" aria-hidden="true"><span
-                                            class="count">2</span></i>
+                            <div class="content-text">
+                                <p class="m-0">첫 사진 등록 안녕하세요 첫 사진 등록 안녕하세요 첫 사진 등록 안녕하세요 첫 사진 등록 안녕하세요 첫 사진 등록 안녕하세요</p>
+                            </div>
+                        </div>
+                        <div class="comment-count">
+                            <p class="m-0 mr-1">댓글</p>
+                            <span>72</span>
+                            <span>개 모두 보기</span>
+                        </div>
+                        <div class="comment-section">
+                            <div class="comment-box">
+                                <div class="user_id mr-2">
+                                    helloworld0626
                                 </div>
                                 <div class="comment">
-                                    <i class="fa fa-comment-o" aria-hidden="true"><span class="count">1</span></i>
+                                    <p class="m-0">안녕하세요 댓글 남겨요안녕하세요 안녕하세요 댓글 남겨요안녕하세요 댓글 남겨요안녕하세요 댓글 남겨요안녕하세요 댓글 남겨요</p>
+                                </div>
+                            </div>
+                            <div class="comment-box">
+                                <div class="user_id mr-2">
+                                    helloworld0626
+                                </div>
+                                <div class="comment">
+                                    <p class="m-0">안녕하세요 댓글 남겨요안녕하세요 안녕하세요 댓글 남겨요안녕하세요 댓글 남겨요안녕하세요 댓글 남겨요안녕하세요 댓글 남겨요</p>
+                                </div>
+                            </div>
+                            <div class="comment-box">
+                                <div class="user_id mr-2">
+                                    helloworld0626
+                                </div>
+                                <div class="comment">
+                                    <p class="m-0">안녕하세요 댓글 남겨요안녕하세요 안녕하세요 댓글 남겨요안녕하세요 댓글 남겨요안녕하세요 댓글 남겨요안녕하세요 댓글 남겨요</p>
+                                </div>
+                            </div>
+                            <div class="comment-box">
+                                <div class="user_id mr-2">
+                                    helloworld0626
+                                </div>
+                                <div class="comment">
+                                    <p class="m-0">안녕하세요 댓글 남겨요안녕하세요 안녕하세요 댓글 남겨요안녕하세요 댓글 남겨요안녕하세요 댓글 남겨요안녕하세요 댓글 남겨요</p>
                                 </div>
                             </div>
                         </div>
-                        <img src="../assets/profile1.jpg" alt="썸네일">
+                        <div class="create-date">
+                            <p class="m-0">21.09.12</p>
+                        </div>
+                        <div class="comment-input-box">
+                            <input class="m-0" type="text" name="comment" id="comment" placeholder="댓글 달기 ...">
+                            <span class="submit-btn">
+                                작성
+                            </span>
+                        </div>
+                    </div>
+                    <div class="content-body">
+                        <div class="content-title">
+                            <div class="user-info">
+                                <div class="user-icon">
+                                    <div class="user-img">
+                                        <img src="@/assets/profile1.jpg" alt="유저이미지">
+                                    </div>
+                                </div>
+                                <div class="user_id">
+                                    슝슝슈슝슝슝슈슝
+                                </div>
+                            </div>
+                            <div type="button" class="more-btn">
+                                ...
+                            </div>
+                        </div>
+                        <div class="content-img">
+                            <img src="@/assets/banner.jpg" alt="">
+                        </div>
+                        <div class="btn-section">
+                            <div class="like-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-heart mr-3" viewBox="0 0 16 16">
+    <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
+    </svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-heart-fill mr-3 heart-on" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+    </svg>
+                            </div>
+                            <div class="comment-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chat mr-3" viewBox="0 0 16 16">
+    <path d="M2.678 11.894a1 1 0 0 1 .287.801 10.97 10.97 0 0 1-.398 2c1.395-.323 2.247-.697 2.634-.893a1 1 0 0 1 .71-.074A8.06 8.06 0 0 0 8 14c3.996 0 7-2.807 7-6 0-3.192-3.004-6-7-6S1 4.808 1 8c0 1.468.617 2.83 1.678 3.894zm-.493 3.905a21.682 21.682 0 0 1-.713.129c-.2.032-.352-.176-.273-.362a9.68 9.68 0 0 0 .244-.637l.003-.01c.248-.72.45-1.548.524-2.319C.743 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.52.263-1.639.742-3.468 1.105z"/>
+    </svg>
+                            </div>
+                        </div>
+                        <div class="like-count">
+                            <p class="m-0 mr-2">좋아요</p>
+                            <span class="">15</span>
+                            <span>개</span>
+                        </div>
+                        <div class="content">
+                            <div class="user_id mr-2">
+                                슝슝슈슝슝슝슈슝슝
+                            </div>
+                            <div class="content-text">
+                                <p class="m-0">첫 사진 등록 안녕하세요 첫 사진 등록 안녕하세요 첫 사진 등록 안녕하세요 첫 사진 등록 안녕하세요 첫 사진 등록 안녕하세요</p>
+                            </div>
+                        </div>
+                        <div class="comment-count">
+                            <p class="m-0 mr-1">댓글</p>
+                            <span>72</span>
+                            <span>개 모두 보기</span>
+                        </div>
+                        <div class="comment-section">
+                            <div class="comment-box">
+                                <div class="user_id mr-2">
+                                    helloworld0626
+                                </div>
+                                <div class="comment">
+                                    <p class="m-0">안녕하세요 댓글 남겨요안녕하세요 안녕하세요 댓글 남겨요안녕하세요 댓글 남겨요안녕하세요 댓글 남겨요안녕하세요 댓글 남겨요</p>
+                                </div>
+                            </div>
+                            <div class="comment-box">
+                                <div class="user_id mr-2">
+                                    helloworld0626
+                                </div>
+                                <div class="comment">
+                                    <p class="m-0">안녕하세요 댓글 남겨요안녕하세요 안녕하세요 댓글 남겨요안녕하세요 댓글 남겨요안녕하세요 댓글 남겨요안녕하세요 댓글 남겨요</p>
+                                </div>
+                            </div>
+                            <div class="comment-box">
+                                <div class="user_id mr-2">
+                                    helloworld0626
+                                </div>
+                                <div class="comment">
+                                    <p class="m-0">안녕하세요 댓글 남겨요안녕하세요 안녕하세요 댓글 남겨요안녕하세요 댓글 남겨요안녕하세요 댓글 남겨요안녕하세요 댓글 남겨요</p>
+                                </div>
+                            </div>
+                            <div class="comment-box">
+                                <div class="user_id mr-2">
+                                    helloworld0626
+                                </div>
+                                <div class="comment">
+                                    <p class="m-0">안녕하세요 댓글 남겨요안녕하세요 안녕하세요 댓글 남겨요안녕하세요 댓글 남겨요안녕하세요 댓글 남겨요안녕하세요 댓글 남겨요</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="create-date">
+                            <p class="m-0">21.09.12</p>
+                        </div>
+                        <div class="comment-input-box">
+                            <input class="m-0" type="text" name="comment" id="comment" placeholder="댓글 달기 ...">
+                            <span class="submit-btn">
+                                작성
+                            </span>
+                        </div>
                     </div>
                 </div>
-                <div class="content-card">
-                    <div class="hidden-box">
-                        <div type="button" class="delete-icon">
-                            <i class="fa fa-times" aria-hidden="true"></i>
-                        </div>
-                        <div class="center-icon">
-                            <div class="like">
-                                <i class="fa fa-heart-o hidden-icon" aria-hidden="true"><span class="count">2</span></i>
-                            </div>
-                            <div class="comment">
-                                <i class="fa fa-comment-o" aria-hidden="true"><span class="count">1</span></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="content-img">
-                        <img src="../assets/content1.jpg" alt="썸네일">
+
+                <div class="myinfo-container">
+                    <div class="myinfo-section">
+                        <router-view></router-view>
                     </div>
                 </div>
-                <div class="content-card">
-                    <div class="hidden-box">
-                        <div type="button" class="delete-icon">
-                            <i class="fa fa-times" aria-hidden="true"></i>
-                        </div>
-                        <div class="center-icon">
-                            <div class="like">
-                                <i class="fa fa-heart-o hidden-icon" aria-hidden="true"><span class="count">2</span></i>
-                            </div>
-                            <div class="comment">
-                                <i class="fa fa-comment-o" aria-hidden="true"><span class="count">1</span></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="content-img">
-                        <img src="../assets/content2.jpg" alt="썸네일">
-                    </div>
-                </div>
-            </div>
         </div>
-    </main>
+        <footer-ui></footer-ui>
     </div>
 </template>
 
 <script>
-    import {
-        mapState,
-        mapActions
-    } from 'vuex'
-    export default {
-        name: 'Main',
-        data() {
-            return {
-                modalShow: false,
-            }
-        },
-        computed: {
-            ...mapState(["userInfo"])
-        },
-        methods: {
-            ...mapActions(["logout"]),
-            moveInsert() {
-                this.$router.push({
-                    name: 'Insert'
-                });
-            }
-        },
-    }
+import Header from '../components/Header'
+import Footer from '../components/Footer'
+// import SideBar from '../views/SideBar.vue'
+import {mapState} from 'vuex'
+export default {
+    name: 'Main',
+    components: {
+        'header-ui' : Header,
+        'footer-ui' : Footer,
+        // 'sidebar-ui' : SideBar
+    },
+    data() {
+        return {
+
+        }
+    },
+    computed: {
+        ...mapState(['userInfo'])
+    },
+    methods: {
+        moveInsert() {
+            this.$router.push({
+                name: 'Insert'
+            });
+        }
+    },
+}
 </script>
 
 <style scoped>
+    @media (max-width: 450px) {
+
+    }
     @media (max-width: 735px) {
-        .profile-imgbox {
-            width: 77px;
-            height: 77px;
-            margin-left: 0;
-            transition: .2s;
+        .myinfo-container {
+            display: none !important;
         }
-
-        .content-box {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .content-card {
-            width: 300px !important;
-            transition: .2s;
+        .content-container {
+            justify-content: center;
         }
     }
 
-    @font-face {
-        font-family: 'ONE-Mobile-POP';
-        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/ONE-Mobile-POP.woff') format('woff');
-        font-weight: normal;
-        font-style: normal;
-    }
-
-    .modal-page {
-        font-family: sans-serif;
+    .main-container {
         width: 100%;
-        height: 100%;
-        position: fixed;
-        top: 0;
-        left: 0;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 99998;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        /* display: none; */
+        background-color: rgb(250, 250, 250);
     }
 
-    .close-icon {
-        position: absolute;
-        top: 5%;
-        right: 15%;
-        color: #ffff;
-        font-size: 30px;
-    }
-
-    .modal-body {
-        min-width: 300px;
+    .content-container {
         max-width: 935px;
-        /* width: 100%; */
-        margin: auto;
-        padding: 0;
-        /* /* position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%); */
-        /* background-color: #ffff; */
+        position: relative;
         display: flex;
         flex-wrap: wrap;
+        margin: 0 auto;
+        padding-top: 50px;
     }
 
-    .modal-img {
-        width: 60%;
-        object-fit: cover;
-        overflow: hidden;
+    .follower-section {
         display: flex;
+        width: 65%;
+        height: 110px;
+        min-width: 350px;
+        border: 1px solid #e0e0e0;
+        margin: 25px 0;
+        padding: 6px 16px;
+        overflow: scroll;
+        background-color: #ffff;
     }
 
-    .modal-img img {
-        width: 100%;
-        /* height: 100%; */
-    }
-
-    .modal-content {
-        width: 40%;
+    .follower-info {
         display: flex;
         flex-direction: column;
-        border-radius: unset;
-    }
-
-    .modal-title {
-        display: flex;
-        width: 100%;
-        padding: 16px;
-        border-bottom: 1px solid lightgray;
-    }
-
-    .user-nick {
-        display: flex;
+        width: 60px;
+        height: 88px;
         align-items: center;
-        margin: 0 5px;
-        font-weight: bold;
-        font-size: 13px;
+        justify-content: space-between;
+        margin: 6px 12px;
+        /* height: 60px; */
+    }
+    .follower-info:hover {
+        cursor: pointer;
     }
 
-    .user-nick>p {
-        margin: 0;
+    .follower-img {
+        width: 60px;
+        height: 60px;
+        border-radius: 180px;
+        border: 3px solid rgb(255, 144, 100);
+        padding: 1px;
+        overflow: hidden;
     }
 
-    .modal-text {
-        font-size: 13px;
-        padding: 10px 24px;
-        height: 280px;
-        overflow: scroll;
-        -ms-overflow-style: none;
-        border-bottom: 1px solid lightgray;
-    }
-
-    .modal-text::-webkit-scrollbar {
-        display: none;
-        width: 0 !important;
-    }
-
-    .modal-reply-menu {
-        display: flex;
-        height: 45px;
-        padding: 5px 16px;
-        border-bottom: 1px solid lightgray;
-        display: flex;
-        font-size: 21px;
-    }
-
-    .modal-reply {
-        font-size: 13px;
-        padding: 10px 24px;
-        height: 150px;
-        overflow: scroll;
-        -ms-overflow-style: none;
-        border-bottom: 1px solid lightgray;
-    }
-
-    .modal-reply::-webkit-scrollbar {
-        display: none;
-        width: 0 !important;
-    }
-
-    .reply {
-        vertical-align: top !important;
-    }
-
-    .reply-profile-box {
-        width: 24px;
-        height: 24px;
+    .follower-img img {
+        width: 100%;
+        height: 100%;
         border-radius: 180px;
         object-fit: cover;
-        overflow: hidden;
-        box-shadow: 0 0 1px 1px #f2f2f2;
     }
 
-    .reply-profile-box img {
-        width: 100%;
-        height: 100%;
-    }
-
-    .reply-user-nick {
-        align-items: center;
-        margin: 0 5px;
-        font-weight: bold;
+    .follower-name {
+        width: 66px;
         font-size: 12px;
+        margin-top: 10px;
+        text-align: center;
     }
 
-    .modal-reply-input {
+    .follower-name p {
+        white-space:nowrap; 
+        overflow: hidden; 
+        text-overflow: ellipsis;
+    }
+
+    .content-section {
+        /* display: flex;
+        flex-direction: column; */
+        width: 65%;
+        min-width: 350px;
+        margin-bottom: 100px;
+    }
+
+    .myinfo-container {
+        position: absolute;
+        right: 0;
+        /* width: 30%; */
+        min-width: 250px;
+        height: 100vh;
+        /* height: 100%; */
+        /* border: 1px solid red; */
+    }
+
+    .myinfo-section {
         display: flex;
+        position: fixed;
+        width: 250px;
+        /* height: 400px; */
+        margin: 25px 0;
+        /* border: 1px solid red; */
     }
 
-    .modal-reply-input input {
-        font-size: 13px;
-        margin: 0;
-        padding-left: 10px;
-        border: none;
-        height: 57px;
-    }
-
-    #reply-submit {
-        width: 55px;
-        height: 100%;
-        color: #68c5f6;
-        border-style: none;
-        background-color: #fff;
-    }
-
-    #reply-submit:hover {
-        font-size: 14px;
-    }
-
-
-
-
-
-    .header {
-        /* padding: 8px 42px; */
-        height: 50px;
+    .content-body {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        margin-bottom: 20px;
         background-color: #ffff;
-        border-bottom: 1px solid lightgray;
-        box-shadow: 1px 2px 5px lightgray;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .navi {
-        width: 935px;
-        height: 100%;
-        justify-content: space-between;
-        display: flex;
-    }
-
-    .logo {
-        display: flex;
-        align-items: center;
-    }
-
-    .brand-name {
-        font-family: 'ONE-Mobile-POP';
-        font-size: 24px;
-        text-decoration: none;
-        color: rgb(255, 144, 100);
-    }
-
-    .brand-name:hover {
-        color: #000000;
-
+        border: 1px solid #e0e0e0;
     }
 
     .user-info {
@@ -461,175 +436,149 @@
         align-items: center;
     }
 
-
-    .header-profile-box {
-        width: 40px;
-        height: 40px;
-        margin-right: 10px;
-        border-radius: 180px;
-        object-fit: cover;
-        overflow: hidden;
-        box-shadow: 0 0 1px 1px #f2f2f2;
+    .user-icon {
+        width: 35px;
+        height: 35px;
+        margin-right: 6px;
     }
-
-    .logout {
-        font-size: 30px;
-    }
-
-    .header-profile-box img {
+    .user-img {
         width: 100%;
         height: 100%;
-    }
-
-    .content-container {
-        max-width: 935px;
-        display: flex;
-        flex-wrap: wrap;
-        margin: 20px auto;
-        padding-top: 25px;
-    }
-
-    .profile-header {
-        display: flex;
-        width: 100%;
-        padding-bottom: 44px;
-        border-bottom: 1px solid lightgray;
-    }
-
-    .profile-box {
-        display: flex;
-        margin-right: 50px;
-    }
-
-    .profile-imgbox {
-        width: 150px;
-        height: 150px;
+        border: 1px solid rgb(194, 194, 194);
         border-radius: 180px;
         overflow: hidden;
-        /* margin-left: 50px; */
     }
-
-    .profile-imgbox img {
-        object-fit: cover;
+    .user-img img {
         width: 100%;
         height: 100%;
+        object-fit: cover;
     }
 
-    .profile-info-box {
+    .user_id {
+        font-size: 14px;
+        font-weight: bolder;
+        min-width: fit-content;
+
+    }
+
+    .content-title {
         display: flex;
-        flex-direction: column;
-        width: 70%;
-    }
-
-    .nick-name {
-        font-size: 24px;
-        font-weight: bold;
-    }
-
-    .write-btn {
-        display: flex;
-        font-size: 30px;
-        align-items: center;
-        justify-content: center;
-        width: 80px;
-        height: 80px;
-        color: #ff9064;
-        background-color: #ffff;
-        border-radius: 180px;
-        align-self: flex-end;
-
-    }
-
-    .write-btn:hover {
-        color: royalblue;
-    }
-
-
-    .content-box {
-        display: flex;
-        flex-wrap: wrap;
         width: 100%;
+        padding: 12px 16px;
         justify-content: space-between;
-    }
-
-    .content-card {
-        width: 30%;
-        /* height: 293px;     */
-        /* margin: 40px 20px; */
-        border: 1px solid lightgray;
-        margin: 30px 0;
-        border-radius: 8px;
-        overflow: hidden;
-        box-shadow: 4px 12px 30px 5px rgb(0 0 0 / 15%);
-        position: relative;
-    }
-
-    .content-card:hover {
-        box-shadow: 4px 12px 30px 6px rgb(0 0 0 / 30%);
-        transition: .3s;
-        transform: scale(1.01);
-    }
-
-    .hidden-box {
-        display: flex;
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        background-color: rgba(0, 0, 0, 35%);
-        top: 100%;
-    }
-
-    .center-icon {
-        display: flex;
-        width: 100%;
-        color: #ffff;
-        font-size: 26px;
-        align-self: center;
-        justify-content: center;
-    }
-
-    .count {
-        font-size: 20px;
-    }
-
-    .like {
-        margin-right: 15px;
-    }
-
-    .count {
-        margin-left: 10px;
-    }
-
-    .delete-icon {
-        position: absolute;
-        height: 32px;
-        width: 32px;
-        right: 20px;
-        top: 5px;
-        color: #ffff;
-        font-size: 32px;
-        text-align: center;
-        justify-items: center;
-    }
-
-    .content-card:hover .hidden-box {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        transition: .35s;
-        top: 0;
-        /* cursor: pointer; */
+        border-bottom: 1px solid #e0e0e0;
+        background-color: #ffff;
     }
 
     .content-img {
         width: 100%;
-        height: 100%;
         overflow: hidden;
+    }
+
+    .content-img img{
+        width: 100%;
+        height: 100%;
         object-fit: cover;
     }
 
-    .content-card img {
+    .btn-section {
+        display: flex;
         width: 100%;
-        height: 100%;
+        padding: 12px 16px 4px;
     }
+
+    .heart-on {
+        color: rgb(255, 0, 0);
+    }
+
+    .like-count {
+        display: flex;
+        padding: 0 16px;
+        font-size: 15px;
+    }
+
+    .content {
+        display: flex;
+        width: 100%;
+        padding: 0 16px 12px;
+        align-items: center;
+    }
+
+    .content-text {
+        font-size: 12px;
+        min-width: 200px;
+        max-width: 600px;
+
+    }
+    .content-text p {
+        /* width: 300px; */
+        white-space:nowrap; 
+        overflow: hidden; 
+        text-overflow: ellipsis;
+    }
+
+    .comment-count {
+        display: flex;
+        width: 100%;
+        padding: 0 16px 2px;
+        font-size: 14px;
+        color: rgb(124, 124, 124);
+    }
+
+    .comment-section {
+        height: 70px;
+        overflow: hidden;
+    }
+
+    .comment-box {
+        display: flex;
+        align-items: center;
+        padding: 0 16px 2px;
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .comment {
+        font-size: 12px;
+        min-width: 200px;
+        max-width: 600px;
+    }
+
+    .comment p {
+        width: 100%;
+        white-space:nowrap; 
+        overflow: hidden; 
+        text-overflow: ellipsis;
+    }
+
+    .create-date {
+        font-size: 12px;
+        color: rgb(124, 124, 124);
+        padding: 5px 16px 4px;
+    }
+
+    .comment-input-box {
+        padding: 4px 16px;
+        border-top: 1px solid #e0e0e0;
+        margin-top: 5px;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+    }
+
+    #comment {
+        border-style: none;
+    }
+
+    .submit-btn {
+        width: 30px;
+        text-align: center;
+        align-items: center;
+        color: rgb(255, 144, 100);
+    }
+
+    .submit-btn:hover {
+        cursor: pointer;
+    }
+
 </style>
