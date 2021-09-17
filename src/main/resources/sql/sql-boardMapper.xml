@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.mapper.BoardMapper">
+
+	<insert id="profileInsert" parameterType="com.dto.BoardFileDto">
+		<![CDATA[ 
+			INSERT INTO 
+				profile_img
+				(user_seq, ori_img_name, stored_img_path, img_size)
+			VALUES
+		]]>
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.userSeq},
+			#{item.oriImgName},
+			#{item.storedImgPath},
+			#{item.imgSize}
+		)
+		</foreach>
+	</insert>
+	
+	<update id="reNick" parameterType="hashmap">
+
+		<![CDATA[
+			UPDATE
+				user_info
+			SET 
+				user_nick = #{userNick}
+			WHERE
+				user_seq = #{userSeq}
+		]]>
+	</update>
+	
+	<insert id="boardInsert" parameterType="com.dto.BoardDto" useGeneratedKeys="true" keyProperty="boardSeq">
+		<![CDATA[
+			INSERT INTO board 
+				(user_seq, user_nick, content)
+			VALUES 
+				(#{userSeq}, #{userNick}, #{content});
+		]]>
+	</insert>
+	
+	<insert id="boardImgInsert" parameterType="com.dto.BoardFileDto">
+		<![CDATA[ 
+			INSERT INTO 
+				board_img
+				(user_seq, board_seq, ori_img_name, stored_img_path, img_size)
+			VALUES
+		]]>
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.userSeq},
+			#{item.boardSeq},
+			#{item.oriImgName},
+			#{item.storedImgPath},
+			#{item.imgSize}
+		)
+		</foreach>
+	</insert>
+	
+	<select id="getBoardList" parameterType="int" resultType="com.dto.BoardDto">
+		<![CDATA[
+			SELECT 
+				board_seq, content, DATE_FORMAT(create_dt, '%h:%i') AS create_dt
+			FROM 
+				board
+			WHERE 
+				user_seq = 6
+			ORDER BY 
+				board_seq DESC 
+		]]>
+	</select>
+	
+	<select id="getBoardImg" parameterType="int" resultType="com.dto.BoardFileDto">
+		<![CDATA[ 
+			SELECT
+				board_seq, stored_img_path
+			FROM
+				board_img
+			WHERE
+				del_yn = 'y'
+			AND
+				board_seq = #{boardSeq}
+			ORDER BY img_seq ASC
+		]]>
+	</select>
+
+
+</mapper>
