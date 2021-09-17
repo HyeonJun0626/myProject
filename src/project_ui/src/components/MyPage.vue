@@ -56,7 +56,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <img v-bind:src="item.storedFilePath" alt="썸네일">
+                            <img v-bind:src="'http://localhost:9000/'+item.imgList[0].storedImgPath" alt="썸네일">
                         </div>
                     </div>
                 </div>
@@ -94,6 +94,7 @@ export default {
         .then(function (res) {
             console.log("통신 성공")
             obj.myBoardList = res.data
+            console.log(obj.myBoardList);
         })
         .catch(function (err) {
             console.log(err)
