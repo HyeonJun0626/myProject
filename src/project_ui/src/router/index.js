@@ -9,11 +9,11 @@ import Mypage from '../components/MyPage'
 import SideBar from '../views/SideBar'
 import Follow from '../views/Follow'
 import Follower from '../views/Follower'
-import store from "../store"
+// import store from "../store"
 Vue.use(VueRouter)
 
 const rejectAuthUser = (to, from, next) => {
-  if (store.state.isLogin === true) {
+  if (localStorage.getItem("access-token") != null) {
     next("/main/")
   }
   else {

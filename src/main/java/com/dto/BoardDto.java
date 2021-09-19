@@ -9,9 +9,12 @@ public class BoardDto {
 
 	private int userSeq;
 	private int boardSeq;
+	private int likeCnt;
+	private int likeNy;
 	private String userNick;
 	private String content;
 	private String createDt;
 	private String delYn;
+	private String userImg;
 	private List<BoardFileDto> imgList;
 }

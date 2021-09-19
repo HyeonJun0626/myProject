@@ -12,14 +12,15 @@ export default new Vuex.Store({
     userInfo: null,
     ErrorInfo: null,
 
-    modalOpen: false
+    modalOpen: false,
+    myBoardList: ''
   },
   // state의 상태를 변화시키는 부분 actions에서 실행 시켜서 commit으로 적용 시킴
   mutations: {
-    loginSuccess(state, payload) {
+    loginSuccess(state) {
       state.isLogin = true
       state.isLoginError = false
-      state.userInfo = payload
+      // state.userInfo = payload
       state.ErrorInfo = null
     },
     loginError(state, payload) {
@@ -34,15 +35,18 @@ export default new Vuex.Store({
     },
     isModal(state, payload) {
       state.modalOpen = payload
+    },
+    isMyBoardList(state, payload) {
+      state.myBoardList = payload
     }
   },
   actions: {
-    login({dispatch, commit, state}, loginObj) {
+    async login({dispatch, commit, state}, loginObj) {
       if (loginObj.userId === null || loginObj.userPw === null || loginObj.userId === "" || loginObj.userPw === "") {
         state.ErrorInfo = "사용자 정보를 입력하세요"
       }
       else {
-      axios.post('http://localhost:9000/user/login', loginObj 
+      await axios.post('http://localhost:9000/user/login', loginObj 
       )
       .then(function(res) {
           // commit("loginSuccess")
@@ -63,7 +67,7 @@ export default new Vuex.Store({
       })
     }
     },
-    getUserInfo({commit, state}) {
+    async getUserInfo({commit, state}) {
       let token = localStorage.getItem("access-token")
       let config = {
         headers: {
@@ -71,7 +75,7 @@ export default new Vuex.Store({
         }
       }
       if(token != null)
-      axios.post("http://localhost:9000/user/getUserInfo", {}, config)
+      await axios.post("http://localhost:9000/user/getUserInfo", {}, config)
         .then(function (response) {
           console.log("유저 정보 요청 성공")
           let userInfo = {
@@ -82,13 +86,16 @@ export default new Vuex.Store({
             profileImgSeq: response.data.imgSeq,
             profileImg: "http://localhost:9000/"+response.data.storedImgPath
           }
-          commit("loginSuccess", userInfo)
+          commit("loginSuccess")
+          state.userInfo = userInfo
           if (response.data.storedImgPath == null) {
             state.userInfo.profileImg = "http://localhost:9000/images/default_img.jpeg"
           }
         })
         .catch(function (error) {
           console.log(error)
+          // commit("loginError")
+          localStorage.removeItem("access-token")
           router.push("/")
         })
     },
@@ -100,15 +107,36 @@ export default new Vuex.Store({
     },
     clickModal({commit}, payload) {
       commit("isModal", payload)
+    },
+    getMyBoardList({commit, state}) {
+      if (state.userInfo != null) {
+      axios.get("http://localhost:9000/board/getBoardList", {
+            params: {
+                userSeq: state.userInfo.userSeq,
+            }
+        })
+        .then(function (res) {
+            console.log("통신 성공")
+            commit("isMyBoardList", res.data)
+        })
+        .catch(function (err) {
+            console.log(err)
+            console.log("통신 실패")
+        })
+
+      }
     }
 
   },
   getters: {
-    myUserInfo({state}) {
-      return state.userInfo
+    myUserProfileImg(state) {
+      return state.userInfo.profileImg
     },
     modal({state}) {
       return state.modalOpen
+    },
+    getterMyBoardList({state}) {
+      return state.myBardList
     }
   }
 })

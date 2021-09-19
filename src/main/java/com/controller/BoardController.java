@@ -38,4 +38,17 @@ public class BoardController {
 		List<BoardDto> board = boardService.getBoardList(userSeq); 
 		return board;
 	}
+	
+	@GetMapping("/getAllBoardList")
+	public Object getAllBoardList(@RequestParam(value="userSeq") int userSeq) throws Exception {
+		List<BoardDto> board = boardService.getAllBoardList(userSeq);
+		return board;
+	}
+	
+	@PostMapping("/likeOnOf")
+	public int likeOnOf(@RequestParam(value="userSeq") int userSeq, @RequestParam(value="boardSeq")int boardSeq) throws Exception {
+		
+		return boardService.likeOnOf(userSeq, boardSeq);
+	}
+	
 }

@@ -64,11 +64,11 @@
 	<select id="getBoardList" parameterType="int" resultType="com.dto.BoardDto">
 		<![CDATA[
 			SELECT 
-				board_seq, content, DATE_FORMAT(create_dt, '%h:%i') AS create_dt
+				board_seq, content, DATE_FORMAT(create_dt, '%y.%m.%d %h:%i') AS create_dt
 			FROM 
 				board
 			WHERE 
-				user_seq = 6
+				user_seq = #{userSeq}
 			ORDER BY 
 				board_seq DESC 
 		]]>
@@ -87,6 +87,78 @@
 			ORDER BY img_seq ASC
 		]]>
 	</select>
+	
+	<select id="getAllBoardList" resultType="com.dto.BoardDto">
+		<![CDATA[
+			SELECT 
+				board_seq, user_seq, user_nick, content, DATE_FORMAT(create_dt, '%y.%m.%d %h:%i') AS create_dt
+			FROM 
+				board
+			WHERE 
+				del_yn = 'y'
+			ORDER BY 
+				board_seq DESC 
+		]]>
+	</select>
+	
+	<select id="getAllBoardLike" parameterType="int" resultType="int">
+		<![CDATA[
+			SELECT 
+				COUNT(*) 
+			FROM 
+				board_like 
+			WHERE 
+				board_seq = #{boardSeq};
+		]]>
+	</select>
+	
+	 <select id="getUserImg" parameterType="int" resultType="String">
+    	<![CDATA[ 
+	    	SELECT 
+	    		stored_img_path
+			FROM 
+				profile_img
+			WHERE 
+				user_seq = #{userSeq}
+			ORDER BY 
+				img_seq DESC 
+			LIMIT 1
+    	
+    	]]>
+    </select>
+    
+    <select id="checkMyLike" parameterType="int" resultType="int">
+    	<![CDATA[
+    		SELECT 
+    		COUNT(*) 
+    		FROM 
+				board_like 
+			WHERE 
+				board_seq = #{boardSeq}
+			AND 
+				user_seq = #{userSeq}
+    	]]>
+    </select>
+    
+    <insert id="addLike" parameterType="int">
+    	<![CDATA[
+    		INSERT INTO 
+    			board_like(user_seq, board_seq)
+			VALUES 
+				(#{userSeq}, #{boardSeq});
+    	]]>
+    </insert>
+    
+    <delete id="disLike" parameterType="int">
+    	<![CDATA[
+    		DELETE 
+    		FROM 
+    			board_like
+			WHERE 
+				user_seq = #{userSeq};
+    	]]>
+    </delete>
+
 
 
 </mapper>

@@ -40,7 +40,7 @@ export default {
     },
     methods: {
         ...mapActions(['getUserInfo', 'clickModal']),
-        ...mapGetters(['modal']),
+        ...mapGetters(['modal', 'myUserProfileImg']),
         profileInsert() {
             if(this.image != "") {
                 console.log(this.image)
@@ -78,11 +78,8 @@ export default {
         imgIn(image) {
             this.image = image.target.files[0]
             console.log(image.target.files)
-
-
             var reader = new FileReader()
             reader.onload = e => {
-              // base64
                 this.previewImgUrl = e.target.result
             }
             reader.readAsDataURL(this.image)

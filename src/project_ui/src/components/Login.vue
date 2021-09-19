@@ -46,7 +46,7 @@ export default {
     //     }
     // },
     mounted() {
-        this.goPage()         
+        // this.goPage()         
     },
     methods: {
         loginPage() {
@@ -59,11 +59,11 @@ export default {
             this.isSignup = true;
             this.$router.push({name:"Signup"})
         },
-        goPage() {
-            if (this.isLogin === true) {
-            this.$router.push({name: "Main"})
-            }
-        }
+        // goPage() {
+        //     if (this.isLogin === true) {
+        //     this.$router.push({name: "Main"})
+        //     }
+        // }
 
     }
 }

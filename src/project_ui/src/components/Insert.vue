@@ -34,6 +34,9 @@ export default {
     computed: {
         ...mapState(["userInfo"])
     },
+    mounted() {
+        this.$store.dispatch("getUserInfo")
+    },
     methods: {
         boardInsert() {
             let formData = new FormData();
@@ -44,7 +47,6 @@ export default {
                 for (let i = 0; i < this.image.length; i++) {
                     formData.append("image", this.image[i]);
                 }
-            }
             let obj = this
             obj.$axios.post('http://localhost:9000/board/insert', formData, {
                 params: {
@@ -58,12 +60,13 @@ export default {
             })
             .then(function() {
                 console.log('등록 성공');
-                obj.moveMain()
+                obj.$router.push({ name: 'MyPage' });
             })
             .catch(function(err) {
                 console.log("통신 실패");
                 console.log(err);
             });
+            }
         },
         imgIn(image) {
             // this.image = image.target.files[0]
@@ -72,7 +75,7 @@ export default {
             console.log(image.target.files)
         },
         moveMain() {
-            this.$router.push({ path: '/mypage' });
+            this.$router.push({ name: 'MyPage' });
         }
     },
 }

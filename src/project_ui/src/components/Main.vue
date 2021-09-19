@@ -1,7 +1,6 @@
 <template>
     <div class="main-container">
         <header-ui></header-ui>
-        
         <div class="content-container">
             <div class="follower-section">
                 <div class="follower-info">
@@ -77,18 +76,19 @@
                     </div>
                 </div>
             </div>
-            
+
+
                 <div class="content-section">
-                    <div class="content-body">
+                    <div class="content-body" v-for="item in allBoardList" v-bind:key="item.boardSeq">
                         <div class="content-title">
                             <div class="user-info">
                                 <div class="user-icon">
                                     <div class="user-img">
-                                        <img src="@/assets/profile1.jpg" alt="유저이미지">
+                                        <img v-bind:src="'http://localhost:9000/'+item.userImg" alt="유저이미지">
                                     </div>
                                 </div>
                                 <div class="user_id">
-                                    슝슝슈슝
+                                    {{item.userNick}}
                                 </div>
                             </div>
                             <div type="button" class="more-btn">
@@ -96,34 +96,36 @@
                             </div>
                         </div>
                         <div class="content-img">
-                            <img src="@/assets/content1.jpg" alt="">
+                            <img v-bind:src="'http://localhost:9000/'+item.imgList[0].storedImgPath" alt="">
                         </div>
                         <div class="btn-section">
-                            <div class="like-btn">
+                            <div class="like-btn like" v-if="item.likeNy == 0" v-on:click="likeOn(item.boardSeq)">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-heart mr-3" viewBox="0 0 16 16">
-    <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
-    </svg>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-heart-fill mr-3 heart-on" viewBox="0 0 16 16">
-    <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
-    </svg>
+                                    <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
+                                </svg>
+                            </div>
+                            <div class="disLike-btn like" v-if="item.likeNy == 1" v-on:click="likeOn(item.boardSeq)">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-heart-fill mr-3 heart-on" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                                </svg>
                             </div>
                             <div class="comment-btn">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chat mr-3" viewBox="0 0 16 16">
-    <path d="M2.678 11.894a1 1 0 0 1 .287.801 10.97 10.97 0 0 1-.398 2c1.395-.323 2.247-.697 2.634-.893a1 1 0 0 1 .71-.074A8.06 8.06 0 0 0 8 14c3.996 0 7-2.807 7-6 0-3.192-3.004-6-7-6S1 4.808 1 8c0 1.468.617 2.83 1.678 3.894zm-.493 3.905a21.682 21.682 0 0 1-.713.129c-.2.032-.352-.176-.273-.362a9.68 9.68 0 0 0 .244-.637l.003-.01c.248-.72.45-1.548.524-2.319C.743 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.52.263-1.639.742-3.468 1.105z"/>
-    </svg>
+                                    <path d="M2.678 11.894a1 1 0 0 1 .287.801 10.97 10.97 0 0 1-.398 2c1.395-.323 2.247-.697 2.634-.893a1 1 0 0 1 .71-.074A8.06 8.06 0 0 0 8 14c3.996 0 7-2.807 7-6 0-3.192-3.004-6-7-6S1 4.808 1 8c0 1.468.617 2.83 1.678 3.894zm-.493 3.905a21.682 21.682 0 0 1-.713.129c-.2.032-.352-.176-.273-.362a9.68 9.68 0 0 0 .244-.637l.003-.01c.248-.72.45-1.548.524-2.319C.743 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.52.263-1.639.742-3.468 1.105z"/>
+                                </svg>
                             </div>
                         </div>
                         <div class="like-count">
                             <p class="m-0 mr-2">좋아요</p>
-                            <span class="">15</span>
+                            <span class="">{{item.likeCnt}}</span>
                             <span>개</span>
                         </div>
                         <div class="content">
                             <div class="user_id mr-2">
-                                슝슝슈슝
+                                {{item.userNick}}
                             </div>
                             <div class="content-text">
-                                <p class="m-0">첫 사진 등록 안녕하세요 첫 사진 등록 안녕하세요 첫 사진 등록 안녕하세요 첫 사진 등록 안녕하세요 첫 사진 등록 안녕하세요</p>
+                                <p class="m-0">{{item.content}}</p>
                             </div>
                         </div>
                         <div class="comment-count">
@@ -166,7 +168,7 @@
                             </div>
                         </div>
                         <div class="create-date">
-                            <p class="m-0">21.09.12</p>
+                            <p class="m-0">{{item.createDt}}</p>
                         </div>
                         <div class="comment-input-box">
                             <input class="m-0" type="text" name="comment" id="comment" placeholder="댓글 달기 ...">
@@ -175,102 +177,7 @@
                             </span>
                         </div>
                     </div>
-                    <div class="content-body">
-                        <div class="content-title">
-                            <div class="user-info">
-                                <div class="user-icon">
-                                    <div class="user-img">
-                                        <img src="@/assets/profile1.jpg" alt="유저이미지">
-                                    </div>
-                                </div>
-                                <div class="user_id">
-                                    슝슝슈슝슝슝슈슝
-                                </div>
-                            </div>
-                            <div type="button" class="more-btn">
-                                ...
-                            </div>
-                        </div>
-                        <div class="content-img">
-                            <img src="@/assets/banner.jpg" alt="">
-                        </div>
-                        <div class="btn-section">
-                            <div class="like-btn">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-heart mr-3" viewBox="0 0 16 16">
-    <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
-    </svg>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-heart-fill mr-3 heart-on" viewBox="0 0 16 16">
-    <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
-    </svg>
-                            </div>
-                            <div class="comment-btn">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chat mr-3" viewBox="0 0 16 16">
-    <path d="M2.678 11.894a1 1 0 0 1 .287.801 10.97 10.97 0 0 1-.398 2c1.395-.323 2.247-.697 2.634-.893a1 1 0 0 1 .71-.074A8.06 8.06 0 0 0 8 14c3.996 0 7-2.807 7-6 0-3.192-3.004-6-7-6S1 4.808 1 8c0 1.468.617 2.83 1.678 3.894zm-.493 3.905a21.682 21.682 0 0 1-.713.129c-.2.032-.352-.176-.273-.362a9.68 9.68 0 0 0 .244-.637l.003-.01c.248-.72.45-1.548.524-2.319C.743 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.52.263-1.639.742-3.468 1.105z"/>
-    </svg>
-                            </div>
-                        </div>
-                        <div class="like-count">
-                            <p class="m-0 mr-2">좋아요</p>
-                            <span class="">15</span>
-                            <span>개</span>
-                        </div>
-                        <div class="content">
-                            <div class="user_id mr-2">
-                                슝슝슈슝슝슝슈슝슝
-                            </div>
-                            <div class="content-text">
-                                <p class="m-0">첫 사진 등록 안녕하세요 첫 사진 등록 안녕하세요 첫 사진 등록 안녕하세요 첫 사진 등록 안녕하세요 첫 사진 등록 안녕하세요</p>
-                            </div>
-                        </div>
-                        <div class="comment-count">
-                            <p class="m-0 mr-1">댓글</p>
-                            <span>72</span>
-                            <span>개 모두 보기</span>
-                        </div>
-                        <div class="comment-section">
-                            <div class="comment-box">
-                                <div class="user_id mr-2">
-                                    helloworld0626
-                                </div>
-                                <div class="comment">
-                                    <p class="m-0">안녕하세요 댓글 남겨요안녕하세요 안녕하세요 댓글 남겨요안녕하세요 댓글 남겨요안녕하세요 댓글 남겨요안녕하세요 댓글 남겨요</p>
-                                </div>
-                            </div>
-                            <div class="comment-box">
-                                <div class="user_id mr-2">
-                                    helloworld0626
-                                </div>
-                                <div class="comment">
-                                    <p class="m-0">안녕하세요 댓글 남겨요안녕하세요 안녕하세요 댓글 남겨요안녕하세요 댓글 남겨요안녕하세요 댓글 남겨요안녕하세요 댓글 남겨요</p>
-                                </div>
-                            </div>
-                            <div class="comment-box">
-                                <div class="user_id mr-2">
-                                    helloworld0626
-                                </div>
-                                <div class="comment">
-                                    <p class="m-0">안녕하세요 댓글 남겨요안녕하세요 안녕하세요 댓글 남겨요안녕하세요 댓글 남겨요안녕하세요 댓글 남겨요안녕하세요 댓글 남겨요</p>
-                                </div>
-                            </div>
-                            <div class="comment-box">
-                                <div class="user_id mr-2">
-                                    helloworld0626
-                                </div>
-                                <div class="comment">
-                                    <p class="m-0">안녕하세요 댓글 남겨요안녕하세요 안녕하세요 댓글 남겨요안녕하세요 댓글 남겨요안녕하세요 댓글 남겨요안녕하세요 댓글 남겨요</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="create-date">
-                            <p class="m-0">21.09.12</p>
-                        </div>
-                        <div class="comment-input-box">
-                            <input class="m-0" type="text" name="comment" id="comment" placeholder="댓글 달기 ...">
-                            <span class="submit-btn">
-                                작성
-                            </span>
-                        </div>
-                    </div>
+
                 </div>
 
                 <div class="myinfo-container">
@@ -297,8 +204,31 @@ export default {
     },
     data() {
         return {
-
+            allBoardList: '',
+            likeOnOf: true,
         }
+    },
+    async mounted() {
+        await this.$store.dispatch("getUserInfo")
+        let obj = this
+        console.log('mounted 시작')
+        await obj.$axios.get("http://localhost:9000/board/getAllBoardList", {
+            params: {
+                userSeq: obj.userInfo.userSeq
+            }
+        })
+        .then(function (res) {
+            obj.allBoardList = res.data
+            obj.likeNy = res.data
+            console.log('통신 성공')
+            if (res.data.userImg == null) {
+            res.data.userImg = "http://localhost:9000/images/default_img.jpeg"
+            }
+        })
+        .catch(function (err) {
+            console.log(err)
+        })
+        console.log('mounted 종료')
     },
     computed: {
         ...mapState(['userInfo'])
@@ -308,7 +238,26 @@ export default {
             this.$router.push({
                 name: 'Insert'
             });
-        }
+        },
+        likeOn(boardSeq) {
+            let obj = this
+            obj.$axios.post("http://localhost:9000/board/likeOnOf", {}, {
+                params: {
+                    userSeq: obj.userInfo.userSeq,
+                    boardSeq
+                }
+            })
+            .then(function (res) {
+                console.log('좋아요 전송 성공')
+                console.log(res.data)
+                obj.allBoardList.likeNy = res.data
+            })
+            .catch(function (err) {
+                console.log(err)
+                console.log('좋아요 전송 실패')
+            })
+        },
+
     },
 }
 </script>
@@ -485,6 +434,10 @@ export default {
         display: flex;
         width: 100%;
         padding: 12px 16px 4px;
+    }
+
+    .like {
+        cursor: pointer;
     }
 
     .heart-on {

@@ -65,10 +65,44 @@ public class BoardServiceImpl implements BoardService {
 		
 		for (int i = 0; i < board.size(); i++) {
 			List<BoardFileDto> imgList = boardMapper.getBoardImg(board.get(i).getBoardSeq());
+			int boardLike = boardMapper.getAllBoardLike(board.get(i).getBoardSeq());
 			board.get(i).setImgList(imgList);
+			board.get(i).setLikeCnt(boardLike);
 		}
 		return board;
 	}
+	
+	@Override
+	public List<BoardDto> getAllBoardList(int userSeq) throws Exception {
+		List<BoardDto> board = boardMapper.getAllBoardList();
+		
+		for (int i = 0; i < board.size(); i++) {
+			List<BoardFileDto> imgList = boardMapper.getBoardImg(board.get(i).getBoardSeq());
+			board.get(i).setImgList(imgList);
+			String userImg = boardMapper.getUserImg(board.get(i).getUserSeq());
+			int boardLike = boardMapper.getAllBoardLike(board.get(i).getBoardSeq());
+			int likeNy = boardMapper.checkMyLike(userSeq, board.get(i).getBoardSeq());
+			board.get(i).setLikeNy(likeNy);
+			board.get(i).setUserImg(userImg);
+			board.get(i).setLikeCnt(boardLike);
+		}
+		return board;
+	}
+	
+	@Override
+	public int likeOnOf(int userSeq, int boardSeq) throws Exception {
+		int checkLike = boardMapper.checkMyLike(userSeq, boardSeq);
+		int result = 0;
+		if(checkLike == 0) {
+			boardMapper.addLike(userSeq, boardSeq);
+			result = 1;
+		}
+		else {
+			boardMapper.disLike(userSeq, boardSeq);
+			result = 0;
+		}
+		return result;
+	}
 		
 
-	}
+}

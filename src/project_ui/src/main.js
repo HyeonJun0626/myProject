@@ -9,11 +9,13 @@ Vue.config.productionTip = false
 new Vue({
   router,
   store,
-  beforeCreate() {
-    this.$store.dispatch("getUserInfo")
-    if(localStorage.getItem("access-token") === null) {
-      this.$router.push("/").catch(()=>{})
-    }
-  },
+  // async beforeCreate() {
+  //   await this.$store.dispatch("getUserInfo")
+  //   this.$mount('#app')
+  //   if(localStorage.getItem("access-token") === null) {
+  //     this.$router.push("/").catch(()=>{})
+  //   }
+  //   // console.log("beforeCreate 실행 : ");
+  // },
   render: h => h(App)
 }).$mount('#app')

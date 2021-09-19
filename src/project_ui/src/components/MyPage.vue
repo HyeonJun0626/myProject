@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="main-container">
         <header-ui></header-ui>
         <main>
         <insert-modal v-if="$store.state.modalOpen"></insert-modal>
@@ -70,9 +70,9 @@
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import ProfileInsert from '../views/ProfileInsert.vue'
-import {mapState, mapActions, mapGetters} from 'vuex'
+import {mapState, mapActions} from 'vuex'
 export default {
-    name: 'Mypage',
+    name: 'MyPage',
     components: {
         'header-ui' : Header,
         'footer-ui' : Footer,
@@ -80,36 +80,25 @@ export default {
     },
     data() {
         return {
-            myBoardList: '',
+            // myBoardList: ''
             // userSeq: this.$store.state.userInfo.userSeq
+            // myBoardList: this.$store.state.myBoardList
         }
     },
-    mounted() {
-        let obj = this
-        obj.$axios.get("http://localhost:9000/board/getBoardList", {
-            params: {
-                userSeq: obj.$store.state.userInfo.userSeq,
-            }
-        })
-        .then(function (res) {
-            console.log("통신 성공")
-            obj.myBoardList = res.data
-            console.log(obj.myBoardList);
-        })
-        .catch(function (err) {
-            console.log(err)
-            console.log("통신 실패")
-        })
+    async mounted() {
+        console.log("mypage mounted 111");
+        await this.getUserInfo()
+        await this.getMyBoardList()
+        console.log("mypage mounted 222");
     },
     computed: {
-        ...mapState(['userInfo'], 'modalOpen'),
+        ...mapState(['userInfo', 'myBoardList', 'modalOpen']),
     },
     methods: {
-        ...mapGetters(['modal']),
-        ...mapActions(['clickModal']),
+        ...mapActions(['clickModal', 'getMyBoardList', 'getUserInfo']),
         moveInsert() {
             this.$router.push({name: 'Insert'})
-        }
+        },
     },
 }
 </script>
@@ -143,9 +132,11 @@ export default {
             transition: .2s;
         }
     }
-    main {
+    .main-container {
         padding-bottom: 70px;
         margin-top: 70px;
+        background-color: rgb(250, 250, 250);
+        height: 100vh;
     }
     .content-container {
         max-width: 935px;
@@ -255,8 +246,8 @@ export default {
     }
 
     .content-card {
-        width: 250px;
-        height: 250px;
+        width: 280px;
+        height: 280px;
         margin-top: 30px;
         border: 1px solid lightgray;
         border-radius: 4px;
@@ -267,7 +258,7 @@ export default {
 
     .content-card:hover {
         box-shadow: 4px 12px 30px 6px rgb(0 0 0 / 30%);
-        transition: .3s;
+        transition: .1s;
         transform: scale(1.01);
     }
 
