@@ -1,5 +1,6 @@
 <template>
     <div class="main-container">
+        <modal-ui v-if="$store.state.modalOpen"></modal-ui>
         <header-ui></header-ui>
         <div class="content-container">
             <div class="follower-section">
@@ -91,12 +92,12 @@
                                     {{item.userNick}}
                                 </div>
                             </div>
-                            <div type="button" class="more-btn">
+                            <div type="button" class="more-btn" v-on:click="clickModal({isModal:true, modalSeq: item.userSeq, followCheck: item.followCheck})">
                                 ...
                             </div>
                         </div>
-                        <div class="content-img">
-                            <img v-bind:src="'http://localhost:9000/'+item.imgList[0].storedImgPath" alt="">
+                        <div class="content-img" v-for="items in item.imgList" v-bind:key="items.imgSeq">
+                            <img v-bind:src="'http://localhost:9000/'+items.storedImgPath" alt="">
                         </div>
                         <div class="btn-section">
                             <div class="like-btn like" v-if="item.likeNy == 0" v-on:click="likeOn(item.boardSeq)">
@@ -193,13 +194,15 @@
 <script>
 import Header from '../components/Header'
 import Footer from '../components/Footer'
+import moreModal from '../views/moreModal'
 // import SideBar from '../views/SideBar.vue'
-import {mapState} from 'vuex'
+import {mapState, mapActions} from 'vuex'
 export default {
     name: 'Main',
     components: {
         'header-ui' : Header,
         'footer-ui' : Footer,
+        'modal-ui' : moreModal
         // 'sidebar-ui' : SideBar
     },
     data() {
@@ -209,8 +212,8 @@ export default {
         }
     },
     async mounted() {
-        await this.$store.dispatch("getUserInfo")
         let obj = this
+        await obj.$store.dispatch("getUserInfo")
         console.log('mounted 시작')
         await obj.$axios.get("http://localhost:9000/board/getAllBoardList", {
             params: {
@@ -234,6 +237,7 @@ export default {
         ...mapState(['userInfo'])
     },
     methods: {
+        ...mapActions(['clickModal']),
         moveInsert() {
             this.$router.push({
                 name: 'Insert'

@@ -9,6 +9,7 @@ import Mypage from '../components/MyPage'
 import SideBar from '../views/SideBar'
 import Follow from '../views/Follow'
 import Follower from '../views/Follower'
+
 // import store from "../store"
 Vue.use(VueRouter)
 
@@ -93,6 +94,7 @@ const routes = [
     // },
     // // 그렇지 않으면 / 경로로 리다이렉트
   },
+
 
 ]
 

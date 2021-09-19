@@ -82,6 +82,8 @@ public class BoardServiceImpl implements BoardService {
 			String userImg = boardMapper.getUserImg(board.get(i).getUserSeq());
 			int boardLike = boardMapper.getAllBoardLike(board.get(i).getBoardSeq());
 			int likeNy = boardMapper.checkMyLike(userSeq, board.get(i).getBoardSeq());
+			int followCheck = boardMapper.followCheck(userSeq, board.get(i).getUserSeq());
+			board.get(i).setFollowCheck(followCheck);
 			board.get(i).setLikeNy(likeNy);
 			board.get(i).setUserImg(userImg);
 			board.get(i).setLikeCnt(boardLike);

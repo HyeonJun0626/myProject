@@ -5,7 +5,7 @@
         <insert-modal v-if="$store.state.modalOpen"></insert-modal>
             <div class="content-container">
                 <div class="profile-header">
-                    <div class="profile-box" v-on:click="clickModal(true)">
+                    <div class="profile-box" v-on:click="clickModal({isModal: true})">
                         <div class="profile-imgbox">
                             <img v-bind:src="userInfo.profileImg" alt="프사">
                         </div>
@@ -13,7 +13,7 @@
                     <div class="profile-info-box">
                         <div class="nick-name">
                             <p class="m-0">{{userInfo.userNick}}</p>
-                        <span class="profile-rewrite" v-on:click="clickModal(true)">
+                        <span class="profile-rewrite" v-on:click="clickModal({isModal: true})">
                             <i class="fa fa-cog" aria-hidden="true"></i>
                         </span>
                         </div>

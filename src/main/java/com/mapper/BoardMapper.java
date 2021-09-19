@@ -24,6 +24,7 @@ public interface BoardMapper {
 	
 	List<BoardDto> getAllBoardList() throws Exception;
 	int getAllBoardLike(@Param("boardSeq") int boardSeq) throws Exception;
+	int followCheck(@Param("userSeq") int userSeq, @Param("boardUserSeq") int userSeq1) throws Exception;
 	String getUserImg(@Param("userSeq") int userSeq) throws Exception;
 	
 	int checkMyLike(@Param("userSeq") int userSeq, @Param("boardSeq") int boardSeq) throws Exception;

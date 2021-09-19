@@ -26,6 +26,7 @@
                 <router-view></router-view>
             </div>
         </div>
+            <p class="m-0 my-tag">made by HyeonJun</p>
     </div>
 </template>
 
@@ -64,7 +65,7 @@ export default {
     }
     .sidebar-container {
         width: 100%;
-        height: 450px;
+        /* height: 450px; */
         display: flex;
         flex-direction: column;
     }
@@ -133,6 +134,13 @@ export default {
 
     .router-section {
         width: 100%;
+        height: 280px;
         padding: 0 12px;
+    }
+
+    .my-tag {
+        text-align: center;
+        font-size: 12px;
+        color: rgb(185, 185, 185);
     }
 </style>

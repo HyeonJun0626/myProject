@@ -6,15 +6,20 @@
 
         <div class="user-list">
             <div class="user-info">
-                <div class="user-icon">
-                    <div class="user-img">
-                        <img src="@/assets/profile1.jpg" alt="유저이미지">
+                <div class="user-info-left">
+                    <div class="user-icon">
+                        <div class="user-img">
+                            <img src="@/assets/profile1.jpg" alt="유저이미지">
+                        </div>
+                    </div>
+                    <div class="user_id">
+                        슝슝슈슝슝슝슈슝
                     </div>
                 </div>
-                <div class="user_id">
-                    슝슝슈슝슝슝슈슝
+                <div class="follow-btn">
+                    팔로잉
                 </div>
-                <span class="follow-btn">팔로잉</span>
+                
             </div>
         </div>
     </div>
@@ -47,6 +52,12 @@ export default {
         display: flex;
         align-items: center;
         margin-bottom: 6px;
+        justify-content: space-between;
+    }
+
+    .user-info-left {
+        display: flex;
+        align-items: center;
     }
 
     .user-icon {
@@ -78,5 +89,6 @@ export default {
         margin-left: 15px;
         color: rgb(255, 144, 100);
         cursor: pointer;
+        justify-self:flex-end;
     }
 </style>

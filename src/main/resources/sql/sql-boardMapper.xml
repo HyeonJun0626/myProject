@@ -77,7 +77,7 @@
 	<select id="getBoardImg" parameterType="int" resultType="com.dto.BoardFileDto">
 		<![CDATA[ 
 			SELECT
-				board_seq, stored_img_path
+				img_seq, board_seq, stored_img_path
 			FROM
 				board_img
 			WHERE
@@ -109,6 +109,19 @@
 				board_like 
 			WHERE 
 				board_seq = #{boardSeq};
+		]]>
+	</select>
+	
+	<select id="followCheck" parameterType="int" resultType="int">
+		<![CDATA[
+			SELECT 
+				COUNT(*) 
+			FROM 
+				follow
+			WHERE 
+				from_user = #{userSeq}
+			AND 
+				to_user = #{boardUserSeq};
 		]]>
 	</select>
 	

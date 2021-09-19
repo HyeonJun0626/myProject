@@ -13,6 +13,8 @@ export default new Vuex.Store({
     ErrorInfo: null,
 
     modalOpen: false,
+    modalSeq: '',
+    followCheck: '',
     myBoardList: ''
   },
   // state의 상태를 변화시키는 부분 actions에서 실행 시켜서 commit으로 적용 시킴
@@ -34,14 +36,16 @@ export default new Vuex.Store({
       state.userInfo = null
     },
     isModal(state, payload) {
-      state.modalOpen = payload
+      state.modalOpen = payload.isModal
+      state.modalSeq = payload.modalSeq
+      state.followCheck = payload.followCheck
     },
     isMyBoardList(state, payload) {
       state.myBoardList = payload
     }
   },
   actions: {
-    async login({dispatch, commit, state}, loginObj) {
+    async login({commit, state}, loginObj) {
       if (loginObj.userId === null || loginObj.userPw === null || loginObj.userId === "" || loginObj.userPw === "") {
         state.ErrorInfo = "사용자 정보를 입력하세요"
       }
@@ -52,9 +56,11 @@ export default new Vuex.Store({
           // commit("loginSuccess")
           localStorage.setItem("access-token", res.headers.authorization)
           if (res.headers.authorization != null) {
-            dispatch("getUserInfo")
+            // dispatch("getUserInfo")
             commit("loginSuccess")
-            router.push({path:'/main/'})
+            if (state.isLogin === true) {
+              router.push({path:'/main/'})
+            }
           }
           else {
             console.log(res.data)
@@ -134,6 +140,9 @@ export default new Vuex.Store({
     },
     modal({state}) {
       return state.modalOpen
+    },
+    modalSeq(state) {
+      return state.modalSeq
     },
     getterMyBoardList({state}) {
       return state.myBardList
