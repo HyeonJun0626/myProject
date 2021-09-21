@@ -71,9 +71,85 @@
 			ORDER BY 
 				img_seq DESC 
 			LIMIT 1;
-    	
     	]]>
-    	
     </select>
+    
+    <select id="getWriteCnt" parameterType="int" resultType="int">
+    	<![CDATA[
+    		SELECT
+    			COUNT(*)
+    		FROM 
+    			board
+    		WHERE
+    			user_seq = #{userSeq}
+    		AND
+    			del_yn = 'n' 
+    	]]>
+    </select>
+    
+    <select id="checkDefaultProfile" parameterType="int" resultType="int">
+    	<![CDATA[
+    		SELECT
+    			COUNT(*)
+    		FROM
+    			profile_img
+    		WHERE
+    			user_seq = #{userSeq}
+    	]]>
+    </select>
+    
+    <insert id="profileInsert" parameterType="com.dto.BoardFileDto">
+		<![CDATA[ 
+			INSERT INTO 
+				profile_img
+				(user_seq, ori_img_name, stored_img_path, img_size)
+			VALUES
+		]]>
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.userSeq},
+			#{item.oriImgName},
+			#{item.storedImgPath},
+			#{item.imgSize}
+		)
+		</foreach>
+	</insert>
+	
+	<update id="profileUpdate" parameterType="com.dto.BoardFileDto">
+
+		<foreach collection="list" item="item" separator=",">
+			UPDATE 
+				profile_img
+			SET
+				user_seq = #{item.userSeq},
+				ori_img_name = #{item.oriImgName},
+				stored_img_path = #{item.storedImgPath},
+				img_size = #{item.imgSize}
+			WHERE
+				user_seq = #{item.userSeq}
+		</foreach>
+	</update>
+	
+	<update id="reNick" parameterType="hashmap">
+
+		<![CDATA[
+			UPDATE
+				user_info
+			SET 
+				user_nick = #{userNick}
+			WHERE
+				user_seq = #{userSeq}
+		]]>
+	</update>
+    
+    <delete id="deleteProfileImg" parameterType="int">
+    	<![CDATA[
+    		DELETE 
+    		FROM 
+    			profile_img 
+    		WHERE 
+    			user_seq = #{userSeq}
+    	]]>
+    </delete>
 
 </mapper>

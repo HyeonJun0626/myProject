@@ -1,5 +1,8 @@
 package com.service;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletResponse;
@@ -8,8 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.common.FileUtils;
 import com.configuration.JwtTokenProvider;
+import com.dto.BoardDto;
+import com.dto.BoardFileDto;
 import com.dto.UserDto;
 import com.dto.UserInfo;
 import com.mapper.UserMapper;
@@ -26,6 +34,9 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	private JwtTokenProvider jwtTokenProvider; 
+	
+	@Autowired
+	private FileUtils fileutils;
 	
 	
 //    @Autowired
@@ -94,14 +105,44 @@ public class UserServiceImpl implements UserService {
      public UserInfo getUserInfo(int userSeq) throws Exception {
     	 UserInfo userInfo = userMapper.getUserInfo(userSeq); 
     	 UserInfo imgInfo = userMapper.getProfileImg(userSeq);
+    	 int writeCnt = userMapper.getWriteCnt(userSeq);
+    	 userInfo.setWriteCnt(writeCnt);
     	 if (imgInfo != null) {
     		 userInfo.setImgSeq(imgInfo.getImgSeq());
-    		 userInfo.setStoredImgPath(imgInfo.getStoredImgPath());    		 
+    		 userInfo.setStoredImgPath(imgInfo.getStoredImgPath());
     	 }
     	 else {
     		 userInfo.setStoredImgPath(null);
     	 }
     	 return userInfo;
+     }
+     
+ 	@Override
+ 	public void profileInsert(BoardDto boardDto, MultipartHttpServletRequest image) throws Exception {
+ 		
+ 		List<BoardFileDto> list = fileutils.parseFileInfo(boardDto, image);
+ 		
+ 		if (CollectionUtils.isEmpty(list) == false) {
+ 			int check = userMapper.checkDefaultProfile(boardDto.getUserSeq());
+ 			if (check == 0) {
+ 				userMapper.profileInsert(list); 				
+ 			}
+ 			else {
+ 				userMapper.profileUpdate(list);
+ 			}
+ 		}
+ 		
+ 		if (!"".equals(boardDto.getUserNick()) & boardDto.getUserNick() != null) {
+ 			Map <String, Object> data = new HashMap<String, Object>();
+ 			data.put("userSeq", boardDto.getUserSeq());
+ 			data.put("userNick", boardDto.getUserNick());
+ 			userMapper.reNick(data);			
+ 		}
+
+ 	}
+     
+     public void deleteProfileImg(int userSeq) throws Exception {
+    	 userMapper.deleteProfileImg(userSeq);
      }
 
 

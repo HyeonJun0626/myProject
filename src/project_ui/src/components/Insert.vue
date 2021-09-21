@@ -60,7 +60,7 @@ export default {
             })
             .then(function() {
                 console.log('등록 성공');
-                obj.$router.push({ name: 'MyPage' });
+                obj.$router.replace({ path: '/mypage' });
             })
             .catch(function(err) {
                 console.log("통신 실패");

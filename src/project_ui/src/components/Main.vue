@@ -92,7 +92,7 @@
                                     {{item.userNick}}
                                 </div>
                             </div>
-                            <div type="button" class="more-btn" v-on:click="clickModal({isModal:true, modalSeq: item.userSeq, followCheck: item.followCheck})">
+                            <div type="button" class="more-btn" v-on:click="clickModal({isModal:true, modalSeq: item.userSeq, followCheck: item.followCheck, boardSeq: item.boardSeq})">
                                 ...
                             </div>
                         </div>
@@ -213,7 +213,7 @@ export default {
     },
     async mounted() {
         let obj = this
-        await obj.$store.dispatch("getUserInfo")
+        await obj.getUserInfo()
         console.log('mounted 시작')
         await obj.$axios.get("http://localhost:9000/board/getAllBoardList", {
             params: {
@@ -237,7 +237,7 @@ export default {
         ...mapState(['userInfo'])
     },
     methods: {
-        ...mapActions(['clickModal']),
+        ...mapActions(['clickModal', 'getUserInfo']),
         moveInsert() {
             this.$router.push({
                 name: 'Insert'

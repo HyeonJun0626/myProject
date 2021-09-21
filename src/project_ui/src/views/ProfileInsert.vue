@@ -2,16 +2,16 @@
     <div class="modal-wrap" v-if="modal" v-on:click.self="clickModal(false)">
         <div class="modal-body">
             <div class="preview-box">
-                <img v-if="previewImgUrl" :src="previewImgUrl">
                 <!-- <img v-bind:src="previewImgUrl"> -->
+                <img v-if="previewImgUrl" v-bind:src="previewImgUrl">
                 <label class="image-btn" for="img"></label>
             </div>
+            <span class="profile-delete" v-on:click="deleteProfileImg">현재 이미지 삭제</span>
             <div class="form-group">
                 <input style="display:none" type="file" name="img" id="img" class="form-control" accept="image/*" v-on:change="imgIn" placeholder="이미지를 등록하세요">
             </div>
             <div class="form-group">
-                <label for="userNick">닉네임: {{userInfo.userNick}}</label>
-                <input type="text" name="userNick" id="userNick" class="form-control" v-model="reNick" autocomplete="off">
+                <input type="text" name="userNick" id="userNick" class="form-control" v-model="reNick" autocomplete="off" v-bind:placeholder="userInfo.userNick">
             </div>
             <button type="button" class="btn btn-success btn-block" v-on:click="profileInsert">수정하기</button>
             <button type="button" class="btn btn-success btn-block" v-on:click="clickModal(false)">닫기</button>
@@ -49,7 +49,7 @@ export default {
             formData.append("image", this.image)
             // formData.append("userSeq", this.$store.state.userInfo.userSeq)
             let obj = this
-            obj.$axios.post('http://localhost:9000/board/profileInsert', formData,{
+            obj.$axios.post('http://localhost:9000/user/profileInsert', formData,{
                 params: {
                     userSeq: this.$store.state.userInfo.userSeq,
                     userNick: this.reNick
@@ -60,20 +60,14 @@ export default {
             })
             .then(function() {
                 console.log("통신 성공")
-                obj.getInfo()
                 // obj.closeInput()
+                obj.getUserInfo()
                 obj.clickModal(false)
             })
             .catch(function(err) {
                 console.log(err)
                 console.log("통신 실패")
             })
-        },
-        closeInput() {
-            this.$router.replace({path: '/mypage'})
-        },
-        getInfo() {
-            this.$store.dispatch('getUserInfo')
         },
         imgIn(image) {
             this.image = image.target.files[0]
@@ -83,7 +77,25 @@ export default {
                 this.previewImgUrl = e.target.result
             }
             reader.readAsDataURL(this.image)
-    }
+        },
+        deleteProfileImg() {
+            this.$axios.post("http://localhost:9000/user/deleteProfileImg", {}, {
+                params: {
+                    userSeq: this.userInfo.userSeq
+                }
+            })
+            .then(function () {
+                console.log('삭제 요청 성공')
+                this.getUserInfo()
+            })
+            .catch(function (err) {
+                console.log(err)
+                console.log('삭제 요청 실패')
+            })
+        },
+        closeInput() {
+            this.$router.replace({path: '/mypage'})
+        },
 }
 }
 </script>
@@ -141,10 +153,19 @@ export default {
         cursor: pointer;
     }
 
+    .profile-delete {
+        font-size: 13px;
+        margin-left: auto;
+    }
+    .profile-delete:hover {
+        color: red;
+        cursor: pointer;
+    }
+
     .gonyang {
         font-size: 12px;
         margin-top: 8px;
         align-self: center;
-        color: rgb(63, 63, 63);
+        color: rgb(53, 53, 53);
     }
 </style>

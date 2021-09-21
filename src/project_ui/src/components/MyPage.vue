@@ -6,23 +6,23 @@
             <div class="content-container">
                 <div class="profile-header">
                     <div class="profile-box" v-on:click="clickModal({isModal: true})">
-                        <div class="profile-imgbox">
-                            <img v-bind:src="userInfo.profileImg" alt="프사">
+                        <div class="profile-imgbox" v-if="myUserInfo">
+                            <img v-bind:src="myUserInfo.profileImg" alt="프사">
                         </div>
                     </div>
                     <div class="profile-info-box">
-                        <div class="nick-name">
-                            <p class="m-0">{{userInfo.userNick}}</p>
+                        <div class="nick-name" v-if="myUserInfo">
+                            <p class="m-0">{{myUserInfo.userNick}}</p>
                         <span class="profile-rewrite" v-on:click="clickModal({isModal: true})">
                             <i class="fa fa-cog" aria-hidden="true"></i>
                         </span>
                         </div>
-                        <div class="user-id">
-                            <p>{{userInfo.userId}}</p>
+                        <div class="user-id" v-if="myUserInfo">
+                            <p>{{myUserInfo.userId}}</p>
                         </div>
-                        <div class="content-count">
+                        <div class="content-count"  v-if="myUserInfo">
                             <div>
-                                게시물 <span>12</span>
+                                게시물 <span>{{myUserInfo.writeCnt}}</span>
                             </div>
                             <div>
                                 팔로우 <span>80</span>
@@ -70,7 +70,7 @@
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import ProfileInsert from '../views/ProfileInsert.vue'
-import {mapState, mapActions} from 'vuex'
+import {mapState, mapActions, mapGetters} from 'vuex'
 export default {
     name: 'MyPage',
     components: {
@@ -88,11 +88,12 @@ export default {
     async mounted() {
         console.log("mypage mounted 111");
         await this.getUserInfo()
-        await this.getMyBoardList()
+        this.getMyBoardList()
         console.log("mypage mounted 222");
     },
     computed: {
-        ...mapState(['userInfo', 'myBoardList', 'modalOpen']),
+        ...mapState(['myBoardList', 'modalOpen']),
+        ...mapGetters(['myUserInfo'])
     },
     methods: {
         ...mapActions(['clickModal', 'getMyBoardList', 'getUserInfo']),

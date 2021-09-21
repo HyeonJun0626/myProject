@@ -1,8 +1,6 @@
 package com.service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,25 +22,8 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Autowired
 	private FileUtils fileutils;
+
 	
-	@Override
-	public void profileInsert(BoardDto boardDto, MultipartHttpServletRequest image) throws Exception {
-		
-		List<BoardFileDto> list = fileutils.parseFileInfo(boardDto, image);
-		
-		if (CollectionUtils.isEmpty(list) == false) {
-			boardMapper.profileInsert(list);
-		}
-		
-		if (!"".equals(boardDto.getUserNick()) & boardDto.getUserNick() != null) {
-			Map <String, Object> data = new HashMap<String, Object>();
-			data.put("userSeq", boardDto.getUserSeq());
-			data.put("userNick", boardDto.getUserNick());
-			boardMapper.reNick(data);			
-		}
-
-	}
-
 	@Override
 	public void boardInsert(BoardDto boardDto, MultipartHttpServletRequest image) throws Exception {
 		
@@ -104,6 +85,12 @@ public class BoardServiceImpl implements BoardService {
 			result = 0;
 		}
 		return result;
+	}
+	
+	@Override
+	public void deleteBoard(int delBoardSeq) throws Exception {
+		boardMapper.deleteBoard(delBoardSeq);
+		boardMapper.deleteBoardImg(delBoardSeq);
 	}
 		
 

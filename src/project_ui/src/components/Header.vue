@@ -5,8 +5,8 @@
                 <a href="/main" class="brand-name">Gonyang</a>
             </div>
             <div class="user-info">
-                <div type="button" class="header-profile-box">
-                    <img v-bind:src="userInfo.profileImg" alt="헤더프로필">
+                <div type="button" class="header-profile-box" v-if="myUserInfo">
+                    <img v-bind:src="myUserInfo.profileImg" alt="헤더프로필">
                 </div>
                 <span class="hidden-box">
                     <div type="button" class="hidden-btn" v-on:click="moveMyPage">
@@ -22,17 +22,17 @@
 </template>
 
 <script>
-import {mapState, mapActions} from 'vuex'
+import {mapGetters, mapActions} from 'vuex'
 export default {
     data() {
         return {
         }
     },
     computed: {
-        ...mapState(["userInfo"]),
+        ...mapGetters(['myUserInfo']),
     },
     methods: {
-        ...mapActions(["logout"]),
+        ...mapActions(['logout']),
         moveMyPage() {
             this.$router.push({name:"MyPage"}).catch(()=>{})
         }

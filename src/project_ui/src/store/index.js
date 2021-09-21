@@ -14,6 +14,7 @@ export default new Vuex.Store({
 
     modalOpen: false,
     modalSeq: '',
+    modalBoardSeq: '',
     followCheck: '',
     myBoardList: ''
   },
@@ -39,6 +40,7 @@ export default new Vuex.Store({
       state.modalOpen = payload.isModal
       state.modalSeq = payload.modalSeq
       state.followCheck = payload.followCheck
+      state.modalBoardSeq = payload.boardSeq
     },
     isMyBoardList(state, payload) {
       state.myBoardList = payload
@@ -90,7 +92,8 @@ export default new Vuex.Store({
             userNick: response.data.userNick,
             roles: response.data.roles,
             profileImgSeq: response.data.imgSeq,
-            profileImg: "http://localhost:9000/"+response.data.storedImgPath
+            profileImg: "http://localhost:9000/"+response.data.storedImgPath,
+            writeCnt: response.data.writeCnt
           }
           commit("loginSuccess")
           state.userInfo = userInfo
@@ -111,32 +114,28 @@ export default new Vuex.Store({
       console.log('로그아웃')
       router.push("/")
     },
+    getMyBoardList({commit, state}) {
+        axios.get("http://localhost:9000/board/getBoardList", {
+          params: {
+            userSeq: state.userInfo.userSeq,
+          }
+        })
+        .then(function (res) {
+          console.log("통신 성공")
+          commit("isMyBoardList", res.data)
+        })
+        .catch(function (err) {
+          console.log(err)
+          console.log("통신 실패")
+        })
+    },
     clickModal({commit}, payload) {
       commit("isModal", payload)
     },
-    getMyBoardList({commit, state}) {
-      if (state.userInfo != null) {
-      axios.get("http://localhost:9000/board/getBoardList", {
-            params: {
-                userSeq: state.userInfo.userSeq,
-            }
-        })
-        .then(function (res) {
-            console.log("통신 성공")
-            commit("isMyBoardList", res.data)
-        })
-        .catch(function (err) {
-            console.log(err)
-            console.log("통신 실패")
-        })
-
-      }
-    }
-
   },
   getters: {
-    myUserProfileImg(state) {
-      return state.userInfo.profileImg
+    myUserInfo(state) {
+      return state.userInfo
     },
     modal({state}) {
       return state.modalOpen
@@ -146,6 +145,9 @@ export default new Vuex.Store({
     },
     getterMyBoardList({state}) {
       return state.myBardList
+    },
+    getBoardSeq(state) {
+      return state.modalBoardSeq
     }
   }
 })

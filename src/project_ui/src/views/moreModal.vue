@@ -6,13 +6,12 @@
                 <div class="modal-item danger-btn" v-if="modalSeq != userInfo.userSeq  && followCheck == 1">팔로우 취소</div>
                 <div class="modal-item" v-if="modalSeq != userInfo.userSeq">가리기</div>
                 <div class="modal-item" v-if="modalSeq == userInfo.userSeq">수정하기</div>
-                <div class="modal-item danger-btn" v-if="modalSeq == userInfo.userSeq">삭제하기</div>
+                <div class="modal-item danger-btn" v-if="modalSeq == userInfo.userSeq" v-on:click="deleteBoard">삭제하기</div>
                 <div class="modal-item danger-btn" v-on:click="clickModal(false)">취소</div>
             </div>
         </div>
     </div>
 </template>
-
 <script>
 import {mapState, mapActions, mapGetters} from 'vuex'
 export default {
@@ -21,14 +20,52 @@ export default {
 
         }
     },
+    mounted() {
+    },
     computed: {
-        ...mapState(['userInfo', 'followCheck']),
+        ...mapState(['userInfo', 'followCheck', 'modalBoardSeq']),
         ...mapGetters(['modalSeq'])
     },
     methods: {
         ...mapActions(['clickModal']),
-    }
 
+        deleteBoard() {
+            let obj = this
+            console.log('boardSeq1 : '+obj.modalBoardSeq)
+            let delBoardSeq = obj.modalBoardSeq
+            console.log('boardSeq2 : '+delBoardSeq)
+            obj.$axios.post("http://localhost:9000/board/deleteBoard", {}, {
+                params: {
+                    delBoardSeq
+                }
+            })
+            .then(function () {
+                console.log('삭제 성공')
+                obj.$router.go()
+                console.log('innerSeq : '+delBoardSeq)
+            })
+            .catch(function (err) {
+                console.log(err)
+                console.log('삭제 실패')
+                console.log('innerSeq : '+delBoardSeq)
+            })
+        }
+        // deleteBoard() {
+        //     this.$axios.put("http://localhost:9000/board/deleteBoard", {
+        //             boardSeq: this.boardSeq
+        //     })
+        //     .then(function () {
+        //         console.log('삭제 성공')
+        //         this.clickModal(false)
+        //     })
+        //     .catch(function (err) {
+        //         console.log(err)
+        //         console.log('삭제 실패')
+        //     })
+        // }
+    
+
+}
 }
 </script>
 

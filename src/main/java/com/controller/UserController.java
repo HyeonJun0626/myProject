@@ -10,8 +10,11 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.dto.BoardDto;
 import com.dto.UserDto;
 import com.dto.UserInfo;
 import com.service.UserService;
@@ -44,7 +47,17 @@ public class UserController {
 		int userSeq = (int) ((UserDto) authentication.getPrincipal()).getUserSeq();
 		System.out.println(userService.getUserInfo(userSeq));
 		return userService.getUserInfo(userSeq);
-
 	}
+	
+	@PostMapping("/profileInsert")
+	public void profileInsert(BoardDto boardDto, MultipartHttpServletRequest image) throws Exception {
+		userService.profileInsert(boardDto, image);
+	}
+	
+	@PostMapping("/deleteProfileImg")
+	public void deleteProfileImg(@RequestParam(value="userSeq") int userSeq) throws Exception {
+		userService.deleteProfileImg(userSeq);
+	}
+	
 
 }

@@ -4,35 +4,6 @@
 
 
 <mapper namespace="com.mapper.BoardMapper">
-
-	<insert id="profileInsert" parameterType="com.dto.BoardFileDto">
-		<![CDATA[ 
-			INSERT INTO 
-				profile_img
-				(user_seq, ori_img_name, stored_img_path, img_size)
-			VALUES
-		]]>
-		<foreach collection="list" item="item" separator=",">
-		(
-			#{item.userSeq},
-			#{item.oriImgName},
-			#{item.storedImgPath},
-			#{item.imgSize}
-		)
-		</foreach>
-	</insert>
-	
-	<update id="reNick" parameterType="hashmap">
-
-		<![CDATA[
-			UPDATE
-				user_info
-			SET 
-				user_nick = #{userNick}
-			WHERE
-				user_seq = #{userSeq}
-		]]>
-	</update>
 	
 	<insert id="boardInsert" parameterType="com.dto.BoardDto" useGeneratedKeys="true" keyProperty="boardSeq">
 		<![CDATA[
@@ -69,6 +40,7 @@
 				board
 			WHERE 
 				user_seq = #{userSeq}
+			AND del_yn = 'n'
 			ORDER BY 
 				board_seq DESC 
 		]]>
@@ -81,7 +53,7 @@
 			FROM
 				board_img
 			WHERE
-				del_yn = 'y'
+				del_yn = 'n'
 			AND
 				board_seq = #{boardSeq}
 			ORDER BY img_seq ASC
@@ -95,7 +67,7 @@
 			FROM 
 				board
 			WHERE 
-				del_yn = 'y'
+				del_yn = 'n'
 			ORDER BY 
 				board_seq DESC 
 		]]>
@@ -108,7 +80,7 @@
 			FROM 
 				board_like 
 			WHERE 
-				board_seq = #{boardSeq};
+				board_seq = #{boardSeq}
 		]]>
 	</select>
 	
@@ -121,7 +93,7 @@
 			WHERE 
 				from_user = #{userSeq}
 			AND 
-				to_user = #{boardUserSeq};
+				to_user = #{boardUserSeq}
 		]]>
 	</select>
 	
@@ -158,7 +130,7 @@
     		INSERT INTO 
     			board_like(user_seq, board_seq)
 			VALUES 
-				(#{userSeq}, #{boardSeq});
+				(#{userSeq}, #{boardSeq})
     	]]>
     </insert>
     
@@ -168,9 +140,30 @@
     		FROM 
     			board_like
 			WHERE 
-				user_seq = #{userSeq};
+				user_seq = #{userSeq}
     	]]>
     </delete>
+    
+    <update id="deleteBoard" parameterType="int">
+    	<![CDATA[
+    		UPDATE 
+    			board 
+    		SET 
+    			del_yn = 'y' 
+    		WHERE 
+    			board_seq = #{delBoardSeq}
+    	]]>
+    </update>
+    <update id="deleteBoardImg" parameterType="int">
+    	<![CDATA[
+    		UPDATE 
+    			board_img 
+    		SET 
+    			del_yn = 'y'
+    		WHERE 
+    			board_seq = #{delBoardSeq}
+    	]]>
+    </update>
 
 
 

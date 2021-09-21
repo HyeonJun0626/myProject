@@ -3,6 +3,9 @@ package com.service;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+import com.dto.BoardDto;
 import com.dto.UserDto;
 import com.dto.UserInfo;
 
@@ -15,5 +18,9 @@ public interface UserService {
 //	UserDto getUserInfo(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
 	UserInfo getUserInfo(int userSeq) throws Exception;
+	
+	void profileInsert(BoardDto boardDto, MultipartHttpServletRequest image) throws Exception;
+	
+	void deleteProfileImg(int userSeq) throws Exception;
 
 }

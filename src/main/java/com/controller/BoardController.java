@@ -20,12 +20,6 @@ public class BoardController {
 
 	@Autowired
 	private BoardService boardService;
-
-	@PostMapping("/profileInsert")
-	public void profileInsert(BoardDto boardDto, MultipartHttpServletRequest image) throws Exception {
-		boardService.profileInsert(boardDto, image);
-	}
-	
 	
 	@CrossOrigin(exposedHeaders = "authorization")
 	@PostMapping ("/insert")
@@ -49,6 +43,11 @@ public class BoardController {
 	public int likeOnOf(@RequestParam(value="userSeq") int userSeq, @RequestParam(value="boardSeq")int boardSeq) throws Exception {
 		
 		return boardService.likeOnOf(userSeq, boardSeq);
+	}
+	
+	@PostMapping("/deleteBoard")
+	public void deleteBoard(@RequestParam(value="delBoardSeq") int delBoardSeq) throws Exception {
+		boardService.deleteBoard(delBoardSeq);
 	}
 	
 }
