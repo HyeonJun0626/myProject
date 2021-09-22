@@ -1,5 +1,5 @@
 <template>
-    <div class="modal-wrap" v-if="modal" v-on:click.self="clickModal(false)">
+    <div class="modal-wrap" v-if="modal" v-on:click.self="clickProfileModal(false)">
         <div class="modal-body">
             <div class="preview-box">
                 <!-- <img v-bind:src="previewImgUrl"> -->
@@ -14,7 +14,7 @@
                 <input type="text" name="userNick" id="userNick" class="form-control" v-model="reNick" autocomplete="off" v-bind:placeholder="userInfo.userNick">
             </div>
             <button type="button" class="btn btn-success btn-block" v-on:click="profileInsert">수정하기</button>
-            <button type="button" class="btn btn-success btn-block" v-on:click="clickModal(false)">닫기</button>
+            <button type="button" class="btn btn-success btn-block" v-on:click="clickProfileModal(false)">닫기</button>
             <div class="gonyang">
                 <p class="m-0">Gonyang</p>
             </div>
@@ -36,10 +36,10 @@ export default {
         }
     },
     computed: {
-        ...mapState (['userInfo', 'modalOpen']),
+        ...mapState (['userInfo', 'profileModalOpen']),
     },
     methods: {
-        ...mapActions(['getUserInfo', 'clickModal']),
+        ...mapActions(['getUserInfo', 'clickProfileModal']),
         ...mapGetters(['modal', 'myUserProfileImg']),
         profileInsert() {
             if(this.image != "") {
@@ -79,14 +79,15 @@ export default {
             reader.readAsDataURL(this.image)
         },
         deleteProfileImg() {
-            this.$axios.post("http://localhost:9000/user/deleteProfileImg", {}, {
+            let obj = this
+            obj.$axios.post("http://localhost:9000/user/deleteProfileImg", {}, {
                 params: {
-                    userSeq: this.userInfo.userSeq
+                    userSeq: obj.userInfo.userSeq
                 }
             })
             .then(function () {
                 console.log('삭제 요청 성공')
-                this.getUserInfo()
+                obj.getUserInfo()
             })
             .catch(function (err) {
                 console.log(err)

@@ -1,5 +1,6 @@
 package com.controller;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletResponse;
@@ -7,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -59,5 +61,19 @@ public class UserController {
 		userService.deleteProfileImg(userSeq);
 	}
 	
+	@PostMapping("/addFollow")
+	public void addFollow(int fromUserSeq, int toUserSeq) throws Exception {
+		userService.addFollow(fromUserSeq, toUserSeq);
+	}
+	@PostMapping("/disFollow")
+	public void disFollow(int fromUserSeq, int toUserSeq) throws Exception {
+		userService.disFollow(fromUserSeq, toUserSeq);
+	}
+	@GetMapping("/getFollowList")
+	public Object getFollowList(@RequestParam(value="userSeq") int userSeq) throws Exception {
+		List<UserInfo> followList = userService.getFollowList(userSeq);
+		System.out.println(followList);
+		return followList;
+	}
 
 }

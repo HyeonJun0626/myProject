@@ -13,6 +13,7 @@ export default new Vuex.Store({
     ErrorInfo: null,
 
     modalOpen: false,
+    profileModalOpen: false,
     modalSeq: '',
     modalBoardSeq: '',
     followCheck: '',
@@ -41,6 +42,9 @@ export default new Vuex.Store({
       state.modalSeq = payload.modalSeq
       state.followCheck = payload.followCheck
       state.modalBoardSeq = payload.boardSeq
+    },
+    profileModla(state, payload) {
+      state.profileModalOpen = payload.isModal
     },
     isMyBoardList(state, payload) {
       state.myBoardList = payload
@@ -131,6 +135,9 @@ export default new Vuex.Store({
     },
     clickModal({commit}, payload) {
       commit("isModal", payload)
+    },
+    clickProfileModal({commit}, payload) {
+      commit("profileModla", payload)
     },
   },
   getters: {

@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.dto.BoardFileDto;
 import com.dto.UserDto;
@@ -26,14 +27,20 @@ public interface UserMapper {
 	
 	UserDetails loadUserByUsername(@Param(value = "userSeq") String userSeq) throws Exception;
 	
-	UserInfo getUserInfo(int userSeq) throws Exception;
-	UserInfo getProfileImg(int userSeq) throws Exception;
-	int getWriteCnt(int userSeq) throws Exception;
+	UserInfo getUserInfo(@Param(value = "userSeq") int userSeq) throws Exception;
+	UserInfo getProfileImg(@Param(value = "userSeq") int userSeq) throws Exception;
+	int getWriteCnt(@Param(value = "userSeq") int userSeq) throws Exception;
 	
-	int checkDefaultProfile(int userSeq) throws Exception;
+	int checkDefaultProfile(@Param(value = "userSeq") int userSeq) throws Exception;
 	void profileUpdate(List<BoardFileDto> list) throws Exception;
 	void profileInsert(List<BoardFileDto> list) throws Exception;
 	void reNick(Map<String, Object> data);
-	void deleteProfileImg(int userSeq) throws Exception;
+	void boardReNick(Map<String, Object> data);
+	void deleteProfileImg(@Param(value = "userSeq") int userSeq) throws Exception;
+	
+	void addFollow(@Param(value = "fromUserSeq") int fromUserSeq, @Param(value = "toUserSeq") int toUserSeq) throws Exception;
+	void disFollow(@Param(value = "fromUserSeq") int fromUserSeq, @Param(value = "toUserSeq") int toUserSeq) throws Exception;
+	
+	List<UserInfo> getFollowList(@RequestParam(value = "userSeq") int userSeq) throws Exception;
 
 }

@@ -1,6 +1,8 @@
 package com.service;
 
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -22,5 +24,10 @@ public interface UserService {
 	void profileInsert(BoardDto boardDto, MultipartHttpServletRequest image) throws Exception;
 	
 	void deleteProfileImg(int userSeq) throws Exception;
+	
+	void addFollow(int fromUserSeq, int toUserSeq) throws Exception;
+	void disFollow(int fromUserSeq, int toUserSeq) throws Exception;
+	
+	List<UserInfo> getFollowList(int userSeq) throws Exception;
 
 }

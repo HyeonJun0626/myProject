@@ -26,6 +26,11 @@ public class BoardController {
 	public void boardInsert(BoardDto boardDto, MultipartHttpServletRequest image) throws Exception {
 		boardService.boardInsert(boardDto, image);
 	}
+	@CrossOrigin(exposedHeaders = "authorization")
+	@PostMapping ("/boardUpdate")
+	public void boardUpdate(BoardDto boardDto, MultipartHttpServletRequest image) throws Exception {
+		boardService.boardUpdate(boardDto, image);
+	}
 	
 	@GetMapping("/getBoardList")
 	public Object getBoardList(@RequestParam(value="userSeq") int userSeq) throws Exception {
@@ -50,4 +55,8 @@ public class BoardController {
 		boardService.deleteBoard(delBoardSeq);
 	}
 	
+	@GetMapping("/getReWriteBoard")
+	public BoardDto getReWriteBoard(@RequestParam(value="boardSeq") int boardSeq) throws Exception {
+		return boardService.getReWriteBoard(boardSeq);
+	}
 }

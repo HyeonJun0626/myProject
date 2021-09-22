@@ -13,6 +13,9 @@ public interface BoardMapper {
 	
 	void boardInsert(BoardDto boardDto) throws Exception;
 	void boardImgInsert(List<BoardFileDto> list) throws Exception;
+	void boardUpdate(BoardDto boardDto) throws Exception;
+	int boardImgLengthCheck(int boardSeq) throws Exception;
+	void boardImgUpdate(List<BoardFileDto> list) throws Exception;
 	
 	List<BoardDto> getBoardList(@Param("userSeq") int userSerq) throws Exception;
 	List<BoardFileDto> getBoardImg(@Param("boardSeq") int boardSeq) throws Exception;
@@ -30,4 +33,7 @@ public interface BoardMapper {
 	
 	void deleteBoard(@Param("delBoardSeq") int delBoardSeq) throws Exception;
 	void deleteBoardImg(@Param("delBoardSeq") int delBoardSeq) throws Exception;
+	
+	BoardDto getReWriteBoard(@Param("boardSeq") int boardSeq) throws Exception;
+	List<BoardFileDto> getReWriteBoardImg(@Param("boardSeq") int boardSeq) throws Exception;
 }

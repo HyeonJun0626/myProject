@@ -85,7 +85,7 @@
                             <div class="user-info">
                                 <div class="user-icon">
                                     <div class="user-img">
-                                        <img v-bind:src="'http://localhost:9000/'+item.userImg" alt="유저이미지">
+                                        <img v-bind:src="'http://localhost:9000/' + item.userImg" alt="유저이미지">
                                     </div>
                                 </div>
                                 <div class="user_id">
@@ -224,8 +224,9 @@ export default {
             obj.allBoardList = res.data
             obj.likeNy = res.data
             console.log('통신 성공')
-            if (res.data.userImg == null) {
-            res.data.userImg = "http://localhost:9000/images/default_img.jpeg"
+            if (obj.allBoardList.userImg === null) {
+            // res.data.userImg = "http://localhost:9000/images/default_img.jpeg"
+            obj.allBoardList.userImg = "http://localhost:9000/images/default_img.jpeg"
             }
         })
         .catch(function (err) {
@@ -281,6 +282,7 @@ export default {
 
     .main-container {
         width: 100%;
+        height: 100vh;
         background-color: rgb(250, 250, 250);
     }
 

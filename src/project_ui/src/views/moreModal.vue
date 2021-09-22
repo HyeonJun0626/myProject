@@ -2,10 +2,10 @@
     <div class="modal-wrap" v-on:click.self="clickModal(false)">
         <div class="modal-container">
             <div class="modal-content">
-                <div class="modal-item" v-if="modalSeq != userInfo.userSeq && followCheck == 0">팔로우</div>
-                <div class="modal-item danger-btn" v-if="modalSeq != userInfo.userSeq  && followCheck == 1">팔로우 취소</div>
+                <div class="modal-item" v-if="modalSeq != userInfo.userSeq && followCheck == 0" v-on:click="addFollow">팔로우</div>
+                <div class="modal-item danger-btn" v-if="modalSeq != userInfo.userSeq  && followCheck == 1" v-on:click="disFollow">팔로우 취소</div>
                 <div class="modal-item" v-if="modalSeq != userInfo.userSeq">가리기</div>
-                <div class="modal-item" v-if="modalSeq == userInfo.userSeq">수정하기</div>
+                <div class="modal-item" v-if="modalSeq == userInfo.userSeq" v-on:click="moveReWrite">수정하기</div>
                 <div class="modal-item danger-btn" v-if="modalSeq == userInfo.userSeq" v-on:click="deleteBoard">삭제하기</div>
                 <div class="modal-item danger-btn" v-on:click="clickModal(false)">취소</div>
             </div>
@@ -49,20 +49,44 @@ export default {
                 console.log('삭제 실패')
                 console.log('innerSeq : '+delBoardSeq)
             })
+        },
+        moveReWrite() {
+            this.$router.push({name: 'Insert', query:{boardSeq: this.modalBoardSeq, userSeq: this.modalSeq}})
+        },
+        addFollow() {
+            let obj = this
+            obj.$axios.post("http://localhost:9000/user/addFollow", {}, {
+                params: {
+                    toUserSeq: obj.modalSeq,
+                    fromUserSeq: obj.userInfo.userSeq
+                }
+            })
+            .then(function() {
+                console.log('팔로우 요청 성공')
+                obj.$router.go()
+            })
+            .catch(function (err) {
+                console.log(err)
+                console.log('팔로우 요청 실패')
+            })
+        },
+        disFollow() {
+            let obj = this
+            obj.$axios.post("http://localhost:9000/user/disFollow", {}, {
+                params: {
+                    toUserSeq: obj.modalSeq,
+                    fromUserSeq: obj.userInfo.userSeq
+                }
+            })
+            .then(function() {
+                console.log('팔로우 취소 성공')
+                obj.$router.go()
+            })
+            .catch(function (err) {
+                console.log(err)
+                console.log('팔로우 취소 실패')
+            })
         }
-        // deleteBoard() {
-        //     this.$axios.put("http://localhost:9000/board/deleteBoard", {
-        //             boardSeq: this.boardSeq
-        //     })
-        //     .then(function () {
-        //         console.log('삭제 성공')
-        //         this.clickModal(false)
-        //     })
-        //     .catch(function (err) {
-        //         console.log(err)
-        //         console.log('삭제 실패')
-        //     })
-        // }
     
 
 }

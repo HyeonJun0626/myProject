@@ -9,6 +9,7 @@ import com.dto.BoardDto;
 public interface BoardService {
 
 	void boardInsert(BoardDto boardDto, MultipartHttpServletRequest image) throws Exception;
+	void boardUpdate(BoardDto boardDto, MultipartHttpServletRequest image) throws Exception;
 	
 	List<BoardDto> getBoardList(int userSeq) throws Exception;
 	
@@ -17,4 +18,6 @@ public interface BoardService {
 	int likeOnOf(int userSeq, int boardSeq) throws Exception;
 	
 	void deleteBoard(int boardSeq) throws Exception;
+	
+	BoardDto getReWriteBoard(int boardSeq) throws Exception;
 }

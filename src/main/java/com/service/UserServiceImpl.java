@@ -136,14 +136,31 @@ public class UserServiceImpl implements UserService {
  			Map <String, Object> data = new HashMap<String, Object>();
  			data.put("userSeq", boardDto.getUserSeq());
  			data.put("userNick", boardDto.getUserNick());
- 			userMapper.reNick(data);			
+ 			userMapper.reNick(data);
+ 			userMapper.boardReNick(data);
  		}
 
  	}
-     
-     public void deleteProfileImg(int userSeq) throws Exception {
+    
+ 	@Override
+    public void deleteProfileImg(int userSeq) throws Exception {
     	 userMapper.deleteProfileImg(userSeq);
-     }
+    }
+     
+    @Override
+    public void addFollow(int fromUserSeq, int toUserSeq) throws Exception {
+    	userMapper.addFollow(fromUserSeq, toUserSeq);
+    }
+    @Override
+    public void disFollow(int fromUserSeq, int toUserSeq) throws Exception {
+    	userMapper.disFollow(fromUserSeq, toUserSeq);
+    }
+    
+    @Override
+    public List<UserInfo> getFollowList(int userSeq) throws Exception {
+    	List<UserInfo> follow = userMapper.getFollowList(userSeq);
+    	return follow;
+    }
 
 
 }

@@ -2,15 +2,15 @@
     <div class="sidebar-wrap">
         <div class="sidebar-container">
             <div class="myinfo-box" v-on:click="moveMyPage">
-                <div class="myinfo-img">
-                    <img class="profile" v-bind:src="userInfo.profileImg" alt="프로필">
+                <div class="myinfo-img" v-if="myUserInfo">
+                    <img class="profile" v-bind:src="myUserInfo.profileImg" alt="프로필">
                 </div>
                 <div class="user-id-box">
-                    <div class="user-id">
-                        {{userInfo.userNick}}
+                    <div class="user-id" v-if="myUserInfo">
+                        {{myUserInfo.userNick}}
                     </div>
-                    <div class="user-email">
-                        {{userInfo.userId}}
+                    <div class="user-email" v-if="myUserInfo">
+                        {{myUserInfo.userId}}
                     </div>
                 </div>
             </div>
@@ -31,14 +31,14 @@
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import {mapGetters} from 'vuex'
 export default {
     data() {
         return {
         }
     },
     computed: {
-        ...mapState(['userInfo']),
+        ...mapGetters(['myUserInfo']),
     },
     methods: {
         moveFollow() {

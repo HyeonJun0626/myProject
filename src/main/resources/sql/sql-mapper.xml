@@ -141,6 +141,18 @@
 				user_seq = #{userSeq}
 		]]>
 	</update>
+	<update id="boardReNick" parameterType="hashmap">
+
+		<![CDATA[
+			UPDATE
+				board
+			SET 
+				user_nick = #{userNick}
+			WHERE
+				user_seq = #{userSeq}
+		]]>
+	</update>
+	
     
     <delete id="deleteProfileImg" parameterType="int">
     	<![CDATA[
@@ -151,5 +163,44 @@
     			user_seq = #{userSeq}
     	]]>
     </delete>
+    
+    <insert id="addFollow" parameterType="int">
+    	<![CDATA[
+    		INSERT INTO
+    			follow (from_user, to_user)
+    		VALUES
+    			(#{fromUserSeq}, #{toUserSeq})
+    	]]>
+    </insert>
+    <delete id="disFollow" parameterType="int">
+    	<![CDATA[
+    		DELETE
+    		FROM
+    			follow
+    		WHERE
+    			from_user = #{fromUserSeq}
+    		AND
+    			to_user = #{toUserSeq}
+    	]]>
+    </delete>
+    
+    <select id="" parameterType="int" resultType="com.dto.UserInfo">
+    	<![CDATA[
+    		SELECT
+    			a.to_user, b.user_nick, c.stored_img_path
+    		FROM
+    			follow AS a
+			LEFT JOIN user_info AS b
+            ON a.to_user = b.user_seq
+            LEFT JOIN profile_img AS c
+            ON b.user_seq = c.user_seq
+    		WHERE
+    			a.from_user = #{userSeq}
+			OR 
+				c.del_yn = 'n';
+				
+    	]]>
+    </select>
+    
 
 </mapper>

@@ -10,7 +10,7 @@
 			INSERT INTO board 
 				(user_seq, user_nick, content)
 			VALUES 
-				(#{userSeq}, #{userNick}, #{content});
+				(#{userSeq}, #{userNick}, #{content})
 		]]>
 	</insert>
 	
@@ -32,10 +32,50 @@
 		</foreach>
 	</insert>
 	
+	<update id="boardUpdate" parameterType="com.dto.BoardDto">
+		<![CDATA[
+			UPDATE
+				board
+			SET
+				content = #{content}
+			WHERE
+				board_seq = #{boardSeq}
+		]]>
+	</update>
+	
+	<select id="boardImgLengthCheck" parameterType="int" resultType="int">
+		<![CDATA[
+			SELECT
+				COUNT(*)
+			FROM
+				board_img
+			WHERE
+				board_seq = #{boardSeq}
+			AND
+				del_yn = 'n'
+		]]>
+	</select>
+	
+	<update id="boardImgUpdate" parameterType="com.dto.BoardFileDto">
+		<foreach collection="list" item="item" separator=",">
+			UPDATE 
+				board_img
+			SET
+				user_seq = #{item.userSeq},
+				ori_img_name = #{item.oriImgName},
+				stored_img_path = #{item.storedImgPath},
+				img_size = #{item.imgSize}
+			WHERE
+				board_seq = #{item.boardSeq}
+			AND
+				del_yn = 'n'
+		</foreach>
+	</update>
+	
 	<select id="getBoardList" parameterType="int" resultType="com.dto.BoardDto">
 		<![CDATA[
 			SELECT 
-				board_seq, content, DATE_FORMAT(create_dt, '%y.%m.%d %h:%i') AS create_dt
+				user_seq, board_seq, content, DATE_FORMAT(create_dt, '%y.%m.%d %h:%i') AS create_dt
 			FROM 
 				board
 			WHERE 
@@ -164,6 +204,28 @@
     			board_seq = #{delBoardSeq}
     	]]>
     </update>
+    
+    <select id="getReWriteBoard" parameterType="int" resultType="com.dto.BoardDto">
+    	<![CDATA[
+    		SELECT 
+    			content 
+    		FROM 
+    			board 
+    		WHERE 
+    			board_seq = #{boardSeq}
+    	]]>
+    </select>
+    
+    <select id="getReWriteBoardImg" parameterType="int" resultType="com.dto.BoardFileDto">
+    	<![CDATA[
+    		SELECT
+    			*
+    		FROM
+    			board_img
+    		WHERE
+    			board_seq = #{boardSeq}
+    	]]>
+    </select>
 
 
 

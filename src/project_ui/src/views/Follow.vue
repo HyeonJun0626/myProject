@@ -3,7 +3,6 @@
         <div class="sidebar-title">
             <span>내 팔로우 목록</span>
         </div>
-
         <div class="user-list">
             <div class="user-info">
                 <div class="user-info-left">
@@ -26,8 +25,36 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
 export default {
+    data() {
+        return {
+            followList: ''
+        }
+    },
+    mounted() {
+        let obj = this
+        obj.$axios.get("http://localhost:9000/getFollowList", {
+            params: {
+                userSeq: obj.myUserInfo.userSeq
+            }
+        })
+        .then(function (res) {
+            obj.followList = res.data
+            console.log(res.data)
+            console.log('팔로우 목록 요청 성공')
+        })
+        .catch(function (err) {
+            console.log(err)
+            console.log('팔로우 목록 요청 실패')
+        })
+    },
+    computed: {
+        ...mapGetters(['myUserInfo'])
+    },
+    methods: {
 
+    }
 }
 </script>
 

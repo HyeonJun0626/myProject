@@ -1,11 +1,12 @@
 <template>
     <div class="main-container">
         <header-ui></header-ui>
+        <modal-ui v-if="$store.state.modalOpen"></modal-ui>
         <main>
-        <insert-modal v-if="$store.state.modalOpen"></insert-modal>
+        <insert-modal v-if="$store.state.profileModalOpen"></insert-modal>
             <div class="content-container">
                 <div class="profile-header">
-                    <div class="profile-box" v-on:click="clickModal({isModal: true})">
+                    <div class="profile-box" v-on:click="clickProfileModal({isModal: true})">
                         <div class="profile-imgbox" v-if="myUserInfo">
                             <img v-bind:src="myUserInfo.profileImg" alt="프사">
                         </div>
@@ -13,7 +14,7 @@
                     <div class="profile-info-box">
                         <div class="nick-name" v-if="myUserInfo">
                             <p class="m-0">{{myUserInfo.userNick}}</p>
-                        <span class="profile-rewrite" v-on:click="clickModal({isModal: true})">
+                        <span class="profile-rewrite" v-on:click="clickProfileModal({isModal: true})">
                             <i class="fa fa-cog" aria-hidden="true"></i>
                         </span>
                         </div>
@@ -43,13 +44,15 @@
                     <div class="content-card" v-for="item in myBoardList" v-bind:key="item.boardSeq">
                         <div class="content-img">
                             <div class="hidden-box">
-                                <div type="button" class="delete-icon">
-                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                <div type="button" class="delete-icon"  v-on:click="clickModal({isModal:true, modalSeq: item.userSeq, followCheck: item.followCheck, boardSeq: item.boardSeq})">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+                                        <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+                                    </svg>
                                 </div>
                                 <div class="center-icon">
                                     <div class="like">
                                         <i class="fa fa-heart-o hidden-icon" aria-hidden="true"><span
-                                                class="count">2</span></i>
+                                                class="count">{{item.likeCnt}}</span></i>
                                     </div>
                                     <div class="comment">
                                         <i class="fa fa-comment-o" aria-hidden="true"><span class="count">1</span></i>
@@ -70,13 +73,15 @@
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import ProfileInsert from '../views/ProfileInsert.vue'
+import moreModal from '../views/moreModal'
 import {mapState, mapActions, mapGetters} from 'vuex'
 export default {
     name: 'MyPage',
     components: {
         'header-ui' : Header,
         'footer-ui' : Footer,
-        'insert-modal' : ProfileInsert
+        'insert-modal' : ProfileInsert,
+        'modal-ui' : moreModal
     },
     data() {
         return {
@@ -92,11 +97,11 @@ export default {
         console.log("mypage mounted 222");
     },
     computed: {
-        ...mapState(['myBoardList', 'modalOpen']),
+        ...mapState(['myBoardList', 'modalOpen', 'profileModalOpen']),
         ...mapGetters(['myUserInfo'])
     },
     methods: {
-        ...mapActions(['clickModal', 'getMyBoardList', 'getUserInfo']),
+        ...mapActions(['clickModal', 'getMyBoardList', 'getUserInfo', 'clickProfileModal']),
         moveInsert() {
             this.$router.push({name: 'Insert'})
         },
