@@ -80,12 +80,15 @@
 
 
                 <div class="content-section">
-                    <div class="content-body" v-for="item in allBoardList" v-bind:key="item.boardSeq">
+                    <div class="content-body" v-for="(item, index) in allBoardList" v-bind:key="item.boardSeq">
                         <div class="content-title">
                             <div class="user-info">
                                 <div class="user-icon">
-                                    <div class="user-img">
+                                    <div class="user-img" v-if="item.userImg">
                                         <img v-bind:src="'http://localhost:9000/' + item.userImg" alt="유저이미지">
+                                    </div>
+                                    <div class="user-img" v-if="!item.userImg">
+                                        <img src="http://localhost:9000/images/default_img.jpeg" alt="유저이미지">
                                     </div>
                                 </div>
                                 <div class="user_id">
@@ -100,12 +103,14 @@
                             <img v-bind:src="'http://localhost:9000/'+items.storedImgPath" alt="">
                         </div>
                         <div class="btn-section">
-                            <div class="like-btn like" v-if="item.likeNy == 0" v-on:click="likeOn(item.boardSeq)">
+                            <div class="like-btn like" v-if="item.likeNy == 0" v-on:click="likeOn(item.boardSeq, index)">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-heart mr-3" viewBox="0 0 16 16">
                                     <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
                                 </svg>
                             </div>
-                            <div class="disLike-btn like" v-else v-on:click="likeOn(item.boardSeq)">
+                            <div class="disLike-btn like" v-else v-on:click="likeOn(item.boardSeq, index)">
+                                
+                                
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-heart-fill mr-3 heart-on" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
                                 </svg>
@@ -207,51 +212,29 @@ export default {
     },
     data() {
         return {
-            allBoardList: null,
+            // allBoardList: null,
         }
     },
     async mounted() {
         let obj = this
         await obj.getUserInfo()
         console.log('mounted 시작')
-        await obj.$axios.get("http://localhost:9000/board/getAllBoardList", {
-            params: {
-                userSeq: obj.userInfo.userSeq
-            }
-        })
-        .then(function (res) {
-            obj.allBoardList = res.data
-            
-            // obj.likeNy = res.data
-            // if (res.data.allBoardLList.likeNy == 1) {
-            //     obj.likeOnOf = false
-            // }
-            // else {
-            //     obj.likeOnOf = true
-            // }
-            console.log('통신 성공')
-            if (obj.allBoardList.userImg === null) {
-            // res.data.userImg = "http://localhost:9000/images/default_img.jpeg"
-            obj.allBoardList.userImg = "http://localhost:9000/images/default_img.jpeg"
-            }
-        })
-        .catch(function (err) {
-            console.log(err)
-        })
+        await obj.getAllBoardList()
         console.log('mounted 종료')
     },
     computed: {
-        ...mapState(['userInfo'])
+        ...mapState(['userInfo', 'allBoardList'])
     },
     methods: {
-        ...mapActions(['clickModal', 'getUserInfo']),
+        ...mapActions(['clickModal', 'getUserInfo', 'getAllBoardList']),
         moveInsert() {
             this.$router.push({
                 name: 'Insert'
             });
         },
-        likeOn(boardSeq) {
+        likeOn(boardSeq, index) {
             let obj = this
+            let seq = index;
             obj.$axios.post("http://localhost:9000/board/likeOnOf", {}, {
                 params: {
                     userSeq: obj.userInfo.userSeq,
@@ -261,6 +244,13 @@ export default {
             .then(function (res) {
                 console.log('좋아요 전송 성공')
                 console.log(res.data)
+                obj.allBoardList[seq].likeNy = res.data
+                if (res.data == 1) {
+                    obj.allBoardList[seq].likeCnt++
+                }
+                else {
+                    obj.allBoardList[seq].likeCnt--
+                }
             })
             .catch(function (err) {
                 console.log(err)

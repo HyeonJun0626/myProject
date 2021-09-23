@@ -17,7 +17,9 @@ export default new Vuex.Store({
     modalSeq: '',
     modalBoardSeq: '',
     followCheck: '',
-    myBoardList: ''
+    myBoardList: '',
+    allBoardList: '',
+    followList: ''
   },
   // state의 상태를 변화시키는 부분 actions에서 실행 시켜서 commit으로 적용 시킴
   mutations: {
@@ -48,6 +50,12 @@ export default new Vuex.Store({
     },
     isMyBoardList(state, payload) {
       state.myBoardList = payload
+    },
+    isAllBoardList(state, payload) {
+      state.allBoardList = payload
+    },
+    isFollowList(state, payload) {
+      state.followList = payload
     }
   },
   actions: {
@@ -131,6 +139,40 @@ export default new Vuex.Store({
         .catch(function (err) {
           console.log(err)
           console.log("통신 실패")
+        })
+    },
+    getAllBoardList({commit, state}) {
+      axios.get("http://localhost:9000/board/getAllBoardList", {
+        params: {
+            userSeq: state.userInfo.userSeq
+        }
+    })
+    .then(function (res) {
+        console.log('통신 성공')
+        // if (res.data.allBoardList.userImg == null) {
+        // res.data.allBoardList.userImg = "http://localhost:9000/images/default_img.jpeg"
+        // }
+        commit("isAllBoardList", res.data)
+    })
+    .catch(function (err) {
+        console.log(err)
+    })
+    },
+    getFollowList({commit, state}) {
+      axios.get("http://localhost:9000/user/getFollowList", {
+            params: {
+                userSeq: state.userInfo.userSeq
+            }
+        })
+        .then(function (res) {
+            // obj.followList = res.data
+            commit("isFollowList", res.data)
+            console.log(res.data)
+            console.log('팔로우 목록 요청 성공')
+        })
+        .catch(function (err) {
+            console.log(err)
+            console.log('팔로우 목록 요청 실패')
         })
     },
     clickModal({commit}, payload) {

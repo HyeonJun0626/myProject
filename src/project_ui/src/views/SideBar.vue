@@ -31,16 +31,21 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import {mapState, mapActions, mapGetters} from 'vuex'
 export default {
     data() {
         return {
         }
     },
+    mounted() {
+        this.getFollowList()
+    },
     computed: {
-        ...mapGetters(['myUserInfo']),
+        ...mapState(['followList']),
+        ...mapGetters(['myUserInfo'])
     },
     methods: {
+        ...mapActions(['getFollowList']),
         moveFollow() {
             this.$router.replace({name:"Follow"}).catch(()=>{})
         },

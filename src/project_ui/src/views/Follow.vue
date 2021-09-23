@@ -3,12 +3,15 @@
         <div class="sidebar-title">
             <span>내 팔로우 목록</span>
         </div>
-        <div class="user-list">
-            <div class="user-info" v-for="(item, idx) in followList" v-bind:key="idx">
+        <div class="user-list" v-if="this.$store.state.followList">
+            <div class="user-info" v-for="(item, idx) in this.$store.state.followList" v-bind:key="idx">
                 <div class="user-info-left">
                     <div class="user-icon">
-                        <div class="user-img">
+                        <div class="user-img" v-if="item.storedImgPath">
                             <img :src="'http://localhost:9000/'+item.storedImgPath" alt="유저이미지">
+                        </div>
+                        <div class="user-img" v-else>
+                            <img src="http://localhost:9000/images/default_img.jpeg" alt="유저이미지">
                         </div>
                     </div>
                     <div class="user_id">
@@ -24,35 +27,36 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import {mapGetters, mapActions} from 'vuex'
 export default {
     data() {
         return {
-            followList: ''
+            // followList: ''
         }
     },
         computed: {
-        ...mapGetters(['myUserInfo'])
+            ...mapGetters(['myUserInfo'])
     },
     mounted() {
-        let obj = this
-        obj.$axios.get("http://localhost:9000/user/getFollowList", {
-            params: {
-                userSeq: obj.myUserInfo.userSeq
-            }
-        })
-        .then(function (res) {
-            obj.followList = res.data
-            console.log(res.data)
-            console.log('팔로우 목록 요청 성공')
-        })
-        .catch(function (err) {
-            console.log(err)
-            console.log('팔로우 목록 요청 실패')
-        })
+        this.getFollowList()
+        // let obj = this
+        // obj.$axios.get("http://localhost:9000/user/getFollowList", {
+        //     params: {
+        //         userSeq: obj.myUserInfo.userSeq
+        //     }
+        // })
+        // .then(function (res) {
+        //     obj.followList = res.data
+        //     console.log(res.data)
+        //     console.log('팔로우 목록 요청 성공')
+        // })
+        // .catch(function (err) {
+        //     console.log(err)
+        //     console.log('팔로우 목록 요청 실패')
+        // })
     },
     methods: {
-
+        ...mapActions(['getFollowList'])
     }
 }
 </script>

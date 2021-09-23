@@ -61,11 +61,11 @@ const routes = [
     component: Main,
     children: [
       {
-        path: '/',
+        path: '',
         component: SideBar,
         children: [
           {
-            path: '',
+            path: '/',
             name: 'Follow',
             component: Follow
           },
