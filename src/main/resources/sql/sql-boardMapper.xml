@@ -181,6 +181,8 @@
     			board_like
 			WHERE 
 				user_seq = #{userSeq}
+			AND 
+				board_seq = #{boardSeq}
     	]]>
     </delete>
     
@@ -224,6 +226,8 @@
     			board_img
     		WHERE
     			board_seq = #{boardSeq}
+    		AND 
+    			del_yn = 'n'
     	]]>
     </select>
 

@@ -47,7 +47,7 @@ public class UserController {
 	public UserInfo getUserInfo(Authentication authentication) throws Exception {
 		
 		int userSeq = (int) ((UserDto) authentication.getPrincipal()).getUserSeq();
-		System.out.println(userService.getUserInfo(userSeq));
+//		System.out.println(userService.getUserInfo(userSeq));
 		return userService.getUserInfo(userSeq);
 	}
 	
@@ -69,6 +69,7 @@ public class UserController {
 	public void disFollow(int fromUserSeq, int toUserSeq) throws Exception {
 		userService.disFollow(fromUserSeq, toUserSeq);
 	}
+	
 	@GetMapping("/getFollowList")
 	public Object getFollowList(@RequestParam(value="userSeq") int userSeq) throws Exception {
 		List<UserInfo> followList = userService.getFollowList(userSeq);

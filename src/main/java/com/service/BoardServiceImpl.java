@@ -43,18 +43,20 @@ public class BoardServiceImpl implements BoardService {
 	public void boardUpdate(BoardDto boardDto, MultipartHttpServletRequest image) throws Exception {
 		
 		boardMapper.boardUpdate(boardDto);
+		
 		if (!"".equals(Integer.toString(boardDto.getBoardSeq())) & Integer.toString(boardDto.getBoardSeq()) != null) {
-			
 			List<BoardFileDto> list = fileutils.parseFileInfo(boardDto, image);
-			int boardImgLength = boardMapper.boardImgLengthCheck(boardDto.getBoardSeq());
-			int ReboardImgLength = list.size();
-			
-			if (boardImgLength == ReboardImgLength) {
-				boardMapper.boardImgUpdate(list);
-			}
-			else {
-				boardMapper.deleteBoardImg(boardDto.getBoardSeq());
-				boardMapper.boardImgInsert(list);
+			if (!list.isEmpty()) {
+				int boardImgLength = boardMapper.boardImgLengthCheck(boardDto.getBoardSeq());
+				int ReboardImgLength = list.size();
+				
+				if (boardImgLength == ReboardImgLength) {
+					boardMapper.boardImgUpdate(list);
+				}
+				else {
+					boardMapper.deleteBoardImg(boardDto.getBoardSeq());
+					boardMapper.boardImgInsert(list);
+				}
 			}
 		}
 	}

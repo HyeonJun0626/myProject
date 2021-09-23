@@ -96,33 +96,33 @@ export default {
     methods: {
         boardInsert() {
             let formData = new FormData();
-            // console.log("test : " + this.image);
-            // console.log("test : " + this.image.length);
+            console.log("test : " + this.image);
+            console.log("test : " + this.image.length);
             if (this.image != null && this.content != null) {
                 for (let i = 0; i < this.image.length; i++) {
                     formData.append("image", this.image[i]);
                     console.log('for문 안의 form : '+formData)
                 }
                 // console.log('for문 밖의 form : '+formData)
-            let obj = this
-            obj.$axios.post('http://localhost:9000/board/insert', formData, {
-                params: {
-                    userSeq: this.$store.state.userInfo.userSeq,
-                    userNick: this.$store.state.userInfo.userNick,
-                    content: this.content
-                },  
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                }
-            })
-            .then(function() {
-                console.log('등록 성공');
-                obj.$router.replace({ path: '/mypage' });
-            })
-            .catch(function(err) {
-                console.log("통신 실패");
-                console.log(err);
-            });
+                let obj = this
+                obj.$axios.post('http://localhost:9000/board/insert', formData, {
+                    params: {
+                        userSeq: this.$store.state.userInfo.userSeq,
+                        userNick: this.$store.state.userInfo.userNick,
+                        content: this.content
+                    },  
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    }
+                })
+                .then(function() {
+                    console.log('등록 성공');
+                    obj.$router.replace({ path: '/mypage' });
+                })
+                .catch(function(err) {
+                    console.log("통신 실패");
+                    console.log(err);
+                });
             }
         },
         boardUpdate() {
@@ -149,7 +149,7 @@ export default {
             })
             .then(function() {
                 console.log('등록 성공');
-                obj.$router.replace({ path: '/mypage' });
+                obj.$router.push({ path: '/mypage' });
             })
             .catch(function(err) {
                 console.log("통신 실패");

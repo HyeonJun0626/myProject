@@ -4,21 +4,20 @@
             <span>내 팔로우 목록</span>
         </div>
         <div class="user-list">
-            <div class="user-info">
+            <div class="user-info" v-for="(item, idx) in followList" v-bind:key="idx">
                 <div class="user-info-left">
                     <div class="user-icon">
                         <div class="user-img">
-                            <img src="@/assets/profile1.jpg" alt="유저이미지">
+                            <img :src="'http://localhost:9000/'+item.storedImgPath" alt="유저이미지">
                         </div>
                     </div>
                     <div class="user_id">
-                        슝슝슈슝슝슝슈슝
+                        {{item.userNick}}
                     </div>
                 </div>
                 <div class="follow-btn">
                     팔로잉
                 </div>
-                
             </div>
         </div>
     </div>
@@ -32,9 +31,12 @@ export default {
             followList: ''
         }
     },
+        computed: {
+        ...mapGetters(['myUserInfo'])
+    },
     mounted() {
         let obj = this
-        obj.$axios.get("http://localhost:9000/getFollowList", {
+        obj.$axios.get("http://localhost:9000/user/getFollowList", {
             params: {
                 userSeq: obj.myUserInfo.userSeq
             }
@@ -48,9 +50,6 @@ export default {
             console.log(err)
             console.log('팔로우 목록 요청 실패')
         })
-    },
-    computed: {
-        ...mapGetters(['myUserInfo'])
     },
     methods: {
 

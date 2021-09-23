@@ -52,6 +52,7 @@ export default {
         },
         moveReWrite() {
             this.$router.push({name: 'Insert', query:{boardSeq: this.modalBoardSeq, userSeq: this.modalSeq}})
+            this.clickModal(false)
         },
         addFollow() {
             let obj = this

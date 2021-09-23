@@ -184,10 +184,10 @@
     	]]>
     </delete>
     
-    <select id="" parameterType="int" resultType="com.dto.UserInfo">
+    <select id="getFollowList" parameterType="int" resultType="com.dto.UserInfo">
     	<![CDATA[
     		SELECT
-    			a.to_user, b.user_nick, c.stored_img_path
+    			a.to_user AS user_seq, b.user_nick, c.stored_img_path
     		FROM
     			follow AS a
 			LEFT JOIN user_info AS b
@@ -197,7 +197,7 @@
     		WHERE
     			a.from_user = #{userSeq}
 			OR 
-				c.del_yn = 'n';
+				c.del_yn = 'n'
 				
     	]]>
     </select>
