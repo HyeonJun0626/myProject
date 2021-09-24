@@ -51,13 +51,17 @@ export default {
     methods: {
         loginPage() {
             this.isSignin = true;
-            this.isSignup = false;
-            this.$router.push({name:"Sign"})
+            this.isSignup = false; 
+            if (this.isSignin) {
+                this.$router.push({name:"Sign"})
+            }
         },
         signUpPage() {
             this.isSignin = false;
             this.isSignup = true;
-            this.$router.push({name:"Signup"})
+            if (this.isSignup) {
+                this.$router.push({name:"Signup"})
+            }
         },
         // goPage() {
         //     if (this.isLogin === true) {

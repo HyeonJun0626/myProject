@@ -16,8 +16,8 @@
             </div>
 
             <div class="sidebar-title">
-                <div class="sidebar-btn" v-on:click="moveFollow">팔로우</div>
-                <div class="sidebar-btn" v-on:click="moveFollower">팔로워</div>
+                <div class="sidebar-btn" v-bind:class="{'active-color': isFollow}" v-on:click="moveFollow">팔로우</div>
+                <div class="sidebar-btn" v-bind:class="{'active-color': isFollower}" v-on:click="moveFollower">팔로워</div>
                 <!-- <router-link class="sidebar-btn" v-on:click="moveFollow">팔로우</router-link>
                 <router-link class="sidebar-btn" v-on:click="moveFollower">팔로워</router-link> -->
             </div>
@@ -31,29 +31,37 @@
 </template>
 
 <script>
-import {mapState, mapActions, mapGetters} from 'vuex'
+import {mapGetters} from 'vuex'
 export default {
     data() {
         return {
+            isFollow: true,
+            isFollower: false
         }
     },
     mounted() {
-        this.getFollowList()
+        // await this.getUserInfo()
+        // await this.getFollowList()
     },
     computed: {
-        ...mapState(['followList']),
+        // ...mapState(['followList']),
         ...mapGetters(['myUserInfo'])
     },
     methods: {
-        ...mapActions(['getFollowList']),
+        // ...mapActions(['getUserInfo', 'getFollowList']),
         moveFollow() {
             this.$router.replace({name:"Follow"}).catch(()=>{})
+            this.isFollow = true
+            this.isFollower = false
         },
         moveFollower() {
             this.$router.replace({name:"Follower"}).catch(()=>{})
+            this.isFollow = false
+            this.isFollower = true
         },
         moveMyPage() {
             this.$router.push({name:"MyPage"}).catch(()=>{})
+            
         }
     }
 
@@ -129,8 +137,8 @@ export default {
     }
 
     .sidebar-btn:hover {
-        color: rgb(255, 144, 100);
         cursor: pointer;
+        font-weight: bold;
         /* border-right: 1px solid #e0e0e0; */
         /* border-top: 1px solid #e0e0e0; */
         /* border: 1px solid #e0e0e0;
@@ -147,5 +155,10 @@ export default {
         text-align: center;
         font-size: 12px;
         color: rgb(185, 185, 185);
+    }
+
+    .active-color {
+        color: rgb(255, 144, 100);
+        font-weight: bold;
     }
 </style>

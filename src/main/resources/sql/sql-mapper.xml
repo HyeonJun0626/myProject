@@ -184,6 +184,23 @@
     	]]>
     </delete>
     
+    <select id="getFollow" parameterType="int" resultType="com.dto.UserInfo">
+    	<![CDATA[
+	    	SELECT 
+				a.user_seq, a.user_nick, b.stored_img_path
+			FROM
+				user_info AS a
+			LEFT JOIN
+				profile_img AS b
+			ON
+				a.user_seq = b.user_seq
+			WHERE
+				a.user_seq = #{toUserSeq}
+			OR
+				b.del_yn = 'n';    	
+    	]]>
+    </select>
+    
     <select id="getFollowList" parameterType="int" resultType="com.dto.UserInfo">
     	<![CDATA[
     		SELECT
@@ -198,7 +215,22 @@
     			a.from_user = #{userSeq}
 			OR 
 				c.del_yn = 'n'
-				
+    	]]>
+    </select>
+    <select id="getFollowerList" parameterType="int" resultType="com.dto.UserInfo">
+    	<![CDATA[
+    		SELECT
+    			a.from_user AS user_seq, b.user_nick, c.stored_img_path
+    		FROM
+    			follow AS a
+			LEFT JOIN user_info AS b
+            ON a.from_user = b.user_seq
+            LEFT JOIN profile_img AS c
+            ON b.user_seq = c.user_seq
+    		WHERE
+    			a.to_user = #{userSeq}
+			OR 
+				c.del_yn = 'n'
     	]]>
     </select>
     

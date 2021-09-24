@@ -6,7 +6,6 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.dto.BoardFileDto;
 import com.dto.UserDto;
@@ -40,7 +39,9 @@ public interface UserMapper {
 	
 	void addFollow(@Param(value = "fromUserSeq") int fromUserSeq, @Param(value = "toUserSeq") int toUserSeq) throws Exception;
 	void disFollow(@Param(value = "fromUserSeq") int fromUserSeq, @Param(value = "toUserSeq") int toUserSeq) throws Exception;
+	UserInfo getFollow(@Param(value = "toUserSeq") int toUserSeq) throws Exception;
 	
-	List<UserInfo> getFollowList(@RequestParam(value = "userSeq") int userSeq) throws Exception;
+	List<UserInfo> getFollowList(@Param(value = "userSeq") int userSeq) throws Exception;
+	List<UserInfo> getFollowerList(@Param(value = "userSeq") int userSeq) throws Exception;
 
 }

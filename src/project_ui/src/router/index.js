@@ -36,9 +36,7 @@ const routes = [
     name: 'Login',
     beforeEnter: rejectAuthUser,
     component : Login,
-    redirect: {
-      name: 'Sign'
-    },
+    redirect:  '/Sign',
     children: [
       {
         path: '',
@@ -65,7 +63,7 @@ const routes = [
         component: SideBar,
         children: [
           {
-            path: '/',
+            path: '',
             name: 'Follow',
             component: Follow
           },

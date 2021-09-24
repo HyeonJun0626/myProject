@@ -101,7 +101,7 @@ public class UserServiceImpl implements UserService {
     	 
     	 
      }
-     
+     @Override
      public UserInfo getUserInfo(int userSeq) throws Exception {
     	 UserInfo userInfo = userMapper.getUserInfo(userSeq); 
     	 UserInfo imgInfo = userMapper.getProfileImg(userSeq);
@@ -148,8 +148,9 @@ public class UserServiceImpl implements UserService {
     }
      
     @Override
-    public void addFollow(int fromUserSeq, int toUserSeq) throws Exception {
+    public UserInfo addFollow(int fromUserSeq, int toUserSeq) throws Exception {
     	userMapper.addFollow(fromUserSeq, toUserSeq);
+    	return userMapper.getFollow(toUserSeq);
     }
     @Override
     public void disFollow(int fromUserSeq, int toUserSeq) throws Exception {
@@ -160,6 +161,11 @@ public class UserServiceImpl implements UserService {
     public List<UserInfo> getFollowList(int userSeq) throws Exception {
     	List<UserInfo> follow = userMapper.getFollowList(userSeq);
     	return follow;
+    }
+    @Override
+    public List<UserInfo> getFollowerList(int userSeq) throws Exception {
+    	List<UserInfo> follower = userMapper.getFollowerList(userSeq);
+    	return follower;
     }
 
 

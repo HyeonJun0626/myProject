@@ -14,12 +14,13 @@ export default new Vuex.Store({
 
     modalOpen: false,
     profileModalOpen: false,
-    modalSeq: '',
+    modalSeq: null,
     modalBoardSeq: '',
     followCheck: '',
     myBoardList: '',
     allBoardList: '',
-    followList: ''
+    followList: [],
+    followerList: '',
   },
   // state의 상태를 변화시키는 부분 actions에서 실행 시켜서 commit으로 적용 시킴
   mutations: {
@@ -56,6 +57,15 @@ export default new Vuex.Store({
     },
     isFollowList(state, payload) {
       state.followList = payload
+    },
+    isFollowerList(state, payload) {
+      state.followerList = payload
+    },
+    addFollow(state, payload) {
+      state.followList.push(payload)
+    },
+    disFollow(state, payload) {
+      state.followList.splice(payload, 1)
     }
   },
   actions: {
@@ -173,6 +183,22 @@ export default new Vuex.Store({
         .catch(function (err) {
             console.log(err)
             console.log('팔로우 목록 요청 실패')
+        })
+    },
+    getFollowerList({commit, state}) {
+      axios.get("http://localhost:9000/user/getFollowerList", {
+            params: {
+                userSeq: state.userInfo.userSeq
+            }
+        })
+        .then(function (res) {
+            commit("isFollowerList", res.data)
+            console.log(res.data)
+            console.log('팔로워 목록 요청 성공')
+        })
+        .catch(function (err) {
+            console.log(err)
+            console.log('팔로워 목록 요청 실패')
         })
     },
     clickModal({commit}, payload) {

@@ -234,7 +234,7 @@ export default {
         },
         likeOn(boardSeq, index) {
             let obj = this
-            let seq = index;
+            let idx = index;
             obj.$axios.post("http://localhost:9000/board/likeOnOf", {}, {
                 params: {
                     userSeq: obj.userInfo.userSeq,
@@ -244,12 +244,12 @@ export default {
             .then(function (res) {
                 console.log('좋아요 전송 성공')
                 console.log(res.data)
-                obj.allBoardList[seq].likeNy = res.data
+                obj.allBoardList[idx].likeNy = res.data
                 if (res.data == 1) {
-                    obj.allBoardList[seq].likeCnt++
+                    obj.allBoardList[idx].likeCnt++
                 }
                 else {
-                    obj.allBoardList[seq].likeCnt--
+                    obj.allBoardList[idx].likeCnt--
                 }
             })
             .catch(function (err) {

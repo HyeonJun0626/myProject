@@ -25,9 +25,10 @@ public interface UserService {
 	
 	void deleteProfileImg(int userSeq) throws Exception;
 	
-	void addFollow(int fromUserSeq, int toUserSeq) throws Exception;
+	UserInfo addFollow(int fromUserSeq, int toUserSeq) throws Exception;
 	void disFollow(int fromUserSeq, int toUserSeq) throws Exception;
 	
 	List<UserInfo> getFollowList(int userSeq) throws Exception;
+	List<UserInfo> getFollowerList(int userSeq) throws Exception;
 
 }

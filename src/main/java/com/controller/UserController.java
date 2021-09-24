@@ -62,8 +62,9 @@ public class UserController {
 	}
 	
 	@PostMapping("/addFollow")
-	public void addFollow(int fromUserSeq, int toUserSeq) throws Exception {
-		userService.addFollow(fromUserSeq, toUserSeq);
+	public UserInfo addFollow(int fromUserSeq, int toUserSeq) throws Exception {
+		UserInfo follow = userService.addFollow(fromUserSeq, toUserSeq);
+		return follow;
 	}
 	@PostMapping("/disFollow")
 	public void disFollow(int fromUserSeq, int toUserSeq) throws Exception {
@@ -75,6 +76,12 @@ public class UserController {
 		List<UserInfo> followList = userService.getFollowList(userSeq);
 		System.out.println(followList);
 		return followList;
+	}
+	@GetMapping("/getFollowerList")
+	public Object getFollowerList(@RequestParam(value="userSeq") int userSeq) throws Exception {
+		List<UserInfo> followerList = userService.getFollowerList(userSeq);
+		System.out.println(followerList);
+		return followerList;
 	}
 
 }

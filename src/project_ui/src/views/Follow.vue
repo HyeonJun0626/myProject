@@ -3,11 +3,11 @@
         <div class="sidebar-title">
             <span>내 팔로우 목록</span>
         </div>
-        <div class="user-list" v-if="this.$store.state.followList">
-            <div class="user-info" v-for="(item, idx) in this.$store.state.followList" v-bind:key="idx">
+        <div class="user-list" v-if="followList">
+            <div class="user-info" v-for="(item, index) in this.followList" v-bind:key="index">
                 <div class="user-info-left">
                     <div class="user-icon">
-                        <div class="user-img" v-if="item.storedImgPath">
+                        <div class="user-img" v-if="item.storedImgPath != null">
                             <img :src="'http://localhost:9000/'+item.storedImgPath" alt="유저이미지">
                         </div>
                         <div class="user-img" v-else>
@@ -18,8 +18,8 @@
                         {{item.userNick}}
                     </div>
                 </div>
-                <div class="follow-btn">
-                    팔로잉
+                <div class="follow-btn" v-on:click="disFollow(item.userSeq, index)">
+                    언팔로우
                 </div>
             </div>
         </div>
@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import {mapGetters, mapActions} from 'vuex'
+import {mapState, mapGetters, mapActions} from 'vuex'
 export default {
     data() {
         return {
@@ -35,10 +35,12 @@ export default {
         }
     },
         computed: {
-            ...mapGetters(['myUserInfo'])
+            ...mapGetters(['myUserInfo']),
+            ...mapState(['followList'])
     },
-    mounted() {
-        this.getFollowList()
+    async mounted() {
+        await this.getUserInfo()
+        await this.getFollowList()
         // let obj = this
         // obj.$axios.get("http://localhost:9000/user/getFollowList", {
         //     params: {
@@ -56,7 +58,26 @@ export default {
         // })
     },
     methods: {
-        ...mapActions(['getFollowList'])
+        ...mapActions(['getUserInfo', 'getFollowList']),
+        disFollow(userSeq, index) {
+            let obj = this
+            let idx = index
+            obj.$axios.post("http://localhost:9000/user/disFollow", {}, {
+                params: {
+                    toUserSeq: userSeq,
+                    fromUserSeq: obj.myUserInfo.userSeq
+                }
+            })
+            .then(function() {
+                console.log('팔로우 취소 성공')
+                obj.followList.splice(idx, 1);
+                // obj.$router.go()
+            })
+            .catch(function (err) {
+                console.log(err)
+                console.log('팔로우 취소 실패')
+            })
+        }
     }
 }
 </script>
