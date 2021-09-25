@@ -1,5 +1,7 @@
 package com.service;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -164,10 +166,34 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public List<UserInfo> getFollowerList(int userSeq) throws Exception {
-    	List<UserInfo> follower = userMapper.getFollowerList(userSeq);
+//    	List<UserInfo> follow = userMapper.getFollowList(userSeq);
+//    	List<UserInfo> follower = userMapper.getFollowerList(userSeq);
+    	
+    	Collection<UserInfo> follow = userMapper.getFollowList(userSeq);
+    	Collection<UserInfo> follower = userMapper.getFollowerList(userSeq);
+    	List<UserInfo> followList = new ArrayList<UserInfo> (follow);
+    	List<UserInfo> followerList = new ArrayList<UserInfo> (follower);
+    	followerList.removeAll(followList);
+    	System.out.println(followerList.toString());
+    	
+    	return followerList;
+//    	System.out.println(follow.size());
+//    	System.out.println(follower.size());
+//        List<UserInfo> followerList = new ArrayList<>();
+//        if (follow.size() != 0) {
+//        	for (int i = 0; i < follow.size(); i++) {
+//        		for (int j = 0; j < follower.size(); j++) {
+//        			if (follow.get(i).getUserSeq() != follower.get(j).getUserSeq()) {
+//        				followerList.add(follower.get(j));
+//        			}
+//        		}
+//        	}
+//        	return followerList;	
+//        }
+//        else {
+//        	return follower;
+//        }
 
-    	return follower;
     }
-
 
 }

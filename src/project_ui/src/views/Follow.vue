@@ -31,7 +31,6 @@ import {mapState, mapGetters, mapActions} from 'vuex'
 export default {
     data() {
         return {
-            // followList: ''
         }
     },
         computed: {
@@ -56,7 +55,6 @@ export default {
             .then(function() {
                 console.log('팔로우 취소 성공')
                 obj.followList.splice(idx, 1);
-                // obj.$router.go()
             })
             .catch(function (err) {
                 console.log(err)

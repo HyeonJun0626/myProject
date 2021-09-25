@@ -66,6 +66,9 @@ export default new Vuex.Store({
     },
     disFollow(state, payload) {
       state.followList.splice(payload, 1)
+    },
+    disFollower(state, payload) {
+      state.followerList.splice(payload, 1)
     }
   },
   actions: {
@@ -183,14 +186,15 @@ export default new Vuex.Store({
             console.log('팔로우 목록 요청 실패')
         })
     },
-    getFollowerList({commit, state}) {
+    getFollowerList({state}) {
       axios.get("http://localhost:9000/user/getFollowerList", {
             params: {
                 userSeq: state.userInfo.userSeq
             }
         })
         .then(function (res) {
-            commit("isFollowerList", res.data)
+            // commit("isFollowerList", res.data)
+            state.followerList = res.data
             console.log('리스폰스 리스트 : '+res.data)
             console.log('팔로워 목록 요청 성공')
         })
@@ -198,6 +202,27 @@ export default new Vuex.Store({
             console.log(err)
             console.log('팔로워 목록 요청 실패')
         })
+    },
+    addFollow({getters, state, commit}, modalSeq) {
+      if (getters.follow == 0) {
+          axios.post("http://localhost:9000/user/addFollow", {}, {
+              params: {
+                  fromUserSeq: state.userInfo.userSeq,
+                  toUserSeq: modalSeq.seq,
+              }
+          })
+          .then(function(res) {
+              console.log('팔로우 요청 성공')
+              commit('addFollow', res.data)
+              if (modalSeq.idx != -1) {
+                commit('disFollower', modalSeq.idx)
+              }
+          })
+          .catch(function (err) {
+              console.log(err)
+              console.log('팔로우 요청 실패')
+          })
+      }
     },
     clickModal({commit}, payload) {
       commit("isModal", payload)
@@ -222,23 +247,14 @@ export default new Vuex.Store({
     getBoardSeq(state) {
       return state.modalBoardSeq
     },
-    myFollowerList(state) {
-      let myFollowerList = []
-      if (state.followList.length != 0) {
-        for (let i = 0; i < state.followList.length; i++) {
-          let seq = state.followList[i].userSeq;
-          for (let j = 0; j < state.followerList.length; j++) {
-            if (state.followerList[j].userSeq != seq) {
-              myFollowerList.push(state.followerList[j])
-            }
+    follow(state) {
+      let cnt = 0
+      state.followList.forEach(function(follow) {
+          if (follow.userSeq == state.modalSeq) {
+              cnt++
           }
-          return myFollowerList;
-        }
-      }
-      else {
-        return state.followerList
-      }
-      console.log('for문 리스트 : '+myFollowerList)
-    }
+      })
+      return cnt;
+    },
   }
 })

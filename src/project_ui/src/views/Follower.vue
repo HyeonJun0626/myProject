@@ -3,8 +3,8 @@
         <div class="sidebar-title">
             <span>나를 팔로우한 친구</span>
         </div>
-        <div class="user-list" v-if="this.$store.state.followerList">
-            <div class="user-info" v-for="(item, idx) in myFollowerList" v-bind:key="idx">
+        <div class="user-list">
+            <div class="user-info" v-for="(item, index) in followerList" v-bind:key="index">
                 <div class="user-info-left">
                     <div class="user-icon">
                         <div class="user-img" v-if="item.storedImgPath">
@@ -18,7 +18,7 @@
                         {{item.userNick}}
                     </div>
                 </div>
-                <div class="follow-btn">
+                <div class="follow-btn" v-on:click="addFollow({seq: item.userSeq, idx: index})">
                     팔로우
                 </div>
             </div>
@@ -27,21 +27,25 @@
 </template>
 
 <script>
-import {mapGetters, mapActions} from 'vuex'
+import {mapGetters, mapActions, mapState} from 'vuex'
 export default {
     data() {
         return {
         }
     },
-    computed: {
-        ...mapGetters(['myUserInfo', 'myFollowerList'])
-    },
     async mounted() {
         await this.getUserInfo()
         await this.getFollowerList()
     },
+    computed: {
+        ...mapState(['followerList']),
+        ...mapGetters(['myUserInfo', 'follow'])
+    },
     methods: {
-        ...mapActions(['getUserInfo', 'getFollowerList'])
+        ...mapActions(['getUserInfo', 'getFollowerList', 'addFollow', 'disFollower']),
+        disFollower(idx) {
+            this.$store.commit('disFollower', idx)
+        }
     }
 }
 </script>
