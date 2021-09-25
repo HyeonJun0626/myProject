@@ -11,9 +11,9 @@
 			<div class="form-group">
 				<input type="password" id="userPw" name="userPw" placeholder="비밀번호를 입력해주세요" v-model="userPw">
 			</div>
-			<div class="form-group">
+			<!-- <div class="form-group">
 				<input type="password" id="userPw1" name="userPw1" placeholder="비밀번호를 다시 입력해주세요" v-model="userPw1">
-			</div>
+			</div> -->
 			<div class="form-group">
 				<input type="text" id="userName" name="userName" placeholder="이름을 입력하세요" autocomplete="off" v-model="userName">
 			</div>

@@ -1,7 +1,7 @@
 <template>
     <div class="wrap">
         <div class="sidebar-title">
-            <span>나를 팔로우한 사용자</span>
+            <span>나를 팔로우한 친구</span>
         </div>
         <div class="user-list" v-if="this.$store.state.followerList">
             <div class="user-info" v-for="(item, idx) in this.$store.state.followerList" v-bind:key="idx">

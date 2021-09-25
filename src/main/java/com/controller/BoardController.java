@@ -38,7 +38,7 @@ public class BoardController {
 		return board;
 	}
 	
-	@GetMapping("/getAllBoardList")
+	@PostMapping("/getAllBoardList")
 	public Object getAllBoardList(@RequestParam(value="userSeq") int userSeq) throws Exception {
 		List<BoardDto> board = boardService.getAllBoardList(userSeq);
 		return board;

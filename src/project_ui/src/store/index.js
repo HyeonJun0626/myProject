@@ -20,7 +20,7 @@ export default new Vuex.Store({
     myBoardList: '',
     allBoardList: '',
     followList: [],
-    followerList: '',
+    followerList: [],
   },
   // state의 상태를 변화시키는 부분 actions에서 실행 시켜서 commit으로 적용 시킴
   mutations: {
@@ -82,17 +82,19 @@ export default new Vuex.Store({
           if (res.headers.authorization != null) {
             // dispatch("getUserInfo")
             commit("loginSuccess")
-            if (state.isLogin === true) {
-              router.push({path:'/main/'})
-            }
+            // if (localStorage.authorization != null) {
+            //   router.push({path:'/main/'})
+            // }
+            router.go()
           }
           else {
             console.log(res.data)
             commit("loginError", res.data)
           }
       })
-      .catch(function() {
+      .catch(function(err) {
           console.log('로그인 실패')
+          console.log(err)
           // commit("loginError")
       })
     }
@@ -152,16 +154,13 @@ export default new Vuex.Store({
         })
     },
     getAllBoardList({commit, state}) {
-      axios.get("http://localhost:9000/board/getAllBoardList", {
+      axios.post("http://localhost:9000/board/getAllBoardList", {}, {
         params: {
             userSeq: state.userInfo.userSeq
         }
     })
     .then(function (res) {
         console.log('통신 성공')
-        // if (res.data.allBoardList.userImg == null) {
-        // res.data.allBoardList.userImg = "http://localhost:9000/images/default_img.jpeg"
-        // }
         commit("isAllBoardList", res.data)
     })
     .catch(function (err) {
@@ -175,7 +174,6 @@ export default new Vuex.Store({
             }
         })
         .then(function (res) {
-            // obj.followList = res.data
             commit("isFollowList", res.data)
             console.log(res.data)
             console.log('팔로우 목록 요청 성공')
@@ -223,6 +221,6 @@ export default new Vuex.Store({
     },
     getBoardSeq(state) {
       return state.modalBoardSeq
-    }
+    },
   }
 })
