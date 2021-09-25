@@ -165,6 +165,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserInfo> getFollowerList(int userSeq) throws Exception {
     	List<UserInfo> follower = userMapper.getFollowerList(userSeq);
+
     	return follower;
     }
 

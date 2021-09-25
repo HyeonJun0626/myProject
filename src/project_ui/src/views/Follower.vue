@@ -4,7 +4,7 @@
             <span>나를 팔로우한 친구</span>
         </div>
         <div class="user-list" v-if="this.$store.state.followerList">
-            <div class="user-info" v-for="(item, idx) in this.$store.state.followerList" v-bind:key="idx">
+            <div class="user-info" v-for="(item, idx) in myFollowerList" v-bind:key="idx">
                 <div class="user-info-left">
                     <div class="user-icon">
                         <div class="user-img" v-if="item.storedImgPath">
@@ -33,8 +33,8 @@ export default {
         return {
         }
     },
-        computed: {
-            ...mapGetters(['myUserInfo'])
+    computed: {
+        ...mapGetters(['myUserInfo', 'myFollowerList'])
     },
     async mounted() {
         await this.getUserInfo()

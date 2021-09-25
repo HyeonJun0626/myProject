@@ -41,21 +41,6 @@ export default {
     async mounted() {
         await this.getUserInfo()
         await this.getFollowList()
-        // let obj = this
-        // obj.$axios.get("http://localhost:9000/user/getFollowList", {
-        //     params: {
-        //         userSeq: obj.myUserInfo.userSeq
-        //     }
-        // })
-        // .then(function (res) {
-        //     obj.followList = res.data
-        //     console.log(res.data)
-        //     console.log('팔로우 목록 요청 성공')
-        // })
-        // .catch(function (err) {
-        //     console.log(err)
-        //     console.log('팔로우 목록 요청 실패')
-        // })
     },
     methods: {
         ...mapActions(['getUserInfo', 'getFollowList']),

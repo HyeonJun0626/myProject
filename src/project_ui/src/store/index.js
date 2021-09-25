@@ -191,7 +191,7 @@ export default new Vuex.Store({
         })
         .then(function (res) {
             commit("isFollowerList", res.data)
-            console.log(res.data)
+            console.log('리스폰스 리스트 : '+res.data)
             console.log('팔로워 목록 요청 성공')
         })
         .catch(function (err) {
@@ -222,5 +222,23 @@ export default new Vuex.Store({
     getBoardSeq(state) {
       return state.modalBoardSeq
     },
+    myFollowerList(state) {
+      let myFollowerList = []
+      if (state.followList.length != 0) {
+        for (let i = 0; i < state.followList.length; i++) {
+          let seq = state.followList[i].userSeq;
+          for (let j = 0; j < state.followerList.length; j++) {
+            if (state.followerList[j].userSeq != seq) {
+              myFollowerList.push(state.followerList[j])
+            }
+          }
+          return myFollowerList;
+        }
+      }
+      else {
+        return state.followerList
+      }
+      console.log('for문 리스트 : '+myFollowerList)
+    }
   }
 })
