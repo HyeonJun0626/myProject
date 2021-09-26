@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.common.FileUtils;
 import com.dto.BoardDto;
 import com.dto.BoardFileDto;
+import com.dto.ReplyDto;
 import com.mapper.BoardMapper;
 
 
@@ -121,6 +122,11 @@ public class BoardServiceImpl implements BoardService {
 		board.setImgList(boardImg);
 		System.out.println(board);
 		return board;
+	}
+	
+	@Override
+	public void inputReply(ReplyDto reply) throws Exception {
+		boardMapper.inputReply(reply);
 	}
 		
 

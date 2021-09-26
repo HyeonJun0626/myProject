@@ -172,6 +172,18 @@
     			(#{fromUserSeq}, #{toUserSeq})
     	]]>
     </insert>
+    
+    <update id="addFollowCnt" parameterType="int">
+    	<![CDATA[
+    		UPDATE
+				user_info
+			SET
+				follower_cnt = follower_cnt +1
+			WHERE
+				user_seq = #{toUserSeq}
+    	]]>
+    </update>
+
     <delete id="disFollow" parameterType="int">
     	<![CDATA[
     		DELETE
@@ -183,6 +195,17 @@
     			to_user = #{toUserSeq}
     	]]>
     </delete>
+    
+    <update id="disFollowCnt" parameterType="int">
+    	<![CDATA[
+    		UPDATE
+				user_info
+			SET
+				follower_cnt = follower_cnt -1
+			WHERE
+				user_seq = #{toUserSeq}
+    	]]>
+    </update>
     
     <select id="getFollow" parameterType="int" resultType="com.dto.UserInfo">
     	<![CDATA[
@@ -233,6 +256,20 @@
 				c.del_yn = 'n'
     	]]>
     </select>
+    
+    <select id="getTopUserSeq" resultType="com.dto.UserInfo">
+    	<![CDATA[
+    		SELECT 
+				user_seq, user_nick
+			FROM
+				user_info
+			ORDER BY 
+				follower_cnt DESC
+			LIMIT 10;
+    	]]>	
+    </select>
+    
+
     
 
 </mapper>

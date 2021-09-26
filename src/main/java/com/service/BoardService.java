@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.dto.BoardDto;
+import com.dto.ReplyDto;
 
 public interface BoardService {
 
@@ -20,4 +21,6 @@ public interface BoardService {
 	void deleteBoard(int boardSeq) throws Exception;
 	
 	BoardDto getReWriteBoard(int boardSeq) throws Exception;
+	
+	void inputReply(ReplyDto reply) throws Exception;
 }

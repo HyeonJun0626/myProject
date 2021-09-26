@@ -4,76 +4,15 @@
         <header-ui></header-ui>
         <div class="content-container">
             <div class="follower-section">
-                <div class="follower-info">
-                    <div class="follower-img">
-                        <img src="@/assets/profile1.jpg" alt="팔로워 이미지">
+                <div class="follower-info" v-for="(item, index) in topUserList" v-bind:key="index">
+                    <div class="follower-img" v-if="item.storedImgPath">
+                        <img v-bind:src="'http://localhost:9000/'+item.storedImgPath" alt="팔로워 이미지">
+                    </div>
+                    <div class="follower-img" v-if="!item.storedImgPath">
+                        <img src="http://localhost:9000/images/default_img.jpeg" alt="유저이미지">
                     </div>
                     <div class="follower-name">
-                        <p class="m-0">슝슝슈슝ㅇㅇㅇㅇㅇㅇㅇ</p>
-                    </div>
-                </div>
-                <div class="follower-info">
-                    <div class="follower-img">
-                        <img src="@/assets/profile1.jpg" alt="팔로워 이미지">
-                    </div>
-                    <div class="follower-name">
-                        <p class="m-0">슝슝슈슝ㅇㅇㅇㅇㅇㅇㅇ</p>
-                    </div>
-                </div>
-                <div class="follower-info">
-                    <div class="follower-img">
-                        <img src="@/assets/profile1.jpg" alt="팔로워 이미지">
-                    </div>
-                    <div class="follower-name">
-                        <p class="m-0">슝슝슈슝ㅇㅇㅇㅇㅇㅇㅇ</p>
-                    </div>
-                </div>
-                <div class="follower-info">
-                    <div class="follower-img">
-                        <img src="@/assets/profile1.jpg" alt="팔로워 이미지">
-                    </div>
-                    <div class="follower-name">
-                        <p class="m-0">슝슝슈슝ㅇㅇㅇㅇㅇㅇㅇ</p>
-                    </div>
-                </div>
-                <div class="follower-info">
-                    <div class="follower-img">
-                        <img src="@/assets/profile1.jpg" alt="팔로워 이미지">
-                    </div>
-                    <div class="follower-name">
-                        <p class="m-0">슝슝슈슝ㅇㅇㅇㅇㅇㅇㅇ</p>
-                    </div>
-                </div>
-                <div class="follower-info">
-                    <div class="follower-img">
-                        <img src="@/assets/profile1.jpg" alt="팔로워 이미지">
-                    </div>
-                    <div class="follower-name">
-                        <p class="m-0">슝슝슈슝ㅇㅇㅇㅇㅇㅇㅇ</p>
-                    </div>
-                </div>
-                <div class="follower-info">
-                    <div class="follower-img">
-                        <img src="@/assets/profile1.jpg" alt="팔로워 이미지">
-                    </div>
-                    <div class="follower-name">
-                        <p class="m-0">슝슝슈슝ㅇㅇㅇㅇㅇㅇㅇ</p>
-                    </div>
-                </div>
-                <div class="follower-info">
-                    <div class="follower-img">
-                        <img src="@/assets/profile1.jpg" alt="팔로워 이미지">
-                    </div>
-                    <div class="follower-name">
-                        <p class="m-0">슝슝슈슝ㅇㅇㅇㅇㅇㅇㅇ</p>
-                    </div>
-                </div>
-                <div class="follower-info">
-                    <div class="follower-img">
-                        <img src="@/assets/profile1.jpg" alt="팔로워 이미지">
-                    </div>
-                    <div class="follower-name">
-                        <p class="m-0">슝슝슈슝ㅇㅇㅇㅇㅇㅇㅇ</p>
+                        <p class="m-0">{{item.userNick}}</p>
                     </div>
                 </div>
             </div>
@@ -177,8 +116,8 @@
                             <p class="m-0">{{item.createDt}}</p>
                         </div>
                         <div class="comment-input-box">
-                            <input class="m-0" type="text" name="comment" id="comment" placeholder="댓글 달기 ...">
-                            <span class="submit-btn">
+                            <input class="m-0" type="text" name="comment" id="comment" placeholder="댓글 달기 ..." v-model="reply">
+                            <span class="submit-btn" type="button" v-on:click="inputReply({content: reply, boardSeq: item.boardSeq, userSeq: userInfo.userSeq, userNick: userInfo.userNick})">
                                 작성
                             </span>
                         </div>
@@ -212,7 +151,8 @@ export default {
     },
     data() {
         return {
-            // allBoardList: null,
+            topUserList: '',
+            reply: ''
         }
     },
     async mounted() {
@@ -221,6 +161,7 @@ export default {
         console.log('mounted 시작')
         await obj.getAllBoardList()
         console.log('mounted 종료')
+        obj.getTopUserList()
     },
     computed: {
         ...mapState(['userInfo', 'allBoardList'])
@@ -257,6 +198,31 @@ export default {
                 console.log('좋아요 전송 실패')
             })
         },
+        getTopUserList() {
+            let obj = this
+            obj.$axios.get("http://localhost:9000/user/getTopUserList")
+            .then(function (res) {
+                console.log('인기유저 리스트 요청 성공')
+                obj.topUserList = res.data
+            })
+            .catch(function (err) {
+                console.log('인기유저 리스트 요청 실패')
+                console.log(err)
+            })
+        },
+        inputReply(data) {
+            let obj = this
+            obj.$axios.post("http://localhost:9000/board/inputReply",
+                data
+            )
+            .then(function () {
+                console.log('댓글 작성 요청 성공')
+            })
+            .catch(function (err) {
+                console.log(err)
+                console.log('댓글 작성 요청 실패')
+            })
+        }
 
     },
 }

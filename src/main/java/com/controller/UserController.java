@@ -83,5 +83,11 @@ public class UserController {
 		System.out.println(followerList);
 		return followerList;
 	}
-
+	
+	@GetMapping("/getTopUserList")
+	public Object getTopUserList() throws Exception {
+		List<UserInfo> topUserList = userService.getTopUserList();
+		return topUserList;
+	}
 }
+

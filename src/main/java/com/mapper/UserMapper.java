@@ -38,10 +38,17 @@ public interface UserMapper {
 	void deleteProfileImg(@Param(value = "userSeq") int userSeq) throws Exception;
 	
 	void addFollow(@Param(value = "fromUserSeq") int fromUserSeq, @Param(value = "toUserSeq") int toUserSeq) throws Exception;
+	void addFollowCnt(@Param(value="toUserSeq") int userSeq) throws Exception;
 	void disFollow(@Param(value = "fromUserSeq") int fromUserSeq, @Param(value = "toUserSeq") int toUserSeq) throws Exception;
+	void disFollowCnt(@Param(value="toUserSeq") int userSeq) throws Exception;
 	UserInfo getFollow(@Param(value = "toUserSeq") int toUserSeq) throws Exception;
 	
 	List<UserInfo> getFollowList(@Param(value = "userSeq") int userSeq) throws Exception;
 	List<UserInfo> getFollowerList(@Param(value = "userSeq") int userSeq) throws Exception;
+	
+	List<UserInfo> getTopUserSeq() throws Exception;
+
+
+
 
 }

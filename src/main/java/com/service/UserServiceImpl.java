@@ -152,11 +152,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserInfo addFollow(int fromUserSeq, int toUserSeq) throws Exception {
     	userMapper.addFollow(fromUserSeq, toUserSeq);
+    	userMapper.addFollowCnt(toUserSeq);
     	return userMapper.getFollow(toUserSeq);
     }
     @Override
     public void disFollow(int fromUserSeq, int toUserSeq) throws Exception {
     	userMapper.disFollow(fromUserSeq, toUserSeq);
+    	userMapper.disFollowCnt(toUserSeq);
     }
     
     @Override
@@ -166,8 +168,6 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public List<UserInfo> getFollowerList(int userSeq) throws Exception {
-//    	List<UserInfo> follow = userMapper.getFollowList(userSeq);
-//    	List<UserInfo> follower = userMapper.getFollowerList(userSeq);
     	
     	Collection<UserInfo> follow = userMapper.getFollowList(userSeq);
     	Collection<UserInfo> follower = userMapper.getFollowerList(userSeq);
@@ -177,23 +177,20 @@ public class UserServiceImpl implements UserService {
     	System.out.println(followerList.toString());
     	
     	return followerList;
-//    	System.out.println(follow.size());
-//    	System.out.println(follower.size());
-//        List<UserInfo> followerList = new ArrayList<>();
-//        if (follow.size() != 0) {
-//        	for (int i = 0; i < follow.size(); i++) {
-//        		for (int j = 0; j < follower.size(); j++) {
-//        			if (follow.get(i).getUserSeq() != follower.get(j).getUserSeq()) {
-//        				followerList.add(follower.get(j));
-//        			}
-//        		}
-//        	}
-//        	return followerList;	
-//        }
-//        else {
-//        	return follower;
-//        }
-
     }
+    
+    public List<UserInfo> getTopUserList() throws Exception {
+    	List<UserInfo> userList = userMapper.getTopUserSeq();
+    	for (int i = 0; i < userList.size(); i++) {
+    		UserInfo userImg = userMapper.getProfileImg(userList.get(i).getUserSeq());
+    		if (userImg != null) {
+    			userList.get(i).setStoredImgPath(userImg.getStoredImgPath());    			
+    		}
+    	}
+    	
+    	return userList;
+    }
+    
+    
 
 }

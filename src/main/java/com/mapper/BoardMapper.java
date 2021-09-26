@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.dto.BoardDto;
 import com.dto.BoardFileDto;
+import com.dto.ReplyDto;
 
 @Mapper
 public interface BoardMapper {
@@ -36,4 +37,6 @@ public interface BoardMapper {
 	
 	BoardDto getReWriteBoard(@Param("boardSeq") int boardSeq) throws Exception;
 	List<BoardFileDto> getReWriteBoardImg(@Param("boardSeq") int boardSeq) throws Exception;
+	
+	void inputReply(ReplyDto reply) throws Exception;
 }

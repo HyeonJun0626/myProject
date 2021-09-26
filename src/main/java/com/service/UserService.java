@@ -30,5 +30,8 @@ public interface UserService {
 	
 	List<UserInfo> getFollowList(int userSeq) throws Exception;
 	List<UserInfo> getFollowerList(int userSeq) throws Exception;
+	
+	List<UserInfo> getTopUserList() throws Exception; 
+	
 
 }

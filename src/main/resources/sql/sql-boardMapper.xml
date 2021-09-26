@@ -230,6 +230,15 @@
     			del_yn = 'n'
     	]]>
     </select>
+    
+    <insert id="inputReply" parameterType="com.dto.ReplyDto">
+    	<![CDATA[
+    		INSERT INTO reply
+    			(board_seq, user_seq, user_nick, content)
+    		VALUES
+    			(#{boardSeq}, #{userSeq}, #{userNick}, #{content})
+    	]]>
+    </insert>
 
 
 

@@ -6,12 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.dto.BoardDto;
+import com.dto.ReplyDto;
 import com.service.BoardService;
 
 @RestController
@@ -59,4 +61,12 @@ public class BoardController {
 	public BoardDto getReWriteBoard(@RequestParam(value="boardSeq") int boardSeq) throws Exception {
 		return boardService.getReWriteBoard(boardSeq);
 	}
+	
+	@PostMapping("/inputReply")
+	public void inputReply(@RequestBody ReplyDto reply) throws Exception {
+		boardService.inputReply(reply);
+	}
+	
+	
+	
 }
