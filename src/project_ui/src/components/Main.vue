@@ -1,6 +1,6 @@
 <template>
     <div class="main-container">
-        <modal-ui v-if="$store.state.modalOpen"></modal-ui>
+        <modal-ui v-if="modalOpen"></modal-ui>
         <header-ui></header-ui>
         <div class="content-container">
             <div class="follower-section">
@@ -79,36 +79,12 @@
                             <span>개 모두 보기</span>
                         </div>
                         <div class="comment-section">
-                            <div class="comment-box">
-                                <div class="user_id mr-2">
-                                    helloworld0626
+                            <div class="comment-box" v-for="(item, index) in item.replyList" v-bind:key="index">
+                                <div class="user_id mr-2" v-on:click="clickModal({isModal:true, modalSeq:item.userSeq, replyModal: true, boardSeq: item.replySeq, idx: item.index})">
+                                    {{item.userNick}}
                                 </div>
                                 <div class="comment">
-                                    <p class="m-0">안녕하세요 댓글 남겨요안녕하세요 안녕하세요 댓글 남겨요안녕하세요 댓글 남겨요안녕하세요 댓글 남겨요안녕하세요 댓글 남겨요</p>
-                                </div>
-                            </div>
-                            <div class="comment-box">
-                                <div class="user_id mr-2">
-                                    helloworld0626
-                                </div>
-                                <div class="comment">
-                                    <p class="m-0">안녕하세요 댓글 남겨요안녕하세요 안녕하세요 댓글 남겨요안녕하세요 댓글 남겨요안녕하세요 댓글 남겨요안녕하세요 댓글 남겨요</p>
-                                </div>
-                            </div>
-                            <div class="comment-box">
-                                <div class="user_id mr-2">
-                                    helloworld0626
-                                </div>
-                                <div class="comment">
-                                    <p class="m-0">안녕하세요 댓글 남겨요안녕하세요 안녕하세요 댓글 남겨요안녕하세요 댓글 남겨요안녕하세요 댓글 남겨요안녕하세요 댓글 남겨요</p>
-                                </div>
-                            </div>
-                            <div class="comment-box">
-                                <div class="user_id mr-2">
-                                    helloworld0626
-                                </div>
-                                <div class="comment">
-                                    <p class="m-0">안녕하세요 댓글 남겨요안녕하세요 안녕하세요 댓글 남겨요안녕하세요 댓글 남겨요안녕하세요 댓글 남겨요안녕하세요 댓글 남겨요</p>
+                                    <p class="m-0">{{item.content}}</p>
                                 </div>
                             </div>
                         </div>
@@ -164,7 +140,7 @@ export default {
         obj.getTopUserList()
     },
     computed: {
-        ...mapState(['userInfo', 'allBoardList'])
+        ...mapState(['userInfo', 'allBoardList', 'modalOpen'])
     },
     methods: {
         ...mapActions(['clickModal', 'getUserInfo', 'getAllBoardList']),
@@ -211,17 +187,19 @@ export default {
             })
         },
         inputReply(data) {
-            let obj = this
-            obj.$axios.post("http://localhost:9000/board/inputReply",
-                data
-            )
-            .then(function () {
-                console.log('댓글 작성 요청 성공')
-            })
-            .catch(function (err) {
-                console.log(err)
-                console.log('댓글 작성 요청 실패')
-            })
+            if (data.content != null && data.content != '') {
+                let obj = this
+                obj.$axios.post("http://localhost:9000/board/inputReply",
+                    data
+                )
+                .then(function () {
+                    console.log('댓글 작성 요청 성공')
+                })
+                .catch(function (err) {
+                    console.log(err)
+                    console.log('댓글 작성 요청 실패')
+                })
+            }
         }
 
     },
@@ -374,7 +352,12 @@ export default {
         font-size: 14px;
         font-weight: bolder;
         min-width: fit-content;
+    }
 
+    .user_id:hover {
+        text-decoration: underline;
+        text-underline-position: under;
+        cursor: pointer;
     }
 
     .content-title {
@@ -446,7 +429,7 @@ export default {
     }
 
     .comment-section {
-        height: 70px;
+        /* height: 70px; */
         overflow: hidden;
     }
 

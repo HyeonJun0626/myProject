@@ -67,6 +67,11 @@ public class BoardController {
 		boardService.inputReply(reply);
 	}
 	
+	@PostMapping("/deleteReply")
+	public void deleteReply(@RequestParam("replySeq") int replySeq) throws Exception {
+		boardService.deleteReply(replySeq);
+	}
+	
 	
 	
 }

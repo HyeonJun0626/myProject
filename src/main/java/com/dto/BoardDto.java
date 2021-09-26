@@ -18,5 +18,6 @@ public class BoardDto {
 	private String delYn;
 	private String userImg;
 	private List<BoardFileDto> imgList;
+	private List<ReplyDto> replyList;
 	
 }

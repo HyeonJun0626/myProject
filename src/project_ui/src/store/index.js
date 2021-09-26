@@ -14,11 +14,13 @@ export default new Vuex.Store({
 
     modalOpen: false,
     profileModalOpen: false,
+    replyModal: false,
+    replyIdx: '',
     modalSeq: null,
     modalBoardSeq: '',
     followCheck: '',
     myBoardList: '',
-    allBoardList: '',
+    allBoardList: [],
     followList: [],
     followerList: [],
   },
@@ -45,6 +47,8 @@ export default new Vuex.Store({
       state.modalSeq = payload.modalSeq
       state.followCheck = payload.followCheck
       state.modalBoardSeq = payload.boardSeq
+      state.replyModal = payload.replyModal
+      state.replyIdx = payload.idx
     },
     profileModla(state, payload) {
       state.profileModalOpen = payload.isModal
@@ -69,6 +73,9 @@ export default new Vuex.Store({
     },
     disFollower(state, payload) {
       state.followerList.splice(payload, 1)
+    },
+    disReply(state, payload) {
+      state.allBoardList[payload.boardSeq].replyList.splice(payload.replySeq, 1)
     }
   },
   actions: {
@@ -224,6 +231,22 @@ export default new Vuex.Store({
           })
       }
     },
+    async deleteReply({getters, commit},modalBoardSeq) {
+      axios.post("http://localhost:9000/board/deleteReply", {}, {
+        params: {
+          replySeq: modalBoardSeq
+        }
+      })
+      .then(function () {
+        console.log('댓글삭제 요청 성공')
+        let boardSeq = getters.replyBoardSeq;
+        commit('disReply', {boardSeq, modalBoardSeq})
+      })
+      .catch(function (err) {
+        console.log(err)
+        console.log('댓글삭제 요청 실패')
+      })
+    },
     clickModal({commit}, payload) {
       commit("isModal", payload)
     },
@@ -256,5 +279,17 @@ export default new Vuex.Store({
       })
       return cnt;
     },
+    replyBoardSeq(state) {
+      let boardSeq = 0;
+      for (let i = 0; i < state.allBoardList.length; i++) {
+        for (let j = 0; j < state.allBoardList[i].replyList.length; j++) {
+          if (state.allBoardList[i].replyList[j].replySeq == state.modalBoardSeq) {
+            boardSeq = [i]
+          }
+        }
+      }
+      return boardSeq;
+    },
+    
   }
 })

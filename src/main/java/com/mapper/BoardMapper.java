@@ -22,6 +22,7 @@ public interface BoardMapper {
 	List<BoardFileDto> getBoardImg(@Param("boardSeq") int boardSeq) throws Exception;
 	
 	List<BoardDto> getAllBoardList() throws Exception;
+	List<ReplyDto> getReplyList(int boardSeq) throws Exception;
 	int getAllBoardLike(@Param("boardSeq") int boardSeq) throws Exception;
 	int followCheck(@Param("userSeq") int userSeq, @Param("boardUserSeq") int userSeq1) throws Exception;
 	String getUserImg(@Param("userSeq") int userSeq) throws Exception;
@@ -39,4 +40,6 @@ public interface BoardMapper {
 	List<BoardFileDto> getReWriteBoardImg(@Param("boardSeq") int boardSeq) throws Exception;
 	
 	void inputReply(ReplyDto reply) throws Exception;
+	
+	void deleteReply(@Param("replySeq") int replySeq) throws Exception;
 }

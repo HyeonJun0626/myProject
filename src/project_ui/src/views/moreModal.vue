@@ -4,8 +4,9 @@
             <div class="modal-content">
                 <div class="modal-item" v-if="modalSeq != userInfo.userSeq && follow == 0" v-on:click="addFollow({seq: modalSeq, idx: -1})">팔로우</div>
                 <div class="modal-item danger-btn" v-if="modalSeq != userInfo.userSeq  && follow == 1" v-on:click="disFollow">팔로우 취소</div>
-                <div class="modal-item" v-if="modalSeq == userInfo.userSeq" v-on:click="moveReWrite">수정하기</div>
-                <div class="modal-item danger-btn" v-if="modalSeq == userInfo.userSeq" v-on:click="deleteBoard">삭제하기</div>
+                <div class="modal-item" v-if="modalSeq == userInfo.userSeq && replyModal != true" v-on:click="moveReWrite">수정하기</div>
+                <div class="modal-item danger-btn" v-if="modalSeq == userInfo.userSeq && replyModal != true" v-on:click="deleteBoard">삭제하기</div>
+                <div class="modal-item danger-btn" v-if="modalSeq == userInfo.userSeq && replyModal == true" v-on:click="deleteReply(modalBoardSeq)">댓글 삭제하기</div>
                 <div class="modal-item danger-btn" v-on:click="clickModal(false)">취소</div>
             </div>
         </div>
@@ -22,14 +23,14 @@ export default {
     mounted() {
     },
     computed: {
-        ...mapState(['userInfo', 'followCheck', 'modalBoardSeq', 'followList']),
+        ...mapState(['userInfo', 'followCheck', 'modalBoardSeq', 'followList', 'replyModal', 'modalBoardSeq']),
         ...mapGetters(['modalSeq', 'follow']),
         disFollowIndex() {
             return this.followList.indexOf(this.modaSeq)
         }
     },
     methods: {
-        ...mapActions(['clickModal', 'addFollow']),
+        ...mapActions(['clickModal', 'addFollow', 'deleteReply']),
 
         deleteBoard() {
             let obj = this

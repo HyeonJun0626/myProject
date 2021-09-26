@@ -23,4 +23,6 @@ public interface BoardService {
 	BoardDto getReWriteBoard(int boardSeq) throws Exception;
 	
 	void inputReply(ReplyDto reply) throws Exception;
+	
+	void deleteReply(int replySeq) throws Exception;
 }

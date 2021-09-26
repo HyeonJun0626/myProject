@@ -113,6 +113,22 @@
 		]]>
 	</select>
 	
+	<select id="getReplyList" parameterType="int" resultType="com.dto.ReplyDto">
+		<![CDATA[
+			SELECT 
+				board_seq, content, reply_seq, user_nick, user_seq, DATE_FORMAT(create_dt, '%y.%m.%d %h:%i') AS create_dt
+			FROM 
+				reply 
+			WHERE 
+				board_seq = #{boardSeq} 
+			AND 
+				del_yn = 'n' 
+			ORDER BY 
+				reply_seq DESC
+			LIMIT 3
+		]]>
+	</select>
+	
 	<select id="getAllBoardLike" parameterType="int" resultType="int">
 		<![CDATA[
 			SELECT 
@@ -239,6 +255,17 @@
     			(#{boardSeq}, #{userSeq}, #{userNick}, #{content})
     	]]>
     </insert>
+    
+    <update id="deleteReply" parameterType="int">
+    	<![CDATA[
+    		UPDATE
+    			reply
+    		SET
+    			del_yn = 'y'
+    		WHERE
+    			reply_seq = #{replySeq}
+    	]]>
+    </update>
 
 
 

@@ -74,13 +74,11 @@ public class UserController {
 	@GetMapping("/getFollowList")
 	public Object getFollowList(@RequestParam(value="userSeq") int userSeq) throws Exception {
 		List<UserInfo> followList = userService.getFollowList(userSeq);
-		System.out.println(followList);
 		return followList;
 	}
 	@GetMapping("/getFollowerList")
 	public Object getFollowerList(@RequestParam(value="userSeq") int userSeq) throws Exception {
 		List<UserInfo> followerList = userService.getFollowerList(userSeq);
-		System.out.println(followerList);
 		return followerList;
 	}
 	

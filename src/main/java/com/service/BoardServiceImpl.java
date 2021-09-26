@@ -86,6 +86,8 @@ public class BoardServiceImpl implements BoardService {
 			int boardLike = boardMapper.getAllBoardLike(board.get(i).getBoardSeq());
 			int likeNy = boardMapper.checkMyLike(userSeq, board.get(i).getBoardSeq());
 			int followCheck = boardMapper.followCheck(userSeq, board.get(i).getUserSeq());
+			List<ReplyDto> replyList = boardMapper.getReplyList(board.get(i).getBoardSeq());
+			board.get(i).setReplyList(replyList);
 			board.get(i).setFollowCheck(followCheck);
 			board.get(i).setLikeNy(likeNy);
 			board.get(i).setUserImg(userImg);
@@ -127,6 +129,11 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void inputReply(ReplyDto reply) throws Exception {
 		boardMapper.inputReply(reply);
+	}
+	
+	@Override
+	public void deleteReply(int relySeq) throws Exception {
+		boardMapper.deleteReply(relySeq);
 	}
 		
 
