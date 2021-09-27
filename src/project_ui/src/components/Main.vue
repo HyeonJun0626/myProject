@@ -92,7 +92,7 @@
                             <p class="m-0">{{item.createDt}}</p>
                         </div>
                         <div class="comment-input-box">
-                            <input class="m-0" type="text" name="comment" id="comment" placeholder="댓글 달기 ..." v-model="reply">
+                            <input class="input-text m-0" type="text" name="comment" id="comment" placeholder="댓글 달기 ..." autocomplete="off" @input="reply=$event.target.value">
                             <span class="submit-btn" type="button" v-on:click="inputReply({content: reply, boardSeq: item.boardSeq, userSeq: userInfo.userSeq, userNick: userInfo.userNick})">
                                 작성
                             </span>
@@ -194,15 +194,21 @@ export default {
                 )
                 .then(function () {
                     console.log('댓글 작성 요청 성공')
+                    obj.clearInput()
                 })
                 .catch(function (err) {
                     console.log(err)
                     console.log('댓글 작성 요청 실패')
                 })
             }
-        }
-
-    },
+        },
+        clearInput() {
+            var el = document.getElementsByClassName('input-text');
+            for(var i=0; i<el.length; i++){
+                el[i].value = '';
+            }
+        },
+    }
 }
 </script>
 
