@@ -115,17 +115,23 @@
 	
 	<select id="getReplyList" parameterType="int" resultType="com.dto.ReplyDto">
 		<![CDATA[
-			SELECT 
-				board_seq, content, reply_seq, user_nick, user_seq, DATE_FORMAT(create_dt, '%y.%m.%d %h:%i') AS create_dt
+			SELECT
+				board_seq, content, reply_seq, user_nick, user_seq, DATE_FORMAT(create_dt, '%y.%m.%d %h:%i') AS create_dt 
 			FROM 
-				reply 
-			WHERE 
-				board_seq = #{boardSeq} 
-			AND 
-				del_yn = 'n' 
+				(SELECT
+					board_seq, content, reply_seq, user_nick, user_seq, DATE_FORMAT(create_dt, '%y.%m.%d %h:%i') AS create_dt 
+				 FROM 
+					reply 
+				 WHERE 
+				 	board_seq = #{boardSeq}
+				 AND
+				 	del_yn = 'n'
+				 ORDER BY 
+				 	reply_seq DESC 
+				 LIMIT 3
+				)t 
 			ORDER BY 
-				reply_seq DESC
-			LIMIT 3
+				reply_seq ASC;	
 		]]>
 	</select>
 	

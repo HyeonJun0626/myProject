@@ -19,7 +19,7 @@
 
 
                 <div class="content-section">
-                    <div class="content-body" v-for="(item, index) in allBoardList" v-bind:key="item.boardSeq">
+                    <div class="content-body" v-for="(item, index) in allBoardList" v-bind:key="index">
                         <div class="content-title">
                             <div class="user-info">
                                 <div class="user-icon">
@@ -34,7 +34,7 @@
                                     {{item.userNick}}
                                 </div>
                             </div>
-                            <div type="button" class="more-btn" v-on:click="clickModal({isModal:true, modalSeq: item.userSeq, followCheck: item.followCheck, boardSeq: item.boardSeq})">
+                            <div type="button" class="more-btn" v-on:click="clickModal({isModal:true, modalSeq: item.userSeq, followCheck: item.followCheck, boardSeq: item.boardSeq, idx: index})">
                                 ...
                             </div>
                         </div>

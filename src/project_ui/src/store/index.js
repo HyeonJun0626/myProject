@@ -68,7 +68,7 @@ export default new Vuex.Store({
     addFollow(state, payload) {
       state.followList.push(payload)
     },
-    disFollow(state, payload) {
+    isDisFollow(state, payload) {
       state.followList.splice(payload, 1)
     },
     disFollower(state, payload) {
@@ -290,6 +290,5 @@ export default new Vuex.Store({
       }
       return boardSeq;
     },
-    
   }
 })
