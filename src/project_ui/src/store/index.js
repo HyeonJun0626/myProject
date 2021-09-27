@@ -75,7 +75,7 @@ export default new Vuex.Store({
       state.followerList.splice(payload, 1)
     },
     disReply(state, payload) {
-      state.allBoardList[payload.boardSeq].replyList.splice(payload.replySeq, 1)
+      state.allBoardList[payload.boardIdx].replyList.splice(payload.replyIdx, 1)
     },
     isAddReply(state, payload) {
       state.allBoardList[payload.idx].replyList.push(payload.reply)
@@ -234,7 +234,7 @@ export default new Vuex.Store({
           })
       }
     },
-    deleteReply({getters, commit},modalBoardSeq) {
+    deleteReply({state, commit},modalBoardSeq) {
       axios.post("http://localhost:9000/board/deleteReply", {}, {
         params: {
           replySeq: modalBoardSeq
@@ -242,8 +242,22 @@ export default new Vuex.Store({
       })
       .then(function () {
         console.log('댓글삭제 요청 성공')
-        let boardSeq = getters.replyBoardSeq;
-        commit('disReply', {boardSeq, modalBoardSeq})
+        // let replydSeq = getters.replyBoardSeq;
+        let boardIdx = -1
+        let replyIdx = -1
+        for (let i = 0; i < state.allBoardList.length; i ++) {
+          for (let j = 0; j < state.allBoardList[i].replyList.length; j++) {
+            if (state.allBoardList[i].replyList[j].replySeq === modalBoardSeq) {
+              // console.log(state.allBoardList[i].replyList[j].replySeq)
+              boardIdx = state.allBoardList.findIndex(board => board.replyList[j].replySeq === modalBoardSeq)
+              replyIdx = state.allBoardList[i].replyList.findIndex(board => board.replySeq === modalBoardSeq)
+            }
+            
+          }
+        }
+        if (boardIdx != -1 && replyIdx != -1) {
+          commit('disReply', {boardIdx, replyIdx})
+        }
       })
       .catch(function (err) {
         console.log(err)
