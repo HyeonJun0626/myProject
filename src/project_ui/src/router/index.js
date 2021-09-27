@@ -36,7 +36,7 @@ const routes = [
     name: 'Login',
     beforeEnter: rejectAuthUser,
     component : Login,
-    redirect:  '/Sign',
+    redirect:  '/',
     children: [
       {
         path: '',

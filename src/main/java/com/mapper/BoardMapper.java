@@ -39,7 +39,8 @@ public interface BoardMapper {
 	BoardDto getReWriteBoard(@Param("boardSeq") int boardSeq) throws Exception;
 	List<BoardFileDto> getReWriteBoardImg(@Param("boardSeq") int boardSeq) throws Exception;
 	
-	void inputReply(ReplyDto reply) throws Exception;
+	int inputReply(ReplyDto reply) throws Exception;
+	ReplyDto getInputReply(int replySeq) throws Exception; 
 	
 	void deleteReply(@Param("replySeq") int replySeq) throws Exception;
 }

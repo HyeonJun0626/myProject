@@ -76,6 +76,9 @@ export default new Vuex.Store({
     },
     disReply(state, payload) {
       state.allBoardList[payload.boardSeq].replyList.splice(payload.replySeq, 1)
+    },
+    isAddReply(state, payload) {
+      state.allBoardList[payload.idx].replyList.push(payload.reply)
     }
   },
   actions: {
@@ -231,7 +234,7 @@ export default new Vuex.Store({
           })
       }
     },
-    async deleteReply({getters, commit},modalBoardSeq) {
+    deleteReply({getters, commit},modalBoardSeq) {
       axios.post("http://localhost:9000/board/deleteReply", {}, {
         params: {
           replySeq: modalBoardSeq

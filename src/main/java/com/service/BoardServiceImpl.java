@@ -127,8 +127,11 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public void inputReply(ReplyDto reply) throws Exception {
+	public ReplyDto inputReply(ReplyDto reply) throws Exception {
 		boardMapper.inputReply(reply);
+		ReplyDto inputReply = boardMapper.getInputReply(reply.getReplySeq());
+		return inputReply;
+		
 	}
 	
 	@Override

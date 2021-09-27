@@ -79,7 +79,7 @@
                             <span>개 모두 보기</span>
                         </div>
                         <div class="comment-section">
-                            <div class="comment-box" v-for="(item, index) in item.replyList" v-bind:key="index">
+                            <div class="comment-box" v-for="(item, index) in item.replyList.slice(item.replyList.length-3, item.replyList.length)" v-bind:key="index">
                                 <div class="user_id mr-2" v-on:click="clickModal({isModal:true, modalSeq:item.userSeq, replyModal: true, boardSeq: item.replySeq, idx: item.index})">
                                     {{item.userNick}}
                                 </div>
@@ -93,7 +93,7 @@
                         </div>
                         <div class="comment-input-box">
                             <input class="input-text m-0" type="text" name="comment" id="comment" placeholder="댓글 달기 ..." autocomplete="off" @input="reply=$event.target.value">
-                            <span class="submit-btn" type="button" v-on:click="inputReply({content: reply, boardSeq: item.boardSeq, userSeq: userInfo.userSeq, userNick: userInfo.userNick})">
+                            <span class="submit-btn" type="button" v-on:click="inputReply({content: reply, boardSeq: item.boardSeq, userSeq: userInfo.userSeq, userNick: userInfo.userNick, idx: index})">
                                 작성
                             </span>
                         </div>
@@ -116,7 +116,7 @@ import Header from '../components/Header'
 import Footer from '../components/Footer'
 import moreModal from '../views/moreModal'
 // import SideBar from '../views/SideBar.vue'
-import {mapState, mapActions} from 'vuex'
+import {mapState, mapActions, mapMutations} from 'vuex'
 export default {
     name: 'Main',
     components: {
@@ -144,6 +144,7 @@ export default {
     },
     methods: {
         ...mapActions(['clickModal', 'getUserInfo', 'getAllBoardList']),
+        ...mapMutations(['isAddReply']),
         moveInsert() {
             this.$router.push({
                 name: 'Insert'
@@ -186,14 +187,19 @@ export default {
                 console.log(err)
             })
         },
-        inputReply(data) {
-            if (data.content != null && data.content != '') {
+        inputReply(dataList) {
+            if (dataList.content != null && dataList.content != '') {
                 let obj = this
                 obj.$axios.post("http://localhost:9000/board/inputReply",
-                    data
+                    dataList
                 )
-                .then(function () {
+                .then(function (res) {
                     console.log('댓글 작성 요청 성공')
+                    let payload = {
+                        idx: dataList.idx,
+                        reply: res.data
+                    }
+                    obj.isAddReply(payload)
                     obj.clearInput()
                 })
                 .catch(function (err) {

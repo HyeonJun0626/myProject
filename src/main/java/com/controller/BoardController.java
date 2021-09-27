@@ -63,8 +63,8 @@ public class BoardController {
 	}
 	
 	@PostMapping("/inputReply")
-	public void inputReply(@RequestBody ReplyDto reply) throws Exception {
-		boardService.inputReply(reply);
+	public ReplyDto inputReply(@RequestBody ReplyDto reply) throws Exception {
+		return boardService.inputReply(reply);
 	}
 	
 	@PostMapping("/deleteReply")

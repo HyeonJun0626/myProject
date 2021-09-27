@@ -118,20 +118,11 @@
 			SELECT
 				board_seq, content, reply_seq, user_nick, user_seq, DATE_FORMAT(create_dt, '%y.%m.%d %h:%i') AS create_dt 
 			FROM 
-				(SELECT
-					board_seq, content, reply_seq, user_nick, user_seq, DATE_FORMAT(create_dt, '%y.%m.%d %h:%i') AS create_dt 
-				 FROM 
-					reply 
-				 WHERE 
-				 	board_seq = #{boardSeq}
-				 AND
-				 	del_yn = 'n'
-				 ORDER BY 
-				 	reply_seq DESC 
-				 LIMIT 3
-				)t 
-			ORDER BY 
-				reply_seq ASC;	
+				reply
+			WHERE
+				board_seq = #{boardSeq}
+			AND
+				del_yn = 'n'	
 		]]>
 	</select>
 	
@@ -253,7 +244,7 @@
     	]]>
     </select>
     
-    <insert id="inputReply" parameterType="com.dto.ReplyDto">
+    <insert id="inputReply" parameterType="com.dto.ReplyDto" useGeneratedKeys="true" keyProperty="replySeq">
     	<![CDATA[
     		INSERT INTO reply
     			(board_seq, user_seq, user_nick, content)
@@ -261,6 +252,19 @@
     			(#{boardSeq}, #{userSeq}, #{userNick}, #{content})
     	]]>
     </insert>
+    
+    <select id="getInputReply" parameterType="int" resultType="com.dto.ReplyDto">
+    	<![CDATA[
+    		SELECT
+    			board_seq, content, reply_seq, user_nick, user_seq, DATE_FORMAT(create_dt, '%y.%m.%d %h:%i') AS create_dt
+    		FROM
+    			reply
+    		WHERE
+    			reply_seq = #{replySeq}
+    		AND
+    			del_yn = 'n'
+    	]]>
+    </select>
     
     <update id="deleteReply" parameterType="int">
     	<![CDATA[
