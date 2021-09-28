@@ -1,21 +1,18 @@
 <template>
-  <div id="app">
-    <router-view class="app-container"></router-view>
-  </div>
+  <v-app>
+    <v-main>
+      <router-view/>
+    </v-main>
+  </v-app>
 </template>
 
-  <script>
-  // import Login from './components/Login'
-  // import Main from './components/Main.vue'
-  
-  export default {
-    components : {
-      // 'login-ui': Login,
-      // 'main-ui' : Main
-    }
-  }
-  </script>
+<script>
 
-<style>
+export default {
+  name: 'App',
 
-</style>
+  data: () => ({
+    //
+  }),
+};
+</script>

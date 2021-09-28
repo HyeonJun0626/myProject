@@ -61,6 +61,7 @@ export default {
         width: 100%;
         font-weight: bold;
         border-style: none;
+        color: #ffff;
     }
     .btn:hover {
         box-shadow: 1px 1px 8px 2px #ff99669d;

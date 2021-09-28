@@ -1,4 +1,5 @@
 <template>
+
     <div class="main-container">
         <modal-ui v-if="modalOpen"></modal-ui>
         <header-ui></header-ui>
@@ -16,7 +17,6 @@
                     </div>
                 </div>
             </div>
-
 
                 <div class="content-section">
                     <div class="content-body" v-for="(item, index) in allBoardList" v-bind:key="index">
@@ -38,9 +38,15 @@
                                 ...
                             </div>
                         </div>
-                        <div class="content-img" v-for="items in item.imgList" v-bind:key="items.imgSeq">
+
+                        <!-- <div class="content-img" v-for="items in item.imgList" v-bind:key="items.imgSeq">
                             <img v-bind:src="'http://localhost:9000/'+items.storedImgPath" alt="">
-                        </div>
+                        </div> -->
+                        <v-carousel v-model="model" hide-delimiter-background show-arrows-on-hover >
+                            <v-carousel-item v-for="(items, index) in item.imgList" :key="index" 
+                            :src="'http://localhost:9000/'+items.storedImgPath">
+                            </v-carousel-item>
+                        </v-carousel>
                         <div class="btn-section">
                             <div class="like-btn like" v-if="item.likeNy == 0" v-on:click="likeOn(item.boardSeq, index)">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-heart mr-3" viewBox="0 0 16 16">
@@ -119,6 +125,7 @@
         </div>
         <footer-ui></footer-ui>
     </div>
+
 </template>
 
 <script>
@@ -138,7 +145,7 @@ export default {
     data() {
         return {
             topUserList: '',
-            reply: ''
+            reply: '',
         }
     },
     async mounted() {
