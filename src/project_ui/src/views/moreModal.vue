@@ -6,7 +6,7 @@
                 <div class="modal-item danger-btn" v-if="modalSeq != userInfo.userSeq  && follow == 1" v-on:click="disFollow(modalSeq)">팔로우 취소</div>
                 <div class="modal-item" v-if="modalSeq == userInfo.userSeq && replyModal != true" v-on:click="moveReWrite">수정하기</div>
                 <div class="modal-item danger-btn" v-if="modalSeq == userInfo.userSeq && replyModal != true" v-on:click="deleteBoard">삭제하기</div>
-                <div class="modal-item danger-btn" v-if="modalSeq == userInfo.userSeq && replyModal == true" v-on:click="deleteReply(modalBoardSeq)">댓글 삭제하기</div>
+                <div class="modal-item danger-btn" v-if="modalSeq == userInfo.userSeq && replyModal == true" v-on:click="deleteReply(replySeq)">댓글 삭제하기</div>
                 <div class="modal-item danger-btn" v-on:click="clickModal(false)">취소</div>
             </div>
         </div>
@@ -23,7 +23,7 @@ export default {
     mounted() {
     },
     computed: {
-        ...mapState(['userInfo', 'followCheck', 'modalBoardSeq', 'followList', 'replyModal', 'modalSeq']),
+        ...mapState(['userInfo', 'followCheck', 'modalBoardSeq', 'followList', 'replyModal', 'modalSeq', 'replySeq']),
         ...mapGetters(['follow', 'disFollowIndex']),
     },
     methods: {
@@ -32,9 +32,7 @@ export default {
 
         deleteBoard() {
             let obj = this
-            console.log('boardSeq1 : '+obj.modalBoardSeq)
             let delBoardSeq = obj.modalBoardSeq
-            console.log('boardSeq2 : '+delBoardSeq)
             obj.$axios.post("http://localhost:9000/board/deleteBoard", {}, {
                 params: {
                     delBoardSeq
@@ -43,12 +41,10 @@ export default {
             .then(function () {
                 console.log('삭제 성공')
                 obj.$router.go()
-                console.log('innerSeq : '+delBoardSeq)
             })
             .catch(function (err) {
                 console.log(err)
                 console.log('삭제 실패')
-                console.log('innerSeq : '+delBoardSeq)
             })
         },
         moveReWrite() {
@@ -66,7 +62,6 @@ export default {
             .then(function() {
                 console.log('팔로우 취소 성공')
                 let idx = obj.followList.findIndex(follow => follow.userSeq === modalSeq)
-                console.log(idx)
                 obj.isDisFollow(idx)
             })
             .catch(function (err) {

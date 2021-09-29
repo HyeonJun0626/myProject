@@ -140,9 +140,9 @@ export default {
     }
     .main-container {
         padding-bottom: 70px;
-        margin-top: 70px;
+        margin-top: 50px;
         background-color: rgb(250, 250, 250);
-        height: 100vh;
+        height: 100%;
     }
     .content-container {
         max-width: 935px;

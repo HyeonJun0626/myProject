@@ -15,7 +15,7 @@ export default new Vuex.Store({
     modalOpen: false,
     profileModalOpen: false,
     replyModal: false,
-    replyIdx: '',
+    replySeq: '',
     modalSeq: null,
     modalBoardSeq: '',
     followCheck: '',
@@ -48,7 +48,7 @@ export default new Vuex.Store({
       state.followCheck = payload.followCheck
       state.modalBoardSeq = payload.boardSeq
       state.replyModal = payload.replyModal
-      state.replyIdx = payload.idx
+      state.replySeq = payload.replySeq
     },
     profileModla(state, payload) {
       state.profileModalOpen = payload.isModal
@@ -235,34 +235,40 @@ export default new Vuex.Store({
           })
       }
     },
-    deleteReply({state, commit},modalBoardSeq) {
+    deleteReply({state, commit},replySeq) {
+      console.log(replySeq)
       axios.post("http://localhost:9000/board/deleteReply", {}, {
         params: {
-          replySeq: modalBoardSeq
+          replySeq: replySeq
         }
       })
       .then(function () {
         console.log('댓글삭제 요청 성공')
         // let replydSeq = getters.replyBoardSeq;
         
-
-        let boardIdx = -1
-        let replyIdx = -1
-        for (let i = 0; i < state.allBoardList.length; i ++) {
-          let boardLength = state.allBoardList[i].replyList.length
-          for (let j = 0; j < boardLength; j++) {
-            if (state.allBoardList[i].replyList[j].replySeq === modalBoardSeq) {
-              // console.log(state.allBoardList[i].replyList[j].replySeq)
-              boardIdx = state.allBoardList.findIndex(board => board.replyList[j].replySeq === modalBoardSeq)
-              console.log('게시글 인덱스'+boardIdx)
-              replyIdx = state.allBoardList[i].replyList.findIndex(board => board.replySeq === modalBoardSeq)
-              console.log('댓글 인덱스'+replyIdx)
-            }
-          }
-        }
-        if (boardIdx != -1 && replyIdx != -1) {
-          commit('disReply', {boardIdx, replyIdx})
-        }
+        let replySeq = state.replySeq
+        let boardSeq = state.modalBoardSeq
+        let boardIdx = state.allBoardList.findIndex(board => board.boardSeq === boardSeq)
+        let replyIdx = state.allBoardList[boardIdx].replyList.findIndex(reply => reply.replySeq === replySeq)
+        commit('disReply', {boardIdx, replyIdx})
+        commit('isModal', {isModal:false})
+        // let boardIdx = -1
+        // let replyIdx = -1
+        // for (let i = 0; i < state.allBoardList.length; i ++) {
+        //   let boardLength = state.allBoardList[i].replyList.length
+        //   for (let j = 0; j < boardLength; j++) {
+        //     if (state.allBoardList[i].replyList[j].replySeq === modalBoardSeq) {
+        //       // console.log(state.allBoardList[i].replyList[j].replySeq)
+        //       boardIdx = state.allBoardList.findIndex(board => board.replyList[j].replySeq === modalBoardSeq)
+        //       console.log('게시글 인덱스'+boardIdx)
+        //       replyIdx = state.allBoardList[i].replyList.findIndex(board => board.replySeq === modalBoardSeq)
+        //       console.log('댓글 인덱스'+replyIdx)
+        //     }
+        //   }
+        // }
+        // if (boardIdx != -1 && replyIdx != -1) {
+        //   commit('disReply', {boardIdx, replyIdx})
+        // }
       })
       .catch(function (err) {
         console.log(err)

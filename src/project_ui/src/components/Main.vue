@@ -86,7 +86,7 @@
                         </div>
                         <div class="comment-section" v-if="item.replyList.length >= 3">
                             <div class="comment-box" v-for="(item, index) in item.replyList.slice(item.replyList.length-3, item.replyList.length)" v-bind:key="index">
-                                <div class="user_id mr-2" v-on:click="clickModal({isModal:true, modalSeq:item.userSeq, replyModal: true, boardSeq: item.replySeq})">
+                                <div class="user_id mr-2" v-on:click="clickModal({isModal:true, modalSeq:item.userSeq, replyModal: true, replySeq: item.replySeq, boardSeq: item.boardSeq})">
                                     {{item.userNick}}
                                 </div>
                                 <div class="comment">
@@ -96,7 +96,7 @@
                         </div>
                         <div class="comment-section" v-if="item.replyList.length < 3">
                             <div class="comment-box" v-for="(item, index) in item.replyList" v-bind:key="index">
-                                <div class="user_id mr-2" v-on:click="clickModal({isModal:true, modalSeq:item.userSeq, replyModal: true, boardSeq: item.replySeq})">
+                                <div class="user_id mr-2" v-on:click="clickModal({isModal:true, modalSeq:item.userSeq, replyModal: true, replySeq: item.replySeq, boardSeq: item.boardSeq})">
                                     {{item.userNick}}
                                 </div>
                                 <div class="comment">
@@ -108,7 +108,7 @@
                             <p class="m-0">{{item.createDt}}</p>
                         </div>
                         <div class="comment-input-box">
-                            <input class="input-text m-0" type="text" name="comment" id="comment" placeholder="댓글 달기 ..." autocomplete="off" @input="reply=$event.target.value" @keyup.enter="inputReply({content: reply, boardSeq: item.boardSeq, userSeq: userInfo.userSeq, userNick: userInfo.userNick, idx: index})">
+                            <input class="input-text m-0" type="text" name="comment" id="comment" placeholder="댓글 달기 ..." autocomplete="off" @input="reply=$event.target.value">
                             <div class="submit-btn" type="button"  v-on:click="inputReply({content: reply, boardSeq: item.boardSeq, userSeq: userInfo.userSeq, userNick: userInfo.userNick, idx: index})">
                                 작성
                             </div>
@@ -264,7 +264,8 @@ export default {
             }
             else {
                 $state.complete();
-            }}
+            }
+        }
         },
     }
 
@@ -541,7 +542,7 @@ export default {
         width: 30px;
         text-align: center;
         align-items: center;
-        color: rgb(255, 144, 100);
+        color: rgb(255, 72, 0);
     }
 
     .submit-btn:hover {
