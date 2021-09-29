@@ -100,7 +100,7 @@
 		]]>
 	</select>
 	
-	<select id="getAllBoardList" resultType="com.dto.BoardDto">
+	<select id="getAllBoardList" resultType="com.dto.BoardDto" parameterType="int">
 		<![CDATA[
 			SELECT 
 				board_seq, user_seq, user_nick, content, DATE_FORMAT(create_dt, '%y.%m.%d %h:%i') AS create_dt
@@ -109,7 +109,8 @@
 			WHERE 
 				del_yn = 'n'
 			ORDER BY 
-				board_seq DESC 
+				board_seq DESC
+			LIMIT #{startNum}, 5
 		]]>
 	</select>
 	
@@ -122,7 +123,7 @@
 			WHERE
 				board_seq = #{boardSeq}
 			AND
-				del_yn = 'n'	
+				del_yn = 'n'
 		]]>
 	</select>
 	

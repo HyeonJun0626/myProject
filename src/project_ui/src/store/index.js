@@ -57,7 +57,7 @@ export default new Vuex.Store({
       state.myBoardList = payload
     },
     isAllBoardList(state, payload) {
-      state.allBoardList = payload
+      state.allBoardList.push(payload)
     },
     isFollowList(state, payload) {
       state.followList = payload
@@ -169,7 +169,8 @@ export default new Vuex.Store({
     getAllBoardList({commit, state}) {
       axios.post("http://localhost:9000/board/getAllBoardList", {}, {
         params: {
-            userSeq: state.userInfo.userSeq
+            userSeq: state.userInfo.userSeq,
+            startNum: 0,
         }
     })
     .then(function (res) {
@@ -243,16 +244,20 @@ export default new Vuex.Store({
       .then(function () {
         console.log('댓글삭제 요청 성공')
         // let replydSeq = getters.replyBoardSeq;
+        
+
         let boardIdx = -1
         let replyIdx = -1
         for (let i = 0; i < state.allBoardList.length; i ++) {
-          for (let j = 0; j < state.allBoardList[i].replyList.length; j++) {
+          let boardLength = state.allBoardList[i].replyList.length
+          for (let j = 0; j < boardLength; j++) {
             if (state.allBoardList[i].replyList[j].replySeq === modalBoardSeq) {
               // console.log(state.allBoardList[i].replyList[j].replySeq)
               boardIdx = state.allBoardList.findIndex(board => board.replyList[j].replySeq === modalBoardSeq)
+              console.log('게시글 인덱스'+boardIdx)
               replyIdx = state.allBoardList[i].replyList.findIndex(board => board.replySeq === modalBoardSeq)
+              console.log('댓글 인덱스'+replyIdx)
             }
-            
           }
         }
         if (boardIdx != -1 && replyIdx != -1) {
@@ -299,13 +304,13 @@ export default new Vuex.Store({
     replyBoardSeq(state) {
       let boardSeq = 0;
       for (let i = 0; i < state.allBoardList.length; i++) {
-        for (let j = 0; j < state.allBoardList[i].replyList.length; j++) {
+          for (let j = 0; j < state.allBoardList[i].replyList.length; j++) {
           if (state.allBoardList[i].replyList[j].replySeq == state.modalBoardSeq) {
-            boardSeq = [i]
+              boardSeq = [i]
           }
-        }
+          }
       }
       return boardSeq;
-    },
+      },
   }
 })

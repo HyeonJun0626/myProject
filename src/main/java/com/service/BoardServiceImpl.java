@@ -76,8 +76,8 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public List<BoardDto> getAllBoardList(int userSeq) throws Exception {
-		List<BoardDto> board = boardMapper.getAllBoardList();
+	public List<BoardDto> getAllBoardList(int userSeq, int startNum) throws Exception {
+		List<BoardDto> board = boardMapper.getAllBoardList(startNum);
 		
 		for (int i = 0; i < board.size(); i++) {
 			List<BoardFileDto> imgList = boardMapper.getBoardImg(board.get(i).getBoardSeq());

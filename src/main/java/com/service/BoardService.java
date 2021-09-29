@@ -14,7 +14,7 @@ public interface BoardService {
 	
 	List<BoardDto> getBoardList(int userSeq) throws Exception;
 	
-	List<BoardDto> getAllBoardList(int userSeq) throws Exception;
+	List<BoardDto> getAllBoardList(int userSeq, int startNum) throws Exception;
 	
 	int likeOnOf(int userSeq, int boardSeq) throws Exception;
 	

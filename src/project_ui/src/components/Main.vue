@@ -1,5 +1,5 @@
 <template>
-
+<div>
     <div class="main-container">
         <modal-ui v-if="modalOpen"></modal-ui>
         <header-ui></header-ui>
@@ -42,7 +42,7 @@
                         <!-- <div class="content-img" v-for="items in item.imgList" v-bind:key="items.imgSeq">
                             <img v-bind:src="'http://localhost:9000/'+items.storedImgPath" alt="">
                         </div> -->
-                        <v-carousel v-model="model" hide-delimiter-background show-arrows-on-hover >
+                        <v-carousel hide-delimiter-background show-arrows-on-hover >
                             <v-carousel-item v-for="(items, index) in item.imgList" :key="index" 
                             :src="'http://localhost:9000/'+items.storedImgPath">
                             </v-carousel-item>
@@ -114,7 +114,9 @@
                             </div>
                         </div>
                     </div>
-
+                    <infinite-loading @infinite="infiniteHandler" spinner="circles">
+                        <div slot="no-more" style="color: rgb(102, 102, 102); font-size: 14px; padding: 10px 0px;">더 이상 목록이 없습니다.</div>
+                    </infinite-loading>
                 </div>
 
                 <div class="myinfo-container">
@@ -126,12 +128,14 @@
         <footer-ui></footer-ui>
     </div>
 
+    </div>
 </template>
 
 <script>
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import moreModal from '../views/moreModal'
+import InfiniteLoading from 'vue-infinite-loading';
 // import SideBar from '../views/SideBar.vue'
 import {mapState, mapActions, mapMutations} from 'vuex'
 export default {
@@ -139,22 +143,23 @@ export default {
     components: {
         'header-ui' : Header,
         'footer-ui' : Footer,
-        'modal-ui' : moreModal
+        'modal-ui' : moreModal,
+        InfiniteLoading
         // 'sidebar-ui' : SideBar
     },
     data() {
         return {
             topUserList: '',
             reply: '',
+            startNum: 0,
         }
     },
-    async mounted() {
+    async created() {
         let obj = this
         await obj.getUserInfo()
-        console.log('mounted 시작')
-        await obj.getAllBoardList()
-        console.log('mounted 종료')
-        obj.getTopUserList()
+        // await obj.getAllBoardList()
+        await obj.getTopUserList()
+        await obj.infiniteHandler
     },
     computed: {
         ...mapState(['userInfo', 'allBoardList', 'modalOpen'])
@@ -192,7 +197,7 @@ export default {
                 console.log('좋아요 전송 실패')
             })
         },
-        getTopUserList() {
+        async getTopUserList() {
             let obj = this
             obj.$axios.get("http://localhost:9000/user/getTopUserList")
             .then(function (res) {
@@ -231,8 +236,38 @@ export default {
                 el[i].value = '';
             }
         },
+        async infiniteHandler($state) {
+            if (this.allBoardList.length%5 == 0) {
+                let obj = this;
+                obj.$axios.post("http://localhost:9000/board/getAllBoardList", {}, {
+                    params: {
+                        userSeq: obj.userInfo.userSeq,
+                        startNum: obj.startNum
+                    },
+                }).
+                then(function (res) {
+                    if (res.data.length > 0) {
+                        setTimeout(() => {
+                        obj.startNum += 5;
+                        // obj.$store.commit('isAllBoardList', res.data)
+                        // obj.allBoardList.push(res.data);
+                        for (let i = 0; i < res.data.length; i++) {
+                            // obj.allBoardList.push(res.data[i]);
+                            obj.$store.commit('isAllBoardList', res.data[i])
+                        }
+                        // obj.list.push(res.data);
+                        $state.loaded()
+                    }, 1000)} else {
+                        $state.complete();
+                    }
+                });
+            }
+            else {
+                $state.complete();
+            }}
+        },
     }
-}
+
 </script>
 
 <style scoped>
@@ -282,7 +317,7 @@ export default {
         height: 88px;
         align-items: center;
         justify-content: space-between;
-        margin: 6px 12px;
+        margin: 3px 12px;
         /* height: 60px; */
     }
     .follower-info:hover {
