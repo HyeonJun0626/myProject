@@ -114,7 +114,7 @@
                             </div>
                         </div>
                     </div>
-                    <infinite-loading @infinite="infiniteHandler" spinner="circles">
+                    <infinite-loading @infinite="infiniteHandler" spinner="circles" v-if(userInfo != null)>
                         <div slot="no-more" style="color: rgb(102, 102, 102); font-size: 14px; padding: 10px 0px;">더 이상 목록이 없습니다.</div>
                     </infinite-loading>
                 </div>
@@ -241,7 +241,6 @@ export default {
                 let obj = this;
                 obj.$axios.post("http://localhost:9000/board/getAllBoardList", {}, {
                     params: {
-                        userSeq: obj.userInfo.userSeq,
                         startNum: obj.startNum
                     },
                 }).

@@ -3,6 +3,7 @@ package com.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.dto.BoardDto;
 import com.dto.ReplyDto;
+import com.dto.UserDto;
 import com.service.BoardService;
 
 @RestController
@@ -41,7 +43,8 @@ public class BoardController {
 	}
 	
 	@PostMapping("/getAllBoardList")
-	public Object getAllBoardList(int userSeq, int startNum) throws Exception {
+	public Object getAllBoardList(Authentication authentication, int startNum) throws Exception {
+		int userSeq = (int) ((UserDto) authentication.getPrincipal()).getUserSeq();
 		List<BoardDto> board = boardService.getAllBoardList(userSeq, startNum);
 		return board;
 	}
