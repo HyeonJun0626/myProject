@@ -87,7 +87,7 @@ export default new Vuex.Store({
         state.ErrorInfo = "사용자 정보를 입력하세요"
       }
       else {
-      await axios.post('http://localhost:9000/user/login', loginObj 
+      await axios.post('http://3.37.36.231:9000/user/login', loginObj 
       )
       .then(function(res) {
           // commit("loginSuccess")

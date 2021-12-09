@@ -14,6 +14,7 @@ public class UserDto implements UserDetails{
 	private String userId;
 	private String userPw;
 	private String userNick;
+	@SuppressWarnings("unused")
 	private String userName;
 	private String userPhone;
 	private int roles;

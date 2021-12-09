@@ -45,7 +45,7 @@ export default {
     methods: {
         signUp() {
             let obj = this;
-            obj.$axios.post('http://localhost:9000/user/signup', 
+            obj.$axios.post('http://localhost:9000/user/signup',
             {
                 userImg: this.userImg,
                 userId: this.userId,
